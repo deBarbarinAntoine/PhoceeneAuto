@@ -4,8 +4,8 @@ import "time"
 
 type CarCatalog struct {
 	CatID            uint
-	CreatedAt        time.Time
-	UpdatedAt        time.Time
+	CatCreatedAt     time.Time
+	CatUpdatedAt     time.Time
 	Make             string
 	Model            string
 	Cylinders        uint
