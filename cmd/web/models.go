@@ -1,15 +1,17 @@
 package main
 
 import (
-	"PhoceeneAuto/internal/data"
-	"PhoceeneAuto/internal/mailer"
-	"PhoceeneAuto/internal/validator"
-	"github.com/alexedwards/scs/v2"
-	"github.com/go-playground/form/v4"
 	"html/template"
 	"log/slog"
 	"sync"
 	"time"
+
+	"PhoceeneAuto/internal/data"
+	"PhoceeneAuto/internal/mailer"
+	"PhoceeneAuto/internal/validator"
+
+	"github.com/alexedwards/scs/v2"
+	"github.com/go-playground/form/v4"
 )
 
 type config struct {

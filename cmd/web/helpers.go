@@ -1,22 +1,24 @@
 package main
 
 import (
-	"PhoceeneAuto/internal/data"
-	"PhoceeneAuto/internal/validator"
 	"bytes"
 	"crypto/rand"
 	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/alexedwards/flow"
-	"github.com/go-playground/form/v4"
-	"github.com/justinas/nosurf"
 	"log/slog"
 	"net/http"
 	"runtime/debug"
 	"strconv"
 	"time"
+
+	"PhoceeneAuto/internal/data"
+	"PhoceeneAuto/internal/validator"
+
+	"github.com/alexedwards/flow"
+	"github.com/go-playground/form/v4"
+	"github.com/justinas/nosurf"
 )
 
 func (app *application) cleanExpiredTokens(frequency, timeout time.Duration) {

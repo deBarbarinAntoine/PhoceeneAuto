@@ -1,14 +1,16 @@
 package data
 
 import (
-	"PhoceeneAuto/internal/validator"
 	"context"
 	"crypto/sha256"
 	"database/sql"
 	"errors"
 	"fmt"
-	"golang.org/x/crypto/bcrypt"
 	"time"
+
+	"PhoceeneAuto/internal/validator"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 var (

@@ -1,10 +1,12 @@
 package main
 
 import (
-	"PhoceeneAuto/ui"
-	"github.com/alexedwards/flow"
 	"io/fs"
 	"net/http"
+
+	"PhoceeneAuto/ui"
+
+	"github.com/alexedwards/flow"
 )
 
 func (app *application) routes() http.Handler {
@@ -48,15 +50,25 @@ func (app *application) routes() http.Handler {
 		router.HandleFunc("/client/:id/update", app.updateClient, http.MethodGet)      // update client page
 		router.HandleFunc("/client/:id/update", app.updateClientPost, http.MethodPost) // update client treatment route
 
-		// CAR
-		router.HandleFunc("/car/:id", app.carGet, http.MethodGet)       // get car
-		router.HandleFunc("/car/:id", app.deleteCar, http.MethodDelete) // delete car treatment route
+		// CAR PRODUCT
+		router.HandleFunc("/car-product/:id", app.carProductGet, http.MethodGet)       // get car-product
+		router.HandleFunc("/car-product/:id", app.deleteCarProduct, http.MethodDelete) // delete car-product treatment route
 
-		router.HandleFunc("/car", app.createCar, http.MethodGet)      // create car page
-		router.HandleFunc("/car", app.createCarPost, http.MethodPost) // create car treatment route
+		router.HandleFunc("/car-product", app.createCarProduct, http.MethodGet)      // create car-product page
+		router.HandleFunc("/car-product", app.createCarProductPost, http.MethodPost) // create car-product treatment route
 
-		router.HandleFunc("/car/:id/update", app.updateCar, http.MethodGet)      // update car page
-		router.HandleFunc("/car/:id/update", app.updateCarPost, http.MethodPost) // update car treatment route
+		router.HandleFunc("/car-product/:id/update", app.updateCarProduct, http.MethodGet)      // update car-product page
+		router.HandleFunc("/car-product/:id/update", app.updateCarProductPost, http.MethodPost) // update car-product treatment route
+
+		// CAR CATALOG
+		router.HandleFunc("/car-catalog/:id", app.carCatalogGet, http.MethodGet)       // get car-catalog
+		router.HandleFunc("/car-catalog/:id", app.deleteCarCatalog, http.MethodDelete) // delete car-catalog treatment route
+
+		router.HandleFunc("/car-catalog", app.createCarCatalog, http.MethodGet)      // create car-catalog page
+		router.HandleFunc("/car-catalog", app.createCarCatalogPost, http.MethodPost) // create car-catalog treatment route
+
+		router.HandleFunc("/car-catalog/:id/update", app.updateCarCatalog, http.MethodGet)      // update car page
+		router.HandleFunc("/car-catalog/:id/update", app.updateCarCatalogPost, http.MethodPost) // update car treatment route
 
 		// TRANSACTION
 		router.HandleFunc("/transaction/:id", app.transactionGet, http.MethodGet)       // get transaction

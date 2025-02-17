@@ -7,8 +7,9 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"github.com/deatil/go-encoding/base62"
 	"time"
+
+	"github.com/deatil/go-encoding/base62"
 )
 
 var (

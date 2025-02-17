@@ -26,24 +26,24 @@ run:
 
 ## db: connect to the database using psql
 .PHONY: db
-db/psql:
+db:
 	@psql ${DB_DSN}
 
 ## db/new name=$1: create a new database migration
 .PHONY: db/new
-db/migrations/new:
+db/new:
 	@echo 'Creating migration files for ${name}'
 	migrate create -seq -ext .sql -dir ./migrations ${name}
 
 ## db/up: apply all up database migrations
 .PHONY: db/up
-db/migrations/up: confirm
+db/up: confirm
 	@echo 'Running up migrations...'
 	@migrate -path ./migrations -database ${DB_DSN} up
 
 ## db/drop: drop database migrations
 .PHONY: db/drop
-db/migrations/drop: confirm
+db/drop: confirm
 	@echo 'Dropping migrations...'
 	@migrate -path ./migrations -database ${DB_DSN} drop
 

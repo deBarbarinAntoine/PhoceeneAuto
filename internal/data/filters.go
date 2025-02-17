@@ -1,10 +1,11 @@
 package data
 
 import (
-	"PhoceeneAuto/internal/validator"
 	"net/url"
 	"strconv"
 	"strings"
+
+	"PhoceeneAuto/internal/validator"
 )
 
 type Filters struct {

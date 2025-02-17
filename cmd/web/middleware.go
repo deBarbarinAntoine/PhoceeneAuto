@@ -3,9 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/justinas/nosurf"
 	"log/slog"
 	"net/http"
+
+	"github.com/justinas/nosurf"
 )
 
 const (

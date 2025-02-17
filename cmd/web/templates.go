@@ -1,11 +1,12 @@
 package main
 
 import (
-	"PhoceeneAuto/ui"
 	"html/template"
 	"io/fs"
 	"path/filepath"
 	"time"
+
+	"PhoceeneAuto/ui"
 )
 
 var functions = template.FuncMap{

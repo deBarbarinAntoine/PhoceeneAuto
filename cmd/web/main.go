@@ -1,19 +1,21 @@
 package main
 
 import (
-	"PhoceeneAuto/internal/data"
-	"PhoceeneAuto/internal/mailer"
 	"database/sql"
 	"flag"
 	"fmt"
-	"github.com/alexedwards/scs/postgresstore"
-	"github.com/alexedwards/scs/v2"
-	"github.com/go-playground/form/v4"
-	_ "github.com/lib/pq"
 	"log/slog"
 	"os"
 	"sync"
 	"time"
+
+	"PhoceeneAuto/internal/data"
+	"PhoceeneAuto/internal/mailer"
+
+	"github.com/alexedwards/scs/postgresstore"
+	"github.com/alexedwards/scs/v2"
+	"github.com/go-playground/form/v4"
+	_ "github.com/lib/pq"
 )
 
 func main() {
@@ -103,6 +105,8 @@ func main() {
 
 	// Clean expired tokens every N duration with no timeout
 	go app.cleanExpiredTokens(*frequency, time.Hour*0)
+
+	// TODO -> Add goroutine to clean deleted clients after a year of deletion
 
 	// Running the server
 	err = app.serve()
