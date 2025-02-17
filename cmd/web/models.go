@@ -57,16 +57,8 @@ type templateData struct {
 	}
 	FieldErrors    map[string]string
 	NonFieldErrors []string
-	Author         *data.Author
 	User           data.User
 	Search         string
-	Post           *data.Post
-	IsPostView     bool
-	PostFeed       data.PostFeed
-	Posts          struct {
-		List     []*data.Post
-		Metadata data.Metadata
-	}
 }
 
 // envelope data type for JSON responses
@@ -95,50 +87,10 @@ type userUpdateForm struct {
 	validator.Validator  `form:"-"`
 }
 
-type userRegisterForm struct {
+type userCreateForm struct {
 	Username            string `form:"username"`
 	Email               string `form:"email"`
 	Password            string `form:"password"`
 	ConfirmPassword     string `form:"confirm_password"`
-	validator.Validator `form:"-"`
-}
-
-type userActivationForm struct {
-	ActivationToken     string `form:"token"`
-	validator.Validator `form:"-"`
-}
-
-type forgotPasswordForm struct {
-	Email               string `form:"email"`
-	validator.Validator `form:"-"`
-}
-
-type resetPasswordForm struct {
-	Token               string `form:"token"`
-	NewPassword         string `form:"new_password"`
-	ConfirmPassword     string `form:"confirm_password"`
-	validator.Validator `form:"-"`
-}
-
-type authorUpdateForm struct {
-	Name                *string  `form:"name"`
-	Email               *string  `form:"email"`
-	Avatar              *string  `form:"avatar"`
-	Presentation        *string  `form:"presentation"`
-	Birth               *string  `form:"birth"`
-	Location            *string  `form:"location"`
-	StatusActivity      *string  `form:"status_activity"`
-	Formations          []string `form:"formations"`
-	Experiences         []string `form:"experiences"`
-	Tags                []string `form:"tags"`
-	CVFile              *string  `form:"cv_file"`
-	validator.Validator `form:"-"`
-}
-
-type postForm struct {
-	ID                  int      `form:"id,omitempty"`
-	Title               *string  `form:"title,omitempty"`
-	Content             string   `form:"content,omitempty"`
-	Images              []string `form:"images,omitempty"`
 	validator.Validator `form:"-"`
 }

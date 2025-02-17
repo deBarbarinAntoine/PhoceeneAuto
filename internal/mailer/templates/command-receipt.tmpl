@@ -1,0 +1,28 @@
+{{define "subject"}}Your command {{.ID}} has been processed!{{end}}
+
+{{define "plainBody"}}
+Here is your command receipt:
+
+{{/* Add the command details here */}}
+{{end}}
+
+{{define "htmlBody"}}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html, charset=UTF-8" />
+</head>
+
+<body>
+    <p>Here is your command receipt:</p>
+    <div>
+        <p>{{/* Add the command details here */}}</p>
+    </div>
+    <p>Thanks for your purchase!</p>
+    <p>Contact us at {{ .Email }}</p>
+</body>
+
+</html>
+{{end}}

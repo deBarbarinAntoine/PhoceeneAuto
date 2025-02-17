@@ -1,7 +1,6 @@
 package main
 
 import (
-	"PhoceeneAuto/internal/uploads"
 	"PhoceeneAuto/ui"
 	"html/template"
 	"io/fs"
@@ -11,20 +10,9 @@ import (
 
 var functions = template.FuncMap{
 	"humanDate":     humanDate,
-	"mdToHTML":      mdToHTML,
 	"bytesToString": bytesToString,
 	"increment":     increment,
 	"decrement":     decrement,
-	"filename":      filename,
-	"isDir":         isDir,
-}
-
-func filename(file uploads.File) string {
-	return file.Name()
-}
-
-func isDir(file uploads.File) bool {
-	return file.IsDir()
 }
 
 func humanDate(t time.Time) string {

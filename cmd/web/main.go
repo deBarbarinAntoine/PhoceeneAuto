@@ -3,7 +3,6 @@ package main
 import (
 	"PhoceeneAuto/internal/data"
 	"PhoceeneAuto/internal/mailer"
-	"PhoceeneAuto/internal/uploads"
 	"database/sql"
 	"flag"
 	"fmt"
@@ -23,7 +22,7 @@ func main() {
 	var cfg config
 
 	// generic variables
-	flag.Int64Var(&cfg.port, "port", 4000, "HTTP service address")
+	flag.Int64Var(&cfg.port, "port", 8080, "HTTP service address")
 	flag.StringVar(&cfg.env, "env", "development", "Environment (development|staging|production)")
 
 	// PostgreSQL variables
@@ -104,16 +103,6 @@ func main() {
 
 	// Clean expired tokens every N duration with no timeout
 	go app.cleanExpiredTokens(*frequency, time.Hour*0)
-
-	// Clean expired unactivated users every N duration with 1 hour timeout
-	go app.cleanExpiredUnactivatedUsers(*frequency, time.Hour)
-
-	// Initialize the uploads directories
-	err = uploads.Init()
-	if err != nil {
-		logger.Error(err.Error())
-		os.Exit(1)
-	}
 
 	// Running the server
 	err = app.serve()

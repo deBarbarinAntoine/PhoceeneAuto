@@ -123,3 +123,16 @@ func (app *application) requireAuthentication(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	})
 }
+
+func (app *application) requireAdmin(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		// TODO -> change isAuthenticated by a check admin role function
+		if !app.isAuthenticated(r) {
+			http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}

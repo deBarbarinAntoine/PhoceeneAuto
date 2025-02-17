@@ -233,20 +233,8 @@ func (app *application) getUserID(r *http.Request) int {
 	return id
 }
 
-func newContactForm() *contactForm {
-	return &contactForm{
-		Validator: *validator.New(),
-	}
-}
-
-func newUserRegisterForm() *userRegisterForm {
-	return &userRegisterForm{
-		Validator: *validator.New(),
-	}
-}
-
-func newUserActivationForm() *userActivationForm {
-	return &userActivationForm{
+func newUserCreateForm() *userCreateForm {
+	return &userCreateForm{
 		Validator: *validator.New(),
 	}
 }
@@ -266,50 +254,12 @@ func newUserUpdateForm(user *data.User) *userUpdateForm {
 	if user != nil {
 		formUpdateUser.Username = &user.Name
 		formUpdateUser.Email = &user.Email
-		formUpdateUser.Avatar = &user.Avatar
 	}
 
 	// setting the validator
 	formUpdateUser.Validator = *validator.New()
 
 	return formUpdateUser
-}
-
-func newForgotPasswordForm() *forgotPasswordForm {
-	return &forgotPasswordForm{
-		Validator: *validator.New(),
-	}
-}
-
-func newResetPasswordForm() *resetPasswordForm {
-	return &resetPasswordForm{
-		Validator: *validator.New(),
-	}
-}
-
-func newPostForm(post *data.Post) *postForm {
-
-	// creating the form
-	var formNewPost = new(postForm)
-
-	// filling the form with the data if any
-	if post != nil {
-		formNewPost.ID = post.ID
-		formNewPost.Title = &post.Title
-		formNewPost.Content = string(post.Content)
-		formNewPost.Images = post.Images
-	}
-
-	// setting the validator
-	formNewPost.Validator = *validator.New()
-
-	return formNewPost
-}
-
-func (app *application) newAuthorUpdateForm() *authorUpdateForm {
-	return &authorUpdateForm{
-		Validator: *validator.New(),
-	}
 }
 
 func (app *application) newTemplateData(r *http.Request) templateData {
@@ -320,18 +270,6 @@ func (app *application) newTemplateData(r *http.Request) templateData {
 	// retrieving the nonce
 	nonce := app.getNonce(r)
 
-	// retrieving the author data
-	author, err := app.models.AuthorModel.Get()
-	if err != nil {
-		app.logger.Error(fmt.Errorf("error getting author: %w", err).Error())
-	}
-
-	// retrieving the post feed
-	postFeed, err := app.models.PostModel.GetFeed()
-	if err != nil {
-		app.logger.Error(fmt.Errorf("error getting post feed: %w", err).Error())
-	}
-
 	// returning the templateData with all information
 	var tmplData = templateData{
 		CurrentYear:     time.Now().Year(),
@@ -339,7 +277,6 @@ func (app *application) newTemplateData(r *http.Request) templateData {
 		IsAuthenticated: isAuthenticated,
 		Nonce:           nonce,
 		CSRFToken:       nosurf.Token(r),
-		Author:          author,
 		Error: struct {
 			Title   string
 			Message string
@@ -347,11 +284,6 @@ func (app *application) newTemplateData(r *http.Request) templateData {
 			Title:   "Error 404",
 			Message: "We didn't find what you were looking for :(",
 		},
-	}
-
-	// checking if post feed is not nil
-	if postFeed != nil {
-		tmplData.PostFeed = *postFeed
 	}
 
 	return tmplData

@@ -22,7 +22,6 @@ type User struct {
 	Name      string    `json:"name"`
 	Email     string    `json:"email"`
 	Password  password  `json:"-"`
-	Avatar    string    `json:"avatar,omitempty"`
 	Status    string    `json:"status"`
 	Version   int       `json:"-"`
 }
@@ -96,12 +95,12 @@ func (m UserModel) Insert(user *User) error {
 
 	// creating the query
 	query := `
-		INSERT INTO users (name, email, password_hash, avatar, status)
+		INSERT INTO users (name, email, password_hash, status)
 		VALUES ($1, $2, $3, $4, $5)
 		RETURNING id, created_at, version;`
 
 	// setting the arguments
-	args := []any{user.Name, user.Email, user.Password.hash, user.Avatar, user.Status}
+	args := []any{user.Name, user.Email, user.Password.hash, user.Status}
 
 	// setting the timeout context for the query execution
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
@@ -133,8 +132,8 @@ func (m UserModel) Update(user *User) error {
 	// creating the query
 	query := `
 		UPDATE users
-		SET name = $1, email = $2, password_hash = $3, avatar = $4, status = $5, version = version + 1
-		WHERE id = $6 AND version = $7
+		SET name = $1, email = $2, password_hash = $3, status = $4, version = version + 1
+		WHERE id = $5 AND version = $6
 		RETURNING version;`
 
 	// setting the arguments
@@ -142,7 +141,6 @@ func (m UserModel) Update(user *User) error {
 		user.Name,
 		user.Email,
 		user.Password.hash,
-		user.Avatar,
 		user.Status,
 		user.ID,
 		user.Version,
@@ -263,7 +261,7 @@ func (m UserModel) GetByID(id int) (*User, error) {
 
 	// creating the query
 	query := `
-		SELECT id, created_at, name, email, password_hash, avatar, status, version
+		SELECT id, created_at, name, email, password_hash, status, version
 		FROM users
 		WHERE id = $1;`
 
@@ -288,7 +286,6 @@ func (m UserModel) GetByID(id int) (*User, error) {
 		&user.Name,
 		&user.Email,
 		&user.Password.hash,
-		&user.Avatar,
 		&user.Status,
 		&user.Version,
 	)
@@ -309,7 +306,7 @@ func (m UserModel) GetByEmail(email string) (*User, error) {
 
 	// creating the query
 	query := `
-		SELECT id, created_at, name, email, password_hash, avatar, status, version
+		SELECT id, created_at, name, email, password_hash, status, version
 		FROM users
 		WHERE email = $1;`
 
@@ -334,7 +331,6 @@ func (m UserModel) GetByEmail(email string) (*User, error) {
 		&user.Name,
 		&user.Email,
 		&user.Password.hash,
-		&user.Avatar,
 		&user.Status,
 		&user.Version,
 	)
@@ -357,7 +353,7 @@ func (m UserModel) GetForToken(tokenScope, tokenPlaintext string) (*User, error)
 
 	// creating the query
 	query := `
-		SELECT users.id, users.created_at, users.name, users.email, users.password_hash, users.avatar, users.status, users.version
+		SELECT users.id, users.created_at, users.name, users.email, users.password_hash, users.status, users.version
 		FROM users
 		INNER JOIN tokens
 		ON users.id = tokens.user_id
@@ -389,7 +385,6 @@ func (m UserModel) GetForToken(tokenScope, tokenPlaintext string) (*User, error)
 		&user.Name,
 		&user.Email,
 		&user.Password.hash,
-		&user.Avatar,
 		&user.Status,
 		&user.Version,
 	)
