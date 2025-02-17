@@ -387,6 +387,11 @@ func (m TransactionModel) GetByID(id uint) (*Transaction, error) {
 		cars = append(cars, car)
 	}
 	
+	// calculating the total price
+	for _, cars := range transaction.Cars {
+		transaction.TotalPrice += cars.Price
+	}
+	
 	return &transaction, nil
 }
 
