@@ -1,4 +1,22 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Phoceene Auto
+
+This project is a simple Web App made with [Next.js](https://nextjs.org) to manage clients, cars and transactions for **Phoceene Auto**, a car seller company.
+
+> Authors:
+> 
+> - Antoine de Barbarin
+> - Nicolas Moyon
+> - Sabrina Eloundou
+
+Task repartition:
+- Organization: `Antoine`
+- Database design: `Antoine`
+- Backend: `Antoine` & `Nicolas`
+- Backend integration: `Nicolas`
+- Frontend: `Sabrina`
+- README: `Antoine`
+
+---
 
 ## Getting Started
 
