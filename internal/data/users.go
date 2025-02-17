@@ -150,7 +150,8 @@ func (m UserModel) Update(user *User) error {
 	// creating the query
 	query := `
 		UPDATE users
-		SET name = $1, email = $2, password_hash = $3, status = $4, version = version + 1
+		SET name = $1, email = $2, password_hash = $3, status = $4,
+		    updated_at = CURRENT_DATE, version = version + 1
 		WHERE id = $5 AND version = $6
 		RETURNING version;`
 	
@@ -251,7 +252,7 @@ func (m UserModel) GetByID(id int) (*User, error) {
 	
 	// creating the query
 	query := `
-		SELECT id, created_at, name, email, password_hash, status, version
+		SELECT id, created_at, updated_at, name, email, password_hash, status, version
 		FROM users
 		WHERE id = $1;`
 	
@@ -273,6 +274,7 @@ func (m UserModel) GetByID(id int) (*User, error) {
 	err = stmt.QueryRowContext(ctx, id).Scan(
 		&user.ID,
 		&user.CreatedAt,
+		&user.UpdatedAt,
 		&user.Name,
 		&user.Email,
 		&user.Password.hash,
@@ -296,7 +298,7 @@ func (m UserModel) GetByEmail(email string) (*User, error) {
 	
 	// creating the query
 	query := `
-		SELECT id, created_at, name, email, password_hash, status, version
+		SELECT id, created_at, updated_at, name, email, password_hash, status, version
 		FROM users
 		WHERE email = $1;`
 	
@@ -318,6 +320,7 @@ func (m UserModel) GetByEmail(email string) (*User, error) {
 	err = stmt.QueryRowContext(ctx, email).Scan(
 		&user.ID,
 		&user.CreatedAt,
+		&user.UpdatedAt,
 		&user.Name,
 		&user.Email,
 		&user.Password.hash,

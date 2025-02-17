@@ -236,7 +236,6 @@ func (m CarProductModel) GetByID(id uint) (*CarProduct, error) {
 		&car.Color,
 		&car.Price,
 		&car.Shop,
-		&car.ID,
 		&car.Version,
 		&car.CatID,
 		&car.CatCreatedAt,
