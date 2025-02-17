@@ -1,0 +1,40 @@
+{{define "post-list"}}
+
+    {{/*Post List*/}}
+    <div class="post-list">
+
+        {{ range . }}
+
+            {{/*Single Post Line*/}}
+            <div class="post-line relative">
+
+                {{/*Post Link*/}}
+                <a href="/post/{{ .ID }}" class="abs full on-top"></a>
+
+                {{/*Post Cover*/}}
+                <div class="img-ctn">
+                    {{ if gt (len .Images) 0 }}
+                        <img src="{{ index .Images 0 }}" alt="post image" class="post-img" />
+                    {{ else }}
+                        <img src="/static/img/not-found.jpg" alt="image not found" class="post-img" />
+                    {{ end }}
+                </div>
+
+                {{/*Post Info*/}}
+                <div class="post-summary relative">
+                    <div class="post-views abs"><img src="/static/img/icons/view-icon.svg" alt="view icon" class="view-icon"> {{ .Views }} </div>
+                    <div class="post-title">{{ .Title }}</div>
+                    <div class="post-dates">
+                        <div class="post-created-at"><span class="bold"> Published: </span> {{ humanDate .CreatedAt }}</div>
+                        <div class="post-updated-at"><span class="bold"> Edited: </span> {{ humanDate .UpdatedAt }}</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        {{ end }}
+
+    </div>
+
+{{end}}

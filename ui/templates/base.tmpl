@@ -1,0 +1,193 @@
+{{ define "base" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title> {{ .Title }} </title>
+
+    <link rel="icon" type="image/png" href="/static/img/logo/logo.png">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <div class="page-ctn">
+
+{{/* #######################################################################################*/}}
+{{/*                                        HEADER                                          */}}
+{{/* #######################################################################################*/}}
+
+            <header class="header-ctn">
+            <div class="header">
+
+{{/*            Name left           */}}
+                <div class="name relative">
+                    <a href="/home" class="abs full on-top"></a>
+                    Phoceene Auto
+                </div>
+
+{{/*            Nav                 */}}
+                <nav class="header-nav">
+                    <a href="/home" class="header-link">Home</a>
+                    <a href="/latest" class="header-link">Latest</a>
+                </nav>
+
+{{/*            Search bar          */}}
+                <form action="/search" method="get" class="search-bar">
+
+                    {{/*CSRF Token*/}}
+                    <input type="hidden" name="csrf_token" value="{{ .CSRFToken }}">
+
+                    {{/*Shortcut Message*/}}
+                    <span class="search-label">Ctrl+K</span>
+
+                    {{/*Search input*/}}
+                    <label class="abs display-none" for="search-input"></label>
+                    <input type="text" name="q" id="search-input" class="search-input" required />
+
+                    {{/*Submit button*/}}
+                    <button type="submit" class="search-btn">
+                        <img src="/static/img/icons/search-icon.svg" alt="search icon" class="search-icon" />
+                    </button>
+                </form>
+
+{{/*            Social links           */}}
+                <div class="header-social">
+
+                    {{/*LinkedIn*/}}
+                    <div class="social-elem relative">
+                        <a href="https://linkedin.com/in/adebarbarin" target="_blank" class="abs full on-top"></a>
+                        <img src="/static/img/icons/linkedin-icon.svg" alt="linkedin icon" class="social-icon" />
+                        <span class="social-name">LinkedIn</span>
+                    </div>
+
+                    {{/*Github*/}}
+                    <div class="social-elem relative">
+                        <a href="https://github.com/deBarbarinAntoine" target="_blank" class="abs full on-top"></a>
+                        <img src="/static/img/icons/github-icon.svg" alt="github icon" class="social-icon" />
+                        <span class="social-name">Github</span>
+                    </div>
+
+                    {{/*Contact Me*/}}
+                    <div class="social-elem relative">
+                        <a href="/home#contact-me" class="abs full on-top"></a>
+                        <img src="/static/img/icons/mail-icon.svg" alt="mail icon" class="social-icon" />
+                        <span class="social-name">Contact me</span>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+
+
+{{/* #######################################################################################*/}}
+{{/*                                 MAIN - TEMPLATE                                        */}}
+{{/* #######################################################################################*/}}
+
+        <main class="template-ctn">
+
+{{/*        FLASH       */}}
+{{/* Test flash messages with position fixed and a translateY transition to make it appear from the top of the screen */}}
+            {{ with .Flash }}
+                <div class="flash">
+                    <span class="flash-message"> {{ . }} </span>
+                </div>
+            {{ end }}
+
+{{/*        TEMPLATE PAGE          */}}
+            {{ template "page" . }}
+
+        </main>
+
+
+{{/* #######################################################################################*/}}
+{{/*                                        FOOTER                                          */}}
+{{/* #######################################################################################*/}}
+
+        <footer class="footer-ctn">
+
+            {{/*Copyrights*/}}
+            <div class="copyrights">
+                &copy; {{ .CurrentYear }} Antoine de Barbarin - Nicolas Moyon - Sabrina Eloundou. All rights reserved.
+            </div>
+
+        </footer>
+
+    </div>
+
+{{/* #######################################################################################*/}}
+{{/*                                      JS SCRIPTS                                        */}}
+{{/* #######################################################################################*/}}
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js"></script>
+    <script nonce="{{ .Nonce }}">
+
+        {{/*including the CSRF token in the axios requests*/}}
+        axios.defaults.headers.common['X-CSRF-TOKEN'] = {{ .CSRFToken }};
+
+
+        {{/*####################################*/}}
+        {{/*      Flash Message Animation       */}}
+        {{/*####################################*/}}
+
+        {{/*getting the flash message element*/}}
+        const flash = document.querySelector('.flash');
+
+        {{/*checking if there is a flash message*/}}
+        if (!!flash) {
+
+            {{/*making the flash message appear*/}}
+            flash.style.transform = 'translate(0,-4px)';
+            setTimeout(() => {
+
+                {{/*pushing the flash message up (with timeout)*/}}
+                flash.style.transform = 'translate(0,-101%)';
+
+                {{/*removing the flash message (with another timeout)*/}}
+                setTimeout(() => flash.style.display = 'none', 2000);
+            }, 5000);
+        }
+
+
+        {{/*####################################*/}}
+        {{/*   Search field Actions & Shorcuts  */}}
+        {{/*####################################*/}}
+
+        {{/*Prevent predefined messages when search is invalid*/}}
+        const searchInput = document.querySelector('input#search-input.search-input');
+        searchInput.addEventListener('invalid', (function () {
+            return function (e) {
+                e.preventDefault();
+                searchInput.focus();
+            };
+        })(), true);
+
+        {{/*Access search input when typing Ctrl+K*/}}
+        document.addEventListener("keydown", (e) => {
+            e = e || window.event;
+            if (e.ctrlKey && e.key === "k") {
+                searchInput.focus();
+                e.preventDefault();
+            }
+        });
+
+        {{/*Access search input when clicking on tag Ctrl+K*/}}
+        const searchTag = document.querySelector('.search-label');
+        searchTag.addEventListener('click', () => searchInput.focus());
+
+
+{{/*####################################*/}}
+{{/*    Remove CSRF token from URL      */}}
+{{/*####################################*/}}
+
+        if (window.location.href.includes('csrf_token')) {
+            window.history.pushState({}, "{{ .Title }}", window.location.href.replace(/csrf_token[^&]+&?/, ''));
+        }
+
+    </script>
+
+</body>
+</html>
+{{ end }}

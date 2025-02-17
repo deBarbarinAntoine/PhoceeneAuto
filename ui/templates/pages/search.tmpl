@@ -1,0 +1,89 @@
+{{ define "page" }}
+
+    {{/*Checking Results*/}}
+    {{ if ne (len .Posts.List) 0 }}
+
+    <div class="search-title">
+        {{ with .Search }}
+            <span> Posts for </span> <span class="search-text"> {{ . }} </span>
+        {{ end }}
+    </div>
+
+    <div class="search-results">
+
+            {{/*Displaying Search Results*/}}
+            {{ template "post-list" .Posts.List }}
+
+            {{/*Pagination*/}}
+            <div class="pagination">
+
+                {{/*First Page*/}}
+                <div class="pag-link relative">
+                    {{ if ne .Posts.Metadata.CurrentPage .Posts.Metadata.FirstPage }}
+                        <a href="?pag={{ .Posts.Metadata.FirstPage }}" class="abs full on-top"></a>
+                    {{ end }}
+                    <svg class="pag-icon" width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 17L13 12L18 7M11 17L6 12L11 7" {{ if eq .Posts.Metadata.CurrentPage .Posts.Metadata.FirstPage }}stroke="#034163"{{ end }} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+                {{/*Previous Page*/}}
+                <div class="pag-link relative">
+                    {{ if ne .Posts.Metadata.CurrentPage .Posts.Metadata.FirstPage }}
+                        <a href="?pag={{ decrement .Posts.Metadata.CurrentPage }}" class="abs full on-top"></a>
+                    {{ end }}
+                    <svg class="pag-icon big-icon" width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 18L9 12L15 6" {{ if eq .Posts.Metadata.CurrentPage .Posts.Metadata.FirstPage }}stroke="#034163"{{ end }} stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+                {{/*Current Page*/}}
+                <div class="pag-link relative">
+                    <span class="pag-current">page {{ .Posts.Metadata.CurrentPage }} of {{ .Posts.Metadata.LastPage }}</span>
+                </div>
+
+                {{/*Next Page*/}}
+                <div class="pag-link relative">
+                    {{ if ne .Posts.Metadata.CurrentPage .Posts.Metadata.LastPage }}
+                        <a href="?pag={{ increment .Posts.Metadata.CurrentPage }}" class="abs full on-top"></a>
+                    {{ end }}
+                    <svg class="pag-icon big-icon" width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 18L15 12L9 6" {{ if eq .Posts.Metadata.CurrentPage .Posts.Metadata.LastPage }}stroke="#034163"{{ end }} stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+                {{/*Last Page*/}}
+                <div class="pag-link relative">
+                    {{ if ne .Posts.Metadata.CurrentPage .Posts.Metadata.LastPage }}
+                        <a href="?pag={{ .Posts.Metadata.LastPage }}" class="abs full on-top"></a>
+                    {{ end }}
+                    <svg class="pag-icon" width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 17L11 12L6 7M13 17L18 12L13 7" {{ if eq .Posts.Metadata.CurrentPage .Posts.Metadata.LastPage }}stroke="#034163"{{ end }} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+            </div>
+
+        {{/*No Match Found*/}}
+        {{ else }}
+
+            {{/*Alert Message*/}}
+            <div class="search-title">
+                <div class="alert">
+                    {{ with .Search }}
+                        <span> No post found for </span> <span class="search-text"> {{ . }} </span> <span> :/ </span>
+                    {{ else }}
+                        <span> No research detected :/ </span>
+                    {{ end }}
+                </div>
+            </div>
+
+            {{/*Popular Posts*/}}
+            {{ with .PostFeed.Popular }}
+                {{ template "post-list" . }}
+            {{ end }}
+
+        {{ end }}
+
+    </div>
+
+{{ end }}

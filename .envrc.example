@@ -1,0 +1,12 @@
+# Database
+export DB_DSN='postgres://phoceeneauto:password@localhost/phoceeneauto?sslmode=disable'
+
+# Mails
+export SMTP_SENDER='Phoceene Auto <no-reply@phoceene-auto.com>'
+export SMTP_USERNAME='no-reply@phoceene-auto.com'
+export SMTP_PASS='password'
+export SMTP_HOST='io.smtp.mail'
+export SMTP_PORT=465
+
+# Go Server
+export PORT=8080
