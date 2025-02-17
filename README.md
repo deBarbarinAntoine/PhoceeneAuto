@@ -1,6 +1,6 @@
 # Phoceene Auto
 
-This project is a simple Web App made with [Next.js](https://nextjs.org) to manage clients, cars and transactions for **Phoceene Auto**, a car seller company.
+This project is a simple Web App made with [Next.js](https://nextjs.org) to manage clients, cars and transactions for **Phoceene Auto**, a car dealer company.
 
 > Authors:
 > 
