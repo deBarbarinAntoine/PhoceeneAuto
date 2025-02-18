@@ -18,6 +18,6 @@ func (addr Address) validate(v *validator.Validator) {
 	v.StringCheck(addr.State, 2, 40, true, "state")
 }
 
-func (addr Address) toSQL(args []any) {
-	args = append(args, addr.Street, addr.Complement, addr.City, addr.ZIP, addr.State)
+func (addr Address) toSQL(args []any) []any {
+	return append(args, addr.Street, addr.Complement, addr.City, addr.ZIP, addr.State)
 }

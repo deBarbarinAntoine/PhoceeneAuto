@@ -8,7 +8,7 @@ import (
 const (
 	UserToActivate = "to-activate"
 	UserActivated  = "activated"
-	
+
 	TokenActivation = "activation"
 	TokenReset      = "reset"
 )
@@ -17,6 +17,12 @@ var (
 	ErrRecordNotFound = errors.New("record not found")
 	ErrEditConflict   = errors.New("edit conflict")
 	ErrDuplicateEmail = errors.New("duplicate email")
+
+	Shop = struct {
+		HEADQUARTERS string
+	}{
+		HEADQUARTERS: "HEADQUARTERS",
+	}
 )
 
 type Models struct {

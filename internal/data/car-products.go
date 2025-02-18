@@ -19,7 +19,7 @@ type CarProduct struct {
 	Price      float32
 	Shop       string
 	Version    int
-	CarCatalog
+	CarCatalog // cat_id
 }
 
 // TODO -> CarProduct check fields
@@ -29,14 +29,14 @@ type CarProductModel struct {
 }
 
 func (m CarProductModel) Insert(car *CarProduct) error {
-	
+
 	// creating the query
 	query := `
 		INSERT INTO car_products
 		    (status, kilometers, owner_nb, color, price, shop, cat_id)
 		VALUES ($1, $2, $3, $4, $5, $6, $7)
 		RETURNING id, created_at, version;`
-	
+
 	// setting the arguments
 	args := []any{
 		car.Status,
@@ -47,29 +47,29 @@ func (m CarProductModel) Insert(car *CarProduct) error {
 		car.Shop,
 		car.CatID,
 	}
-	
+
 	// setting the timeout context for the query execution
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	
+
 	// preparing the query
 	stmt, err := m.db.PrepareContext(ctx, query)
 	if err != nil {
 		return fmt.Errorf("failed to prepare query: %w", err)
 	}
 	defer stmt.Close()
-	
+
 	// executing the query
 	err = stmt.QueryRowContext(ctx, args...).Scan(&car.ID, &car.CreatedAt, &car.Version)
 	if err != nil {
 		return err
 	}
-	
+
 	return nil
 }
 
 func (m CarProductModel) Update(car *CarProduct) error {
-	
+
 	// creating the query
 	query := `
 		UPDATE car_products
@@ -80,11 +80,11 @@ func (m CarProductModel) Update(car *CarProduct) error {
 		    price = $5,
 		    shop = $6,
 		    cat_id = $7,
-		    updated_at = CURRENT_DATE,
+		    updated_at = CURRENT_TIMESTAMP,
 		    version = version + 1,
 		WHERE id = $8 AND version = $9
 		RETURNING version;`
-	
+
 	// setting the arguments
 	args := []any{
 		car.Status,
@@ -97,60 +97,60 @@ func (m CarProductModel) Update(car *CarProduct) error {
 		car.ID,
 		car.Version,
 	}
-	
+
 	// setting the timeout context for the query execution
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	
+
 	// preparing the query
 	stmt, err := m.db.PrepareContext(ctx, query)
 	if err != nil {
 		return fmt.Errorf("failed to prepare query: %w", err)
 	}
 	defer stmt.Close()
-	
+
 	// executing the query
 	err = stmt.QueryRowContext(ctx, args...).Scan(&car.CatVersion)
 	if err != nil {
 		return err
 	}
-	
+
 	return nil
 }
 
 func (m CarProductModel) Delete(car *CarProduct) error {
-	
+
 	// creating the query
 	query := `
 		DELETE FROM car_products
 		WHERE id = $1 AND version = $2;`
-	
+
 	// setting the arguments
 	args := []any{
 		car.ID,
 		car.Version,
 	}
-	
+
 	// setting the timeout context for the query execution
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	
+
 	// preparing the query
 	stmt, err := m.db.PrepareContext(ctx, query)
 	if err != nil {
 		return fmt.Errorf("failed to prepare query: %w", err)
 	}
 	defer stmt.Close()
-	
+
 	// executing the query
 	_, err = stmt.ExecContext(ctx, args...)
-	
+
 	return err
 }
 
 // ExistsCatID checks if a CarCatalog is bound by a CarProduct (may do that in the migrations too for security).
 func (m CarProductModel) ExistsCatID(catID int) (bool, error) {
-	
+
 	// creating the query
 	query := `
 		SELECT EXISTS (
@@ -158,24 +158,24 @@ func (m CarProductModel) ExistsCatID(catID int) (bool, error) {
 			FROM car_products
 			WHERE cat_id = $1
 		);`
-	
+
 	// setting the car variable
 	var exists bool
-	
+
 	// setting the timeout context for the query execution
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	
+
 	// preparing the query
 	stmt, err := m.db.PrepareContext(ctx, query)
 	if err != nil {
 		return exists, err
 	}
 	defer stmt.Close()
-	
+
 	// execute the query
 	err = stmt.QueryRowContext(ctx, catID).Scan(&exists)
-	
+
 	if err != nil {
 		switch {
 		case errors.Is(err, sql.ErrNoRows):
@@ -184,12 +184,12 @@ func (m CarProductModel) ExistsCatID(catID int) (bool, error) {
 			return exists, err
 		}
 	}
-	
+
 	return exists, nil
 }
 
 func (m CarProductModel) GetByID(id uint) (*CarProduct, error) {
-	
+
 	// creating the query
 	query := `
 		SELECT cp.id, cp.created_at, cp.updated_at,
@@ -210,21 +210,21 @@ func (m CarProductModel) GetByID(id uint) (*CarProduct, error) {
 		FROM car_products cp
 		INNER JOIN cars_catalog cc ON cp.cat_id = cc.id
 		WHERE id = $1;`
-	
+
 	// setting the car variable
 	var car CarProduct
-	
+
 	// setting the timeout context for the query execution
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	
+
 	// preparing the query
 	stmt, err := m.db.PrepareContext(ctx, query)
 	if err != nil {
 		return nil, err
 	}
 	defer stmt.Close()
-	
+
 	// executing the query
 	err = stmt.QueryRowContext(ctx, id).Scan(
 		&car.ID,
@@ -256,7 +256,7 @@ func (m CarProductModel) GetByID(id uint) (*CarProduct, error) {
 		&car.BaseModel,
 		&car.CatVersion,
 	)
-	
+
 	if err != nil {
 		switch {
 		case errors.Is(err, sql.ErrNoRows):
@@ -265,16 +265,16 @@ func (m CarProductModel) GetByID(id uint) (*CarProduct, error) {
 			return nil, err
 		}
 	}
-	
+
 	return &car, nil
 }
 
 func (m CarProductModel) Search(search string, filters *Filters) ([]*CarProduct, Metadata, error) {
-	
+
 	// TODO -> update the method and query to accept specific filters:
 	// (kilometers, status, owner_nb, color, price, shop,
 	// make, model, cylinders, drive, fuel, transmission, size_class, model_year, etc.)
-	
+
 	// creating the query
 	query := fmt.Sprintf(`
 		SELECT COUNT(*) OVER,
@@ -300,36 +300,36 @@ func (m CarProductModel) Search(search string, filters *Filters) ([]*CarProduct,
 		OR (to_tsvector('simple', cc.base_model) @@ plainto_tsquery('simple', $1) OR $1 = '')
 		ORDER BY %s %s, id ASC
 		LIMIT $2 OFFSET $3;`, filters.sortColumn(), filters.sortDirection())
-	
+
 	// setting the arguments
 	args := []any{search, filters.limit(), filters.offset()}
-	
+
 	// setting the variables
 	totalRecords := 0
 	var cars []*CarProduct
-	
+
 	// setting the timeout context for the query execution
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	
+
 	// preparing the query
 	stmt, err := m.db.PrepareContext(ctx, query)
 	if err != nil {
 		return nil, Metadata{}, err
 	}
 	defer stmt.Close()
-	
+
 	// executing the query
 	rows, err := stmt.QueryContext(ctx, args...)
 	if err != nil {
 		return nil, Metadata{}, err
 	}
 	defer rows.Close()
-	
+
 	// scanning for values
 	for rows.Next() {
 		var car CarProduct
-		
+
 		err := rows.Scan(
 			&totalRecords,
 			&car.ID,
@@ -362,20 +362,20 @@ func (m CarProductModel) Search(search string, filters *Filters) ([]*CarProduct,
 			&car.BaseModel,
 			&car.CatVersion,
 		)
-		
+
 		if err != nil {
 			return nil, Metadata{}, err
 		}
-		
+
 		// adding the car to the list of matching CarsCatalog
 		cars = append(cars, &car)
 	}
 	if err = rows.Err(); err != nil {
 		return nil, Metadata{}, err
 	}
-	
+
 	// getting the metadata
 	metadata := calculateMetadata(totalRecords, filters.Page, filters.PageSize)
-	
+
 	return cars, metadata, nil
 }
