@@ -1,3 +1,20 @@
 CREATE TABLE IF NOT EXISTS cars_catalog (
-
+                                            id              INT PRIMARY KEY AUTO_INCREMENT,
+                                            created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                            updated_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                            make               TEXT NOT NULL,
+                                            model              TEXT NOT NULL,
+                                            cylinders          INT,
+                                            drive             TEXT,
+                                            engine_descriptor TEXT,
+                                            fuel1             TEXT,
+                                            fuel2             TEXT,
+                                            luggage_volume    FLOAT,
+                                            passenger_volume  FLOAT,
+                                            transmission      TEXT,
+                                            size_class        TEXT,
+                                            model_year              INT,
+                                            electric_motor    FLOAT,
+                                            base_model        TEXT,
+                                            version       INT DEFAULT 1
 );
