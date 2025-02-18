@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS cars_catalog (
     id               bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at      TIMESTAMP(0) WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP(0) WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     make               TEXT NOT NULL,
     model              TEXT NOT NULL,
     cylinders          INT,
