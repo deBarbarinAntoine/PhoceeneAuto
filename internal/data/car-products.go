@@ -6,15 +6,31 @@ import (
 	"errors"
 	"fmt"
 	"time"
+
+	"PhoceeneAuto/internal/validator"
+)
+
+var (
+	CarStatus = struct {
+		COMING     string
+		ONSALE     string
+		PROCESSING string
+		SOLD       string
+	}{
+		COMING:     "COMING",
+		ONSALE:     "ONSALE",
+		PROCESSING: "PROCESSING",
+		SOLD:       "SOLD",
+	}
 )
 
 type CarProduct struct {
-	ID         uint
+	ID         int
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
 	Status     string
 	Kilometers float32
-	OwnerNb    uint
+	OwnerNb    int
 	Color      string
 	Price      float32
 	Shop       string
@@ -22,7 +38,15 @@ type CarProduct struct {
 	CarCatalog // cat_id
 }
 
-// TODO -> CarProduct check fields
+func ValidateCarProduct(v *validator.Validator, car CarProduct) {
+	v.Check(validator.PermittedValue(car.Status, CarStatus.COMING, CarStatus.ONSALE, CarStatus.PROCESSING, CarStatus.SOLD), "status", fmt.Sprintf("invalid status %s", car.Status))
+
+	v.Check(validator.PermittedValue(car.Shop, Shop.HEADQUARTERS), "shop", fmt.Sprintf("invalid shop %s", car.Shop))
+
+	v.Check(car.Price > 0, "price", "must be greater than 0")
+
+	v.CheckID(car.CatID, "cat_id")
+}
 
 type CarProductModel struct {
 	db *sql.DB
@@ -188,7 +212,7 @@ func (m CarProductModel) ExistsCatID(catID int) (bool, error) {
 	return exists, nil
 }
 
-func (m CarProductModel) GetByID(id uint) (*CarProduct, error) {
+func (m CarProductModel) GetByID(id int) (*CarProduct, error) {
 
 	// creating the query
 	query := `

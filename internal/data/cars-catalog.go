@@ -6,15 +6,17 @@ import (
 	"errors"
 	"fmt"
 	"time"
+
+	"PhoceeneAuto/internal/validator"
 )
 
 type CarCatalog struct {
-	CatID            uint      // id
+	CatID            int       // id
 	CatCreatedAt     time.Time // created_at
 	CatUpdatedAt     time.Time // updated_at
 	Make             string
 	Model            string
-	Cylinders        uint
+	Cylinders        int
 	Drive            string
 	EngineDescriptor string
 	Fuel1            string
@@ -23,13 +25,40 @@ type CarCatalog struct {
 	PassengerVolume  float32
 	Transmission     string
 	SizeClass        string
-	Year             uint // model_year
+	Year             int // model_year
 	ElectricMotor    float32
 	BaseModel        string
 	CatVersion       int // version
 }
 
-// TODO -> CarCatalog check fields
+func ValidateCarCatalog(v *validator.Validator, car CarCatalog) {
+
+	v.Check(car.Year > 1980, "year", "must be greater than 1980")
+
+	v.StringCheck(car.Make, 2, 50, true, "make")
+
+	v.StringCheck(car.Model, 2, 50, true, "model")
+
+	v.StringCheck(car.Transmission, 2, 50, true, "transmission")
+
+	v.StringCheck(car.Drive, 2, 50, true, "drive")
+
+	v.StringCheck(car.EngineDescriptor, 2, 50, false, "engine_descriptor")
+
+	v.StringCheck(car.Fuel2, 2, 50, false, "fuel_2")
+
+	v.StringCheck(car.SizeClass, 2, 50, false, "size_class")
+
+	v.StringCheck(car.BaseModel, 2, 50, false, "base_model")
+
+	v.Check(car.Cylinders >= 0, "cylinders", "must be equal or greater than 0")
+
+	v.Check(car.LuggageVolume >= 0, "luggage_volume", "must be equal or greater than 0")
+
+	v.Check(car.PassengerVolume >= 0, "passenger_volume", "must be equal or greater than 0")
+
+	v.Check(car.ElectricMotor >= 0, "electric_motor", "must be equal or greater than 0")
+}
 
 type CarCatalogModel struct {
 	db *sql.DB
@@ -184,7 +213,7 @@ func (m CarCatalogModel) Delete(car *CarCatalog) error {
 	return err
 }
 
-func (m CarCatalogModel) GetByID(id uint) (*CarCatalog, error) {
+func (m CarCatalogModel) GetByID(id int) (*CarCatalog, error) {
 
 	// creating the query
 	query := `

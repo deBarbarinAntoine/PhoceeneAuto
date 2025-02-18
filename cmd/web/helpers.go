@@ -280,6 +280,26 @@ func (app *application) newTemplateData(r *http.Request) templateData {
 	// retrieving the nonce
 	nonce := app.getNonce(r)
 
+	// setting the user variable
+	user := data.AnonymousUser
+
+	// getting the user if authenticated
+	if isAuthenticated {
+		var err error
+		user, err = app.models.UserModel.GetByID(app.getUserID(r))
+		if err != nil {
+
+			// LOGGING
+			app.logger.Warn(fmt.Errorf("user not found: %s", user.ID).Error())
+			user = data.AnonymousUser
+
+		} else {
+
+			// update user role in the SessionManager
+			app.sessionManager.Put(r.Context(), userRoleSessionManager, user.Role)
+		}
+	}
+
 	// returning the templateData with all information
 	var tmplData = templateData{
 		CurrentYear:     time.Now().Year(),
@@ -287,6 +307,7 @@ func (app *application) newTemplateData(r *http.Request) templateData {
 		IsAuthenticated: isAuthenticated,
 		Nonce:           nonce,
 		CSRFToken:       nosurf.Token(r),
+		User:            *user,
 		Error: struct {
 			Title   string
 			Message string

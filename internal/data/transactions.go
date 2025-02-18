@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"time"
 
+	"PhoceeneAuto/internal/validator"
 	"github.com/lib/pq"
 )
 
@@ -23,7 +24,7 @@ var (
 )
 
 type Transaction struct {
-	ID         uint
+	ID         int
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
 	Cars       []CarProduct // in the join table
@@ -35,7 +36,15 @@ type Transaction struct {
 	Version    int
 }
 
-// TODO -> Transaction check fields
+func ValidateTransaction(v *validator.Validator, t Transaction) {
+	v.Check(validator.PermittedValue(t.Status, TransactionStatus.DONE, TransactionStatus.ONGOING, TransactionStatus.PROCESSING), "status", fmt.Sprintf("invalid status %s", t.Status))
+
+	v.Check(len(t.Cars) > 0, "cars", "must purchase at least one car")
+
+	v.CheckID(t.Client.ID, "client_id")
+
+	v.CheckID(t.User.ID, "user_id")
+}
 
 type TransactionModel struct {
 	db *sql.DB
@@ -247,7 +256,7 @@ func (m TransactionModel) Delete(transaction *Transaction) error {
 	return err
 }
 
-func (m TransactionModel) GetByID(id uint) (*Transaction, error) {
+func (m TransactionModel) GetByID(id int) (*Transaction, error) {
 
 	// creating the query
 	query := `
@@ -346,7 +355,7 @@ func (m TransactionModel) GetByID(id uint) (*Transaction, error) {
 			&transaction.Client.Address.Complement,
 			&transaction.Client.Address.City,
 			&transaction.Client.Address.ZIP,
-			&transaction.Client.Address.State,
+			&transaction.Client.Address.Country,
 			&transaction.Client.Version,
 
 			// car_product
@@ -418,7 +427,7 @@ var TransactionColumns = TransactionPermittedColumns{
 	CATALOG: col{"CATALOG", "cc.id"},
 }
 
-func (m TransactionModel) GetBy(id uint, searchColumn col, filters *Filters) ([]*Transaction, Metadata, error) {
+func (m TransactionModel) GetBy(id int, searchColumn col, filters *Filters) ([]*Transaction, Metadata, error) {
 	// checking the column value
 	column := searchColumn.toColumnValue()
 
@@ -465,7 +474,7 @@ func (m TransactionModel) GetBy(id uint, searchColumn col, filters *Filters) ([]
 
 	// setting the variables
 	totalRecords := 0
-	var transactionsMap = make(map[uint]*Transaction)
+	var transactionsMap = make(map[int]*Transaction)
 
 	// setting the timeout context for the query execution
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
@@ -523,7 +532,7 @@ func (m TransactionModel) GetBy(id uint, searchColumn col, filters *Filters) ([]
 			&transaction.Client.Address.Complement,
 			&transaction.Client.Address.City,
 			&transaction.Client.Address.ZIP,
-			&transaction.Client.Address.State,
+			&transaction.Client.Address.Country,
 			&transaction.Client.Version,
 
 			// car_product

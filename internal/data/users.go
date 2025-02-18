@@ -302,7 +302,7 @@ func (m UserModel) GetByID(id int) (*User, error) {
 		&user.Address.Complement,
 		&user.Address.City,
 		&user.Address.ZIP,
-		&user.Address.State,
+		&user.Address.Country,
 		&user.Version,
 	)
 
@@ -355,7 +355,7 @@ func (m UserModel) GetByEmail(email string) (*User, error) {
 		&user.Address.Complement,
 		&user.Address.City,
 		&user.Address.ZIP,
-		&user.Address.State,
+		&user.Address.Country,
 		&user.Version,
 	)
 
@@ -417,7 +417,7 @@ func (m UserModel) GetForToken(tokenScope, tokenPlaintext string) (*User, error)
 		&user.Address.Complement,
 		&user.Address.City,
 		&user.Address.ZIP,
-		&user.Address.State,
+		&user.Address.Country,
 		&user.Version,
 	)
 

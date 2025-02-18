@@ -23,7 +23,7 @@ var (
 )
 
 type Client struct {
-	ID        uint
+	ID        int
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt time.Time
@@ -217,7 +217,7 @@ func (m ClientModel) DeleteExpired() error {
 	return nil
 }
 
-func (m ClientModel) GetByID(id uint) (*Client, error) {
+func (m ClientModel) GetByID(id int) (*Client, error) {
 
 	// creating the query
 	query := `
@@ -261,7 +261,7 @@ func (m ClientModel) GetByID(id uint) (*Client, error) {
 		&client.Address.Complement,
 		&client.Address.City,
 		&client.Address.ZIP,
-		&client.Address.State,
+		&client.Address.Country,
 		&client.Version,
 	)
 
@@ -321,7 +321,7 @@ func (m ClientModel) GetByEmail(email string) (*Client, error) {
 		&client.Address.Complement,
 		&client.Address.City,
 		&client.Address.ZIP,
-		&client.Address.State,
+		&client.Address.Country,
 		&client.Version,
 	)
 
@@ -402,7 +402,7 @@ func (m ClientModel) Search(search string, filters *Filters) ([]*Client, Metadat
 			&client.Address.Complement,
 			&client.Address.City,
 			&client.Address.ZIP,
-			&client.Address.State,
+			&client.Address.Country,
 			&client.Version,
 		)
 
