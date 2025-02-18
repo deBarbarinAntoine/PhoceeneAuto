@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS cars_catalog (
-    id              INT PRIMARY KEY AUTO_INCREMENT,
+    id               bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     make               TEXT NOT NULL,

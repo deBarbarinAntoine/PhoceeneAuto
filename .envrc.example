@@ -1,5 +1,5 @@
 # Database
-export DB_DSN='postgres://phoceeneauto:password@localhost/phoceeneauto?sslmode=disable'
+export DB_DSN='postgres://username:password@localhost/PhoceeneAuto?sslmode=disable'
 
 # Mails
 export SMTP_SENDER='Phoceene Auto <no-reply@phoceene-auto.com>'
