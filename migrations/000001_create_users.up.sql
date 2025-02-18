@@ -6,7 +6,7 @@
      email      CITEXT UNIQUE NOT NULL,
      address    TEXT,
      password   Bytea NOT NULL,
-     userRole   TEXT,
+     user_role   TEXT,
      status     TEXT,
      shop       TEXT,
      version    INT DEFAULT 1
