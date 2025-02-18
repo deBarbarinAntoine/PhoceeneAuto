@@ -21,6 +21,12 @@ import (
 	"github.com/justinas/nosurf"
 )
 
+// cleanExpiredTokens periodically deletes expired tokens from the database.
+//
+// Parameters:
+//
+//	frequency - The time interval between deletions
+//	timeout - The initial delay before starting the deletion process
 func (app *application) cleanExpiredTokens(frequency, timeout time.Duration) {
 	defer func() {
 		if err := recover(); err != nil {
@@ -37,6 +43,12 @@ func (app *application) cleanExpiredTokens(frequency, timeout time.Duration) {
 	}
 }
 
+// cleanExpiredDeletedClients periodically deletes expired deleted clients from the database.
+//
+// Parameters:
+//
+//	frequency - The time interval between deletions
+//	timeout - The initial delay before starting the deletion process
 func (app *application) cleanExpiredDeletedClients(frequency, timeout time.Duration) {
 	defer func() {
 		if err := recover(); err != nil {
@@ -53,6 +65,15 @@ func (app *application) cleanExpiredDeletedClients(frequency, timeout time.Durat
 	}
 }
 
+// logout clears the session and renews the token.
+//
+// Parameters:
+//
+//	r - The HTTP request
+//
+// Returns:
+//
+//	error - If any error occurs during the process
 func (app *application) logout(r *http.Request) error {
 
 	err := app.sessionManager.Clear(r.Context())
@@ -67,6 +88,12 @@ func (app *application) logout(r *http.Request) error {
 	return nil
 }
 
+// newNonce generates a new nonce.
+//
+// Returns:
+//
+//	string - The generated nonce
+//	error - If any error occurs during the process
 func newNonce() (string, error) {
 	nonceBytes := make([]byte, 32)
 	_, err := rand.Read(nonceBytes)
@@ -76,6 +103,15 @@ func newNonce() (string, error) {
 	return hex.EncodeToString(nonceBytes), nil
 }
 
+// getNonce retrieves the nonce from the request context.
+//
+// Parameters:
+//
+//	r - The HTTP request
+//
+// Returns:
+//
+//	string - The nonce value, or an empty string if not found
 func (app *application) getNonce(r *http.Request) string {
 	nonce, ok := r.Context().Value(nonceContextKey).(string)
 	if !ok {
@@ -85,6 +121,16 @@ func (app *application) getNonce(r *http.Request) string {
 	return nonce
 }
 
+// decodePostForm decodes the POST form data into a struct.
+//
+// Parameters:
+//
+//	r - The HTTP request
+//	dst - The destination struct to decode the form data into
+//
+// Returns:
+//
+//	error - If any error occurs during the decoding process
 func (app *application) decodePostForm(r *http.Request, dst any) error {
 
 	err := r.ParseForm()
@@ -106,6 +152,13 @@ func (app *application) decodePostForm(r *http.Request, dst any) error {
 	return nil
 }
 
+// clientError handles client-side errors.
+//
+// Parameters:
+//
+//	w - The HTTP response writer
+//	r - The HTTP request
+//	status - The HTTP status code
 func (app *application) clientError(w http.ResponseWriter, r *http.Request, status int) {
 
 	// setting the templateData
@@ -124,6 +177,15 @@ func (app *application) clientError(w http.ResponseWriter, r *http.Request, stat
 	app.render(w, r, status, "error.tmpl", tmplData)
 }
 
+// failedValidationError handles validation errors.
+//
+// Parameters:
+//
+//	w - The HTTP response writer
+//	r - The HTTP request
+//	form - The form data
+//	v - The validator instance
+//	page - The template page to render
 func (app *application) failedValidationError(w http.ResponseWriter, r *http.Request, form any, v *validator.Validator, page string) {
 
 	// DEBUG
@@ -139,6 +201,13 @@ func (app *application) failedValidationError(w http.ResponseWriter, r *http.Req
 	app.render(w, r, http.StatusUnprocessableEntity, page, tmplData)
 }
 
+// serverError handles server-side errors.
+//
+// Parameters:
+//
+//	w - The HTTP response writer
+//	r - The HTTP request
+//	err - The error that occurred
 func (app *application) serverError(w http.ResponseWriter, r *http.Request, err error) {
 	var (
 		status = http.StatusInternalServerError
@@ -161,6 +230,13 @@ func (app *application) serverError(w http.ResponseWriter, r *http.Request, err 
 	app.render(w, r, status, "error.tmpl", tmplData)
 }
 
+// ajaxResponse sends an AJAX response.
+//
+// Parameters:
+//
+//	w - The HTTP response writer
+//	status - The HTTP status code
+//	msg - The message to send in the response
 func (app *application) ajaxResponse(w http.ResponseWriter, status int, msg string) {
 
 	// setting the response data
@@ -200,6 +276,11 @@ func (app *application) ajaxResponse(w http.ResponseWriter, status int, msg stri
 	}
 }
 
+// background runs a function in the background.
+//
+// Parameters:
+//
+//	fn - The function to run
 func (app *application) background(fn func()) {
 
 	app.wg.Add(1)
@@ -218,6 +299,15 @@ func (app *application) background(fn func()) {
 	}()
 }
 
+// isAuthenticated checks if the user is authenticated.
+//
+// Parameters:
+//
+//	r - The HTTP request
+//
+// Returns:
+//
+//	bool - True if the user is authenticated, false otherwise
 func (app *application) isAuthenticated(r *http.Request) bool {
 	isAuthenticated, ok := r.Context().Value(isAuthenticatedContextKey).(bool)
 	if !ok {
@@ -227,6 +317,15 @@ func (app *application) isAuthenticated(r *http.Request) bool {
 	return isAuthenticated
 }
 
+// getUserID retrieves the user ID from the session.
+//
+// Parameters:
+//
+//	r - The HTTP request
+//
+// Returns:
+//
+//	int - The user ID, or 0 if not found
 func (app *application) getUserID(r *http.Request) int {
 	id, ok := app.sessionManager.Get(r.Context(), authenticatedUserIDSessionManager).(int)
 	if !ok {
@@ -235,6 +334,15 @@ func (app *application) getUserID(r *http.Request) int {
 	return id
 }
 
+// getUserRole retrieves the user role from the session.
+//
+// Parameters:
+//
+//	r - The HTTP request
+//
+// Returns:
+//
+//	string - The user role, or an empty string if not found
 func (app *application) getUserRole(r *http.Request) string {
 	role, ok := app.sessionManager.Get(r.Context(), userRoleSessionManager).(string)
 	if !ok {
@@ -243,18 +351,37 @@ func (app *application) getUserRole(r *http.Request) string {
 	return role
 }
 
+// newUserCreateForm creates a new user creation form.
+//
+// Returns:
+//
+//	*userCreateForm - The created form
 func newUserCreateForm() *userCreateForm {
 	return &userCreateForm{
 		Validator: *validator.New(),
 	}
 }
 
+// newUserLoginForm creates a new user login form.
+//
+// Returns:
+//
+//	*userLoginForm - The created form
 func newUserLoginForm() *userLoginForm {
 	return &userLoginForm{
 		Validator: *validator.New(),
 	}
 }
 
+// newUserUpdateForm creates a new user update form.
+//
+// Parameters:
+//
+//	user - The user data to pre-fill the form with, or nil if no data is available
+//
+// Returns:
+//
+//	*userUpdateForm - The created form
 func newUserUpdateForm(user *data.User) *userUpdateForm {
 
 	// creating the form
@@ -262,6 +389,7 @@ func newUserUpdateForm(user *data.User) *userUpdateForm {
 
 	// filling the form with the data if any
 	if user != nil {
+		// TODO -> fill the form data
 		formUpdateUser.Username = &user.Name
 		formUpdateUser.Email = &user.Email
 	}
@@ -272,6 +400,170 @@ func newUserUpdateForm(user *data.User) *userUpdateForm {
 	return formUpdateUser
 }
 
+// newClientCreateForm creates a new client creation form.
+//
+// Returns:
+//
+//	*clientCreateForm - The created form
+func newClientCreateForm() *clientCreateForm {
+	return &clientCreateForm{
+		Validator: *validator.New(),
+	}
+}
+
+// newClientUpdateForm creates a new client update form.
+//
+// Parameters:
+//
+//	client - The client data to pre-fill the form with, or nil if no data is available
+//
+// Returns:
+//
+//	*clientUpdateForm - The created form
+func newClientUpdateForm(client *data.Client) *clientUpdateForm {
+
+	// creating the form
+	var formUpdateClient = new(clientUpdateForm)
+
+	// filling the form with the data if any
+	if client != nil {
+		// TODO -> fill the form data
+	}
+
+	// setting the validator
+	formUpdateClient.Validator = *validator.New()
+
+	return formUpdateClient
+}
+
+// newCarCatalogCreateForm creates a new car catalog creation form.
+//
+// Returns:
+//
+//	*carCatalogCreateForm - The created form
+func newCarCatalogCreateForm() *carCatalogCreateForm {
+	return &carCatalogCreateForm{
+		Validator: *validator.New(),
+	}
+}
+
+// newCarCatalogUpdateForm creates a new car catalog update form.
+//
+// Parameters:
+//
+//	car - The car catalog data to pre-fill the form with, or nil if no data is available
+//
+// Returns:
+//
+//	*carCatalogUpdateForm - The created form
+func newCarCatalogUpdateForm(car *data.CarCatalog) *carCatalogUpdateForm {
+
+	// creating the form
+	var formUpdateCarCatalog = new(carCatalogUpdateForm)
+
+	// filling the form with the data if any
+	if car != nil {
+		// TODO -> fill the form data
+	}
+
+	// setting the validator
+	formUpdateCarCatalog.Validator = *validator.New()
+
+	return formUpdateCarCatalog
+}
+
+// newCarProductCreateForm creates a new car product creation form.
+//
+// Returns:
+//
+//	*carProductCreateForm - The created form
+func newCarProductCreateForm() *carProductCreateForm {
+	return &carProductCreateForm{
+		Validator: *validator.New(),
+	}
+}
+
+// newCarProductUpdateForm creates a new car product update form.
+//
+// Parameters:
+//
+//	car - The car product data to pre-fill the form with, or nil if no data is available
+//
+// Returns:
+//
+//	*carProductUpdateForm - The created form
+func newCarProductUpdateForm(car *data.CarProduct) *carProductUpdateForm {
+
+	// creating the form
+	var formUpdateCarProduct = new(carProductUpdateForm)
+
+	// filling the form with the data if any
+	if car != nil {
+		// TODO -> fill the form data
+	}
+
+	// setting the validator
+	formUpdateCarProduct.Validator = *validator.New()
+
+	return formUpdateCarProduct
+}
+
+// newTransactionCreateForm creates a new transaction creation form.
+//
+// Returns:
+//
+//	*transactionCreateForm - The created form
+func newTransactionCreateForm() *transactionCreateForm {
+	return &transactionCreateForm{
+		Validator: *validator.New(),
+	}
+}
+
+// newTransactionUpdateForm creates a new transaction update form.
+//
+// Parameters:
+//
+//	transaction - The transaction data to pre-fill the form with, or nil if no data is available
+//
+// Returns:
+//
+//	*transactionUpdateForm - The created form
+func newTransactionUpdateForm(transaction *data.Transaction) *transactionUpdateForm {
+
+	// creating the form
+	var formUpdateTransaction = new(transactionUpdateForm)
+
+	// filling the form with the data if any
+	if transaction != nil {
+		// TODO -> fill the form data
+	}
+
+	// setting the validator
+	formUpdateTransaction.Validator = *validator.New()
+
+	return formUpdateTransaction
+}
+
+// newSearchForm creates a new search form.
+//
+// Returns:
+//
+//	*searchForm - The created form
+func newSearchForm() *searchForm {
+	return &searchForm{
+		Validator: *validator.New(),
+	}
+}
+
+// newTemplateData retrieves the template data for rendering a page.
+//
+// Parameters:
+//
+//	r - The HTTP request
+//
+// Returns:
+//
+//	templateData - The template data containing various information
 func (app *application) newTemplateData(r *http.Request) templateData {
 
 	// checking is the user is authenticated
@@ -320,6 +612,15 @@ func (app *application) newTemplateData(r *http.Request) templateData {
 	return tmplData
 }
 
+// render renders a template and writes the response to the HTTP writer.
+//
+// Parameters:
+//
+//	w - The HTTP response writer
+//	r - The HTTP request
+//	status - The HTTP status code
+//	page - The template page to render
+//	data - The template data
 func (app *application) render(w http.ResponseWriter, r *http.Request, status int, page string, data templateData) {
 
 	// retrieving the appropriate set of templates
@@ -346,6 +647,16 @@ func (app *application) render(w http.ResponseWriter, r *http.Request, status in
 	buf.WriteTo(w)
 }
 
+// getPathID retrieves the integer ID from the URL path.
+//
+// Parameters:
+//
+//	r - The HTTP request
+//
+// Returns:
+//
+//	int - The integer ID, or 0 if not found
+//	error - If any error occurs during the process
 func getPathID(r *http.Request) (int, error) {
 
 	// fetching the id param from the URL

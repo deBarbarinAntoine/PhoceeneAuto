@@ -14,6 +14,7 @@ import (
 	"github.com/go-playground/form/v4"
 )
 
+// config represents the configuration variables for the application.
 type config struct {
 	port int64
 	env  string
@@ -32,6 +33,7 @@ type config struct {
 	}
 }
 
+// application represents the application configuration.
 type application struct {
 	logger         *slog.Logger
 	mailer         mailer.Mailer
@@ -43,6 +45,7 @@ type application struct {
 	wg             *sync.WaitGroup
 }
 
+// templateData represents the data structure used in templates.
 type templateData struct {
 	Title           string
 	CurrentYear     int
@@ -59,6 +62,8 @@ type templateData struct {
 	FieldErrors    map[string]string
 	NonFieldErrors []string
 	User           data.User
+	Client         data.Client
+	Clients        []*data.Client
 	Search         string
 	CarCatalog     data.CarCatalog
 	CarsCatalog    []*data.CarCatalog
@@ -68,15 +73,17 @@ type templateData struct {
 	Transactions   []*data.Transaction
 }
 
-// envelope data type for JSON responses
+// envelope is a data type for JSON responses.
 type envelope map[string]any
 
+// userLoginForm represents the form used for user login.
 type userLoginForm struct {
 	Email               string `form:"email"`
 	Password            string `form:"password"`
 	validator.Validator `form:"-"`
 }
 
+// userUpdateForm represents the form used for updating a user's information.
 type userUpdateForm struct {
 	ID                   *int    `form:"id,omitempty"`
 	Username             *string `form:"username,omitempty"`
@@ -96,6 +103,7 @@ type userUpdateForm struct {
 	validator.Validator  `form:"-"`
 }
 
+// userCreateForm represents the form used for creating a new user.
 type userCreateForm struct {
 	Username            string  `form:"username"`
 	Email               string  `form:"email"`
@@ -113,6 +121,7 @@ type userCreateForm struct {
 	validator.Validator `form:"-"`
 }
 
+// clientCreateForm represents the form used for creating a new client.
 type clientCreateForm struct {
 	FirstName           *string `form:"first-name,omitempty"`
 	LastName            *string `form:"last-name,omitempty"`
@@ -128,6 +137,7 @@ type clientCreateForm struct {
 	validator.Validator `form:"-"`
 }
 
+// clientUpdateForm represents the form used for updating a client's information.
 type clientUpdateForm struct {
 	FirstName           *string `form:"first-name,omitempty"`
 	LastName            *string `form:"last-name,omitempty"`
@@ -143,6 +153,7 @@ type clientUpdateForm struct {
 	validator.Validator `form:"-"`
 }
 
+// carCatalogCreateForm represents the form used for creating a new car catalog entry.
 type carCatalogCreateForm struct {
 	Make                *string  `form:"make,omitempty"`
 	Model               *string  `form:"model,omitempty"`
@@ -161,6 +172,7 @@ type carCatalogCreateForm struct {
 	validator.Validator `form:"-"`
 }
 
+// carCatalogUpdateForm represents the form used for updating a car catalog entry.
 type carCatalogUpdateForm struct {
 	Make                *string  `form:"make,omitempty"`
 	Model               *string  `form:"model,omitempty"`
@@ -179,6 +191,7 @@ type carCatalogUpdateForm struct {
 	validator.Validator `form:"-"`
 }
 
+// carProductCreateForm represents the form used for creating a new car product.
 type carProductCreateForm struct {
 	Status              *string  `form:"status,omitempty"`
 	Kilometers          *float32 `form:"kilometers,omitempty"`
@@ -189,6 +202,7 @@ type carProductCreateForm struct {
 	validator.Validator `form:"-"`
 }
 
+// carProductUpdateForm represents the form used for updating a car product.
 type carProductUpdateForm struct {
 	Status              *string  `form:"status,omitempty"`
 	Kilometers          *float32 `form:"kilometers,omitempty"`
@@ -199,6 +213,7 @@ type carProductUpdateForm struct {
 	validator.Validator `form:"-"`
 }
 
+// transactionCreateForm represents the form used for creating a new transaction.
 type transactionCreateForm struct {
 	CarsID              []float32 `form:"cars_id,omitempty"`
 	ClientID            *int      `form:"client_id,omitempty"`
@@ -209,6 +224,7 @@ type transactionCreateForm struct {
 	validator.Validator `form:"-"`
 }
 
+// transactionUpdateForm represents the form used for updating a transaction.
 type transactionUpdateForm struct {
 	CarsID              []float32 `form:"cars_id,omitempty"`
 	ClientID            *int      `form:"client_id,omitempty"`
@@ -219,6 +235,7 @@ type transactionUpdateForm struct {
 	validator.Validator `form:"-"`
 }
 
+// searchForm represents the form used for searching.
 type searchForm struct {
 	search *string
 	// TODO -> fill the searchForm struct here

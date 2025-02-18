@@ -293,9 +293,8 @@ func (m TransactionModel) GetByID(id int) (*Transaction, error) {
 		INNER JOIN cars_catalog cc ON cp.id = cc.car_product_id
 		WHERE id = $1;`
 
-	// setting the variables
+	// setting the transaction variable
 	var transaction Transaction
-	var cars []CarProduct
 
 	// setting the timeout context for the query execution
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
@@ -393,7 +392,8 @@ func (m TransactionModel) GetByID(id int) (*Transaction, error) {
 			return nil, err
 		}
 
-		cars = append(cars, car)
+		// adding the car to the CarProduct slice in the transaction
+		transaction.Cars = append(transaction.Cars, car)
 	}
 
 	// calculating the total price

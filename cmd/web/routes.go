@@ -9,6 +9,15 @@ import (
 	"github.com/alexedwards/flow"
 )
 
+// routes sets up the HTTP routes for the application.
+//
+// Parameters:
+//
+//	app - The application instance
+//
+// Returns:
+//
+//	http.Handler - A new HTTP handler with all routes set up
 func (app *application) routes() http.Handler {
 
 	// setting the files to put in the static handler
