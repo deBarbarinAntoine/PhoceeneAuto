@@ -368,6 +368,8 @@ func (app *application) newTemplateData(r *http.Request) templateData {
 	// retrieving the nonce
 	nonce := app.getNonce(r)
 
+<<<<<<< HEAD
+=======
 	// setting the user variable
 	user := data.AnonymousUser
 
@@ -388,6 +390,7 @@ func (app *application) newTemplateData(r *http.Request) templateData {
 		}
 	}
 
+>>>>>>> 999b6c851d802f092f7b611a3484898b2bcb1146
 	// returning the templateData with all information
 	var tmplData = templateData{
 		CurrentYear:     time.Now().Year(),

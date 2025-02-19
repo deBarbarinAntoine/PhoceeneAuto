@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoceene Auto - Login</title>
+    <style>
+        :root {
+            --color-black: #000000;
+            --color-white: #FFFFFF;
+            --color-gray-100: #F5F5F5;
+            --color-gray-300: #D4D4D4;
+            --color-gray-700: #404040;
+            --color-gray-900: #171717;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--color-gray-100);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .auth-container {
+            background-color: var(--color-white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .auth-title {
+            text-align: center;
+            color: var(--color-gray-900);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--color-gray-700);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--color-gray-300);
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .auth-button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--color-gray-900);
+            color: var(--color-white);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .auth-button:hover {
+            background-color: var(--color-gray-700);
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <h1 class="auth-title">Phoceene Auto</h1>
+        <form action="/login" method="post">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="auth-button">Se connecter</button>
+        </form>
+    </div>
+</body>
+</html> 

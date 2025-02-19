@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoceene Auto - Nouveau Client</title>
+    <style>
+        :root {
+            --color-black: #000000;
+            --color-white: #FFFFFF;
+            --color-gray-100: #F5F5F5;
+            --color-gray-300: #D4D4D4;
+            --color-gray-600: #525252;
+            --color-gray-700: #404040;
+            --color-gray-900: #171717;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--color-gray-100);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .create-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--color-white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--color-gray-300);
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--color-gray-700);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--color-gray-300);
+            border-radius: 4px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .button {
+            padding: 1rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            text-align: center;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .create-button {
+            background-color: var(--color-gray-900);
+            color: var(--color-white);
+            border: none;
+        }
+
+        .cancel-button {
+            background-color: var(--color-gray-100);
+            color: var(--color-gray-900);
+            border: 1px solid var(--color-gray-300);
+        }
+    </style>
+</head>
+<body>
+    <div class="create-container">
+        <div class="form-header">
+            <h1>Nouveau Client</h1>
+        </div>
+
+        <form method="post" action="/client/create">
+            <div class="form-section">
+                <h2>Informations personnelles</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstname">Prénom</label>
+                        <input type="text" id="firstname" name="firstname" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname">Nom</label>
+                        <input type="text" id="lastname" name="lastname" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Téléphone</label>
+                    <input type="tel" id="phone" name="phone" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Adresse</h2>
+                <div class="form-group">
+                    <label for="street">Rue</label>
+                    <input type="text" id="street" name="street" class="form-control" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="postal_code">Code postal</label>
+                        <input type="text" id="postal_code" name="postal_code" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Ville</label>
+                        <input type="text" id="city" name="city" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="list.html" class="button cancel-button">Annuler</a>
+                <button type="submit" class="button create-button">Créer le client</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,30 @@
+{{ define "page" }}
+    <div class="form-container">
+        <h1>Nouveau Client</h1>
+        <form method="post" action="/client" class="data-form">
+            <input type="hidden" name="csrf_token" value="{{ .CSRFToken }}">
+            
+            <div class="form-group">
+                <label for="name">Nom</label>
+                <input type="text" name="name" id="name" value="{{ .Form.Name }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" value="{{ .Form.Email }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Téléphone</label>
+                <input type="tel" name="phone" id="phone" value="{{ .Form.Phone }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Adresse</label>
+                <textarea name="address" id="address" required>{{ .Form.Address }}</textarea>
+            </div>
+
+            <button type="submit" class="submit-button">Créer Client</button>
+        </form>
+    </div>
+{{ end }} 

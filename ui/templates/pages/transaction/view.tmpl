@@ -1,0 +1,52 @@
+{{ define "page" }}
+    <div class="transaction-detail-container">
+        <div class="transaction-header">
+            <h1>Révision complète #TR-2024-001</h1>
+            <div class="transaction-status approved">Approuvé</div>
+        </div>
+
+        <div class="transaction-content">
+            <div class="transaction-info-section">
+                <div class="transaction-info-group">
+                    <label>Date</label>
+                    <p>15/03/2024</p>
+                </div>
+                <div class="transaction-info-group">
+                    <label>Montant total</label>
+                    <p class="transaction-amount">450€</p>
+                </div>
+                <div class="transaction-info-group">
+                    <label>Client</label>
+                    <p><a href="/client/1" class="transaction-link">Martin Durant</a></p>
+                </div>
+                <div class="transaction-info-group">
+                    <label>Véhicule</label>
+                    <p><a href="/car/1" class="transaction-link">Peugeot 308 GT Line (AB-123-CD)</a></p>
+                </div>
+            </div>
+
+            <div class="transaction-details">
+                <h2>Détails de l'intervention</h2>
+                <div class="transaction-items">
+                    <div class="transaction-item">
+                        <span class="item-name">Vidange huile moteur</span>
+                        <span class="item-amount">120€</span>
+                    </div>
+                    <div class="transaction-item">
+                        <span class="item-name">Filtre à huile</span>
+                        <span class="item-amount">30€</span>
+                    </div>
+                    <div class="transaction-item">
+                        <span class="item-name">Main d'œuvre</span>
+                        <span class="item-amount">300€</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="transaction-notes">
+                <h2>Notes</h2>
+                <p>Révision des 30 000 km effectuée. Prochain rendez-vous conseillé dans 6 mois ou 10 000 km.</p>
+            </div>
+        </div>
+    </div>
+{{ end }} 
