@@ -186,11 +186,65 @@ func (app *application) updateUserPost(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) userGet(w http.ResponseWriter, r *http.Request) {
-	// TODO -> to implement
+
+	// retrieving basic template data
+	tmplData := app.newTemplateData(r)
+	tmplData.Title = "Phoceene Auto - User"
+
+	// retrieving the User ID
+	id, err := getPathID(r)
+	if err != nil {
+		app.clientError(w, r, http.StatusBadRequest)
+		return
+	}
+
+	// retrieving the User
+	user, err := app.models.UserModel.GetByID(id)
+	if err != nil {
+		app.serverError(w, r, err)
+		return
+	}
+
+	// adding the user in the template data
+	tmplData.User = *user
+
+	// rendering the template
+	app.render(w, r, http.StatusOK, "create-user.tmpl", tmplData)
 }
 
 func (app *application) deleteUser(w http.ResponseWriter, r *http.Request) {
-	// TODO -> to implement
+
+	// retrieving the User ID
+	id, err := getPathID(r)
+	if err != nil {
+		app.clientError(w, r, http.StatusBadRequest)
+		return
+	}
+
+	// retrieving the User
+	user, err := app.models.UserModel.GetByID(id)
+	if err != nil {
+		switch {
+		case errors.Is(err, data.ErrRecordNotFound):
+			app.clientError(w, r, http.StatusNotFound)
+		default:
+			app.serverError(w, r, err)
+		}
+		return
+	}
+
+	// deleting the User
+	err = app.models.UserModel.Delete(user)
+	if err != nil {
+		app.serverError(w, r, err)
+		return
+	}
+
+	// adding the notification message
+	app.sessionManager.Put(r.Context(), "flash", fmt.Sprintf("User %s has been deleted successfully!", user.Name))
+
+	// redirecting to the dashboard
+	http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
 }
 
 func (app *application) reports(w http.ResponseWriter, r *http.Request) {
