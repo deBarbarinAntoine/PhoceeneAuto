@@ -34,28 +34,22 @@ func (app *application) createUserPost(w http.ResponseWriter, r *http.Request) {
 	// DEBUG
 	app.logger.Debug(fmt.Sprintf("form: %+v", form))
 
-	// checking the data from the user
-	form.StringCheck(form.Username, 2, 70, true, "username")
-	form.ValidateEmail(form.Email)
-	form.ValidateRegisterPassword(form.Password, form.ConfirmPassword)
-
-	// return to create user page if there is an error
-	if !form.Valid() {
-		app.failedValidationError(w, r, form, &form.Validator, "create-user.tmpl")
-		return
-	}
-
-	// creating the user
-	user := &data.User{
-		Name:   form.Username,
-		Email:  form.Email,
-		Status: data.UserStatus.ACTIVE,
-	}
+	// creating the user with the form data
+	user := form.toUser()
 
 	// setting the password hash
 	err = user.Password.Set(form.Password)
 	if err != nil {
 		app.serverError(w, r, err)
+		return
+	}
+
+	// checking the password
+	form.ValidateRegisterPassword(form.Password, form.ConfirmPassword)
+
+	// return to create user page if there is an error
+	if !form.Valid() {
+		app.failedValidationError(w, r, form, &form.Validator, "create-user.tmpl")
 		return
 	}
 
@@ -80,7 +74,8 @@ func (app *application) createUserPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	app.sessionManager.Put(r.Context(), "flash", "We've sent you a confirmation email!")
+	// adding notification message
+	app.sessionManager.Put(r.Context(), "flash", fmt.Sprintf("User %s has been created successfully", user.Name))
 
 	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
@@ -143,12 +138,7 @@ func (app *application) updateUserPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// checking the data from the user
-	var isEmpty = true
-	if form.Username != nil {
-		isEmpty = false
-		form.StringCheck(*form.Username, 2, 70, false, "username")
-		user.Name = *form.Username
-	}
+	isEmpty := form.toUser(user)
 	if form.Password != nil || form.NewPassword != nil || form.ConfirmationPassword != nil {
 		isEmpty = false
 		form.ValidateNewPassword(*form.NewPassword, *form.ConfirmationPassword)
@@ -158,14 +148,10 @@ func (app *application) updateUserPost(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	if form.Email != nil {
-		isEmpty = false
-		form.ValidateEmail(*form.Email)
-		user.Email = *form.Email
-	}
 	if isEmpty {
 		form.AddNonFieldError("at least one field is required")
 	}
+	data.ValidateUser(&form.Validator, user)
 
 	// return to update-user page if there is an error
 	if !form.Valid() {

@@ -37,6 +37,13 @@ type Client struct {
 	Version   int
 }
 
+func EmptyClient() *Client {
+	return &Client{
+		Shop:   Shop.HEADQUARTERS,
+		Status: ClientStatus.ACTIVE,
+	}
+}
+
 func ValidateClient(v *validator.Validator, client *Client) {
 
 	v.StringCheck(client.FirstName, 2, 30, true, "first-name")

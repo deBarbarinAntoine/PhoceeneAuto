@@ -46,6 +46,14 @@ type User struct {
 	Version   int       `json:"-"`
 }
 
+func EmptyUser() *User {
+	return &User{
+		Shop:   Shop.HEADQUARTERS,
+		Status: UserStatus.ACTIVE,
+		Role:   UserRole.USER,
+	}
+}
+
 func (u *User) IsAnonymous() bool {
 	return u == AnonymousUser
 }

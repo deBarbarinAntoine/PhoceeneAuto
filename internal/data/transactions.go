@@ -36,6 +36,14 @@ type Transaction struct {
 	Version    int
 }
 
+func EmptyTransaction() *Transaction {
+	return &Transaction{
+		Status: TransactionStatus.PROCESSING,
+		Client: Client{},
+		User:   User{},
+	}
+}
+
 func ValidateTransaction(v *validator.Validator, t Transaction) {
 	v.Check(validator.PermittedValue(t.Status, TransactionStatus.DONE, TransactionStatus.ONGOING, TransactionStatus.PROCESSING), "status", fmt.Sprintf("invalid status %s", t.Status))
 

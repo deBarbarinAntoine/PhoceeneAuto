@@ -105,8 +105,8 @@ type userUpdateForm struct {
 
 // userCreateForm represents the form used for creating a new user.
 type userCreateForm struct {
-	Username            string  `form:"username"`
-	Email               string  `form:"email"`
+	Username            *string `form:"username"`
+	Email               *string `form:"email"`
 	Phone               *string `form:"phone,omitempty"`
 	Street              *string `form:"street,omitempty"`
 	Complement          *string `form:"complement,omitempty"`
@@ -139,6 +139,7 @@ type clientCreateForm struct {
 
 // clientUpdateForm represents the form used for updating a client's information.
 type clientUpdateForm struct {
+	ID                  *int    `form:"id,omitempty"`
 	FirstName           *string `form:"first-name,omitempty"`
 	LastName            *string `form:"last-name,omitempty"`
 	Email               *string `form:"email,omitempty"`
@@ -199,6 +200,7 @@ type carProductCreateForm struct {
 	Color               *string  `form:"color,omitempty"`
 	Price               *float32 `form:"price,omitempty"`
 	Shop                *string  `form:"shop,omitempty"`
+	CatID               *int     `form:"cat_id,omitempty"`
 	validator.Validator `form:"-"`
 }
 
@@ -210,12 +212,13 @@ type carProductUpdateForm struct {
 	Color               *string  `form:"color,omitempty"`
 	Price               *float32 `form:"price,omitempty"`
 	Shop                *string  `form:"shop,omitempty"`
+	CatID               *int     `form:"cat_id,omitempty"`
 	validator.Validator `form:"-"`
 }
 
 // transactionCreateForm represents the form used for creating a new transaction.
 type transactionCreateForm struct {
-	CarsID              []float32 `form:"cars_id,omitempty"`
+	CarsID              []int     `form:"cars_id,omitempty"`
 	ClientID            *int      `form:"client_id,omitempty"`
 	UserID              *int      `form:"user_id,omitempty"`
 	Status              *string   `form:"status,omitempty"`
@@ -226,7 +229,7 @@ type transactionCreateForm struct {
 
 // transactionUpdateForm represents the form used for updating a transaction.
 type transactionUpdateForm struct {
-	CarsID              []float32 `form:"cars_id,omitempty"`
+	CarsID              []int     `form:"cars_id,omitempty"`
 	ClientID            *int      `form:"client_id,omitempty"`
 	UserID              *int      `form:"user_id,omitempty"`
 	Status              *string   `form:"status,omitempty"`

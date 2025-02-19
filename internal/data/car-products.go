@@ -38,6 +38,14 @@ type CarProduct struct {
 	CarCatalog // cat_id
 }
 
+func EmptyCarProduct() *CarProduct {
+	return &CarProduct{
+		Status:     CarStatus.ONSALE,
+		Shop:       Shop.HEADQUARTERS,
+		CarCatalog: CarCatalog{},
+	}
+}
+
 func ValidateCarProduct(v *validator.Validator, car CarProduct) {
 	v.Check(validator.PermittedValue(car.Status, CarStatus.COMING, CarStatus.ONSALE, CarStatus.PROCESSING, CarStatus.SOLD), "status", fmt.Sprintf("invalid status %s", car.Status))
 
