@@ -173,7 +173,7 @@ func (m UserModel) Update(user *User) error {
 	// creating the query
 	query := `
 		UPDATE users
-		SET username = $1, email = $2, password_hash = $3, phone = $4, status = $5, shop = $6, street = $9, complement = $10, city = $11, zip_code = $12, state = $13
+		SET username = $1, email = $2, password_hash = $3, phone = $4, status = $5, shop = $6, street = $9, complement = $10, city = $11, zip_code = $12, state = $13,
 		    updated_at = CURRENT_TIMESTAMP, version = version + 1
 		WHERE id = $7 AND version = $8
 		RETURNING version;`

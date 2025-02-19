@@ -62,7 +62,7 @@ func (m TransactionModel) Insert(transaction *Transaction) error {
 
 	// creating the query
 	query := `
-		INSERT INTO transactions (client_id, user_id, status, leases)
+		INSERT INTO transactions (client_id, user_id, status, lease_amount)
 		VALUES ($1, $2, $3, $4)
 		RETURNING id, created_at, version;`
 
@@ -136,7 +136,7 @@ func (m TransactionModel) Update(transaction *Transaction, hasChangedProducts bo
 	// creating the query
 	query := `
 		UPDATE transactions
-		SET client_id = $1, user_id = $2, status = $3, leases = $4,
+		SET client_id = $1, user_id = $2, status = $3, lease_amount = $4,
 		    updated_at = CURRENT_TIMESTAMP, version = version + 1
 		WHERE id = $5 AND version = $6
 		RETURNING version;`
@@ -268,7 +268,7 @@ func (m TransactionModel) GetByID(id int) (*Transaction, error) {
 
 	// creating the query
 	query := `
-		SELECT t.id, t.created_at, t.updated_at, t.status, t.leases, t.version,
+		SELECT t.id, t.created_at, t.updated_at, t.status, t.lease_amount, t.version,
 		       u.id, u.created_at, u.updated_at, u.name, u.email, u.status, u.version,
 		       c.id, c.created_at, c.updated_at,
 		       c.first_name, c.last_name,
@@ -298,8 +298,8 @@ func (m TransactionModel) GetByID(id int) (*Transaction, error) {
 		INNER JOIN clients c ON c.id = t.client_id
 		INNER JOIN car_products_transactions cpt ON cpt.transaction_id = t.id
 		INNER JOIN car_products cp ON cp.id = cpt.car_product_id
-		INNER JOIN cars_catalog cc ON cp.id = cc.car_product_id
-		WHERE id = $1;`
+		INNER JOIN cars_catalog cc ON cp.cat_id = cc.id
+		WHERE t.id = $1;`
 
 	// setting the transaction variable
 	var transaction Transaction
@@ -442,7 +442,7 @@ func (m TransactionModel) GetBy(id int, searchColumn col, filters *Filters) ([]*
 	// creating the query
 	query := fmt.Sprintf(`
 		SELECT COUNT(*) OVER,
-		       t.id, t.created_at, t.updated_at, t.status, t.leases, t.version,
+		       t.id, t.created_at, t.updated_at, t.status, t.lease_amount, t.version,
 		       u.id, u.created_at, u.updated_at, u.name, u.email, u.status, u.version,
 		       c.id, c.created_at, c.updated_at,
 		       c.first_name, c.last_name,
@@ -472,7 +472,7 @@ func (m TransactionModel) GetBy(id int, searchColumn col, filters *Filters) ([]*
 		INNER JOIN clients c ON c.id = t.client_id
 		INNER JOIN car_products_transactions cpt ON cpt.transaction_id = t.id
 		INNER JOIN car_products cp ON cp.id = cpt.car_product_id
-		INNER JOIN cars_catalog cc ON cp.id = cc.car_product_id
+		INNER JOIN cars_catalog cc ON cp.cat_id = cc.id
 		WHERE %s = $1
 		ORDER BY %s %s, id ASC
 		LIMIT $2 OFFSET $3;`, column, filters.sortColumn(), filters.sortDirection())
