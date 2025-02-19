@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"strings"
 	"time"
 
 	"PhoceeneAuto/internal/validator"
@@ -112,9 +113,12 @@ func (m CarCatalogModel) Insert(car *CarCatalog) error {
 	// executing the query
 	err = stmt.QueryRowContext(ctx, args...).Scan(&car.CatID, &car.CatCreatedAt, &car.CatVersion)
 	if err != nil {
+		// Check if error message contains the trigger exception message
+		if strings.Contains(err.Error(), "Exact duplicate row: This car already exists in the catalog") {
+			return ErrDuplicateCarCatalog
+		}
 		return err
 	}
-
 	return nil
 }
 

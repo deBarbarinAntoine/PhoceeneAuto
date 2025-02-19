@@ -42,9 +42,9 @@ func (app *application) dashboard(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) search(w http.ResponseWriter, r *http.Request) {
-
-	// checking the query
-	if r.URL.Query() == nil {
+	// retrieving the research text
+	query := r.URL.Query().Get("q")
+	if query == "" {
 		app.clientError(w, r, http.StatusBadRequest)
 		return
 	}
@@ -52,9 +52,7 @@ func (app *application) search(w http.ResponseWriter, r *http.Request) {
 	// retrieving basic template data
 	tmplData := app.newTemplateData(r)
 	tmplData.Title = "Phoceene Auto - Search"
-
-	// retrieving the research text
-	tmplData.Search = r.URL.Query().Get("q")
+	tmplData.Search = query
 
 	// search in the posts
 	var err error
