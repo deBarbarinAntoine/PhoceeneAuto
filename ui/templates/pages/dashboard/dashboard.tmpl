@@ -1,0 +1,50 @@
+{{ define "page" }}
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>Tableau de bord</h1>
+            <div class="user-info">
+                <div class="user-details">
+                    <h2>John Smith</h2>
+                    <p>john.smith@phoceene-auto.com</p>
+                    <p>Membre depuis: 01/01/2024</p>
+                    <p>Status: Administrateur</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <h3>Clients</h3>
+                    <p class="stat-number">124</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Véhicules</h3>
+                    <p class="stat-number">156</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Transactions</h3>
+                    <p class="stat-number">89</p>
+                </div>
+            </div>
+
+            <div class="recent-activity">
+                <h2>Activité récente</h2>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <span class="activity-date">23/03/2024</span>
+                        <span class="activity-desc">Nouvelle voiture ajoutée pour Martin Durant</span>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-date">22/03/2024</span>
+                        <span class="activity-desc">Transaction complétée pour Sophie Bernard</span>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-date">21/03/2024</span>
+                        <span class="activity-desc">Nouveau client enregistré: Pierre Dubois</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{{ end }}

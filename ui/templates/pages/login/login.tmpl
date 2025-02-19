@@ -1,0 +1,32 @@
+{{ define "page" }}
+    <div class="auth-container">
+        <form method="post" action="/login" class="auth-form">
+            <h1 class="auth-title">Phoceene-Auto</h1>
+            
+            <input type="hidden" name="csrf_token" value="{{ .CSRFToken }}">
+            
+            {{ range .Form.NonFieldErrors }}
+                <div class="error-message">{{ . }}</div>
+            {{ end }}
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                {{ with .Form.FieldErrors.email }}
+                    <div class="error-message">{{ . }}</div>
+                {{ end }}
+                <input type="email" name="email" id="email" value="{{ .Form.Email }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                {{ with .Form.FieldErrors.password }}
+                    <div class="error-message">{{ . }}</div>
+                {{ end }}
+                <input type="password" name="password" id="password" required>
+                <a href="/forgot-password" class="forgot-link">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="auth-button">Sign in</button>
+        </form>
+    </div>
+{{ end }}

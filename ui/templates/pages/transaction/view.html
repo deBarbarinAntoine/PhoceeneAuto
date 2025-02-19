@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoceene Auto - Détail Transaction</title>
+    <style>
+        :root {
+            --color-black: #000000;
+            --color-white: #FFFFFF;
+            --color-gray-100: #F5F5F5;
+            --color-gray-300: #D4D4D4;
+            --color-gray-600: #525252;
+            --color-gray-700: #404040;
+            --color-gray-900: #171717;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--color-gray-100);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .transaction-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: var(--color-white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .transaction-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--color-gray-300);
+        }
+
+        .transaction-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .info-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--color-gray-700);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-group p {
+            margin: 0;
+            color: var(--color-gray-900);
+        }
+
+        .cars-list {
+            margin-top: 2rem;
+        }
+
+        .car-item {
+            padding: 1rem;
+            border: 1px solid var(--color-gray-300);
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .car-item h3 {
+            margin: 0 0 0.5rem 0;
+            color: var(--color-gray-900);
+        }
+
+        .car-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            background-color: var(--color-gray-100);
+        }
+
+        .status-processing { background-color: #FEF3C7; }
+        .status-ongoing { background-color: #DBEAFE; }
+        .status-done { background-color: #D1FAE5; }
+    </style>
+</head>
+<body>
+    <div class="transaction-container">
+        <div class="transaction-header">
+            <h1>Transaction #12345</h1>
+            <span class="status-badge status-ongoing">En cours</span>
+        </div>
+
+        <div class="transaction-info">
+            <div class="info-group">
+                <label>Client</label>
+                <p><a href="../client/view.html">Martin Durant</a></p>
+            </div>
+
+            <div class="info-group">
+                <label>Conseiller</label>
+                <p>Sophie Bernard</p>
+            </div>
+
+            <div class="info-group">
+                <label>Date de création</label>
+                <p>15/03/2024</p>
+            </div>
+
+            <div class="info-group">
+                <label>Dernière mise à jour</label>
+                <p>22/03/2024</p>
+            </div>
+
+            <div class="info-group">
+                <label>Prix Total</label>
+                <p>45,000 €</p>
+            </div>
+        </div>
+
+        <div class="cars-list">
+            <h2>Véhicules concernés</h2>
+            <div class="car-item">
+                <h3>Peugeot 308</h3>
+                <div class="car-details">
+                    <div>
+                        <label>Immatriculation</label>
+                        <p>AB-123-CD</p>
+                    </div>
+                    <div>
+                        <label>Prix</label>
+                        <p>25,000 €</p>
+                    </div>
+                    <div>
+                        <label>Kilométrage</label>
+                        <p>45,000 km</p>
+                    </div>
+                    <div>
+                        <a href="../car/view.html">Voir détails</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="car-item">
+                <h3>Renault Clio</h3>
+                <div class="car-details">
+                    <div>
+                        <label>Immatriculation</label>
+                        <p>EF-456-GH</p>
+                    </div>
+                    <div>
+                        <label>Prix</label>
+                        <p>20,000 €</p>
+                    </div>
+                    <div>
+                        <label>Kilométrage</label>
+                        <p>30,000 km</p>
+                    </div>
+                    <div>
+                        <a href="../car/view.html">Voir détails</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

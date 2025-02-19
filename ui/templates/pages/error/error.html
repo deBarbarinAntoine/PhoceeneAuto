@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoceene Auto - Erreur</title>
+    <style>
+        :root {
+            --color-black: #000000;
+            --color-white: #FFFFFF;
+            --color-gray-100: #F5F5F5;
+            --color-gray-300: #D4D4D4;
+            --color-gray-600: #525252;
+            --color-gray-700: #404040;
+            --color-gray-900: #171717;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--color-gray-100);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .error-container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 600px;
+        }
+
+        .error-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--color-gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .error-code {
+            font-size: 6rem;
+            font-weight: 700;
+            color: var(--color-gray-300);
+            line-height: 1;
+            margin-bottom: 2rem;
+        }
+
+        .error-message {
+            font-size: 1.25rem;
+            color: var(--color-gray-600);
+            margin-bottom: 2rem;
+        }
+
+        .error-details {
+            background-color: var(--color-white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            text-align: left;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .error-stack {
+            font-family: monospace;
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--color-gray-900);
+            color: var(--color-white);
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .back-button:hover {
+            background-color: var(--color-gray-700);
+        }
+
+        .contact-support {
+            margin-top: 1.5rem;
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+        }
+
+        .support-link {
+            color: var(--color-gray-900);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .support-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1 class="error-title">Une erreur est survenue</h1>
+        <div class="error-code">500</div>
+        <p class="error-message">Désolé, quelque chose s'est mal passé.</p>
+
+        <div class="error-details">
+            <div class="error-stack">
+   Oups !
+   Mauvaise route ?
+   Votre voiture a fini là !
+            </div>
+        </div>
+
+        <a href="/" class="back-button">Retour à l'accueil</a>
+
+        <p class="contact-support">
+            Si le problème persiste, veuillez 
+            <a href="mailto:support@phoceene-auto.fr" class="support-link">contacter le support</a>
+        </p>
+    </div>
+</body>
+</html> 

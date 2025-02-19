@@ -1,0 +1,9 @@
+{{define "page"}}
+    <div class="error-container">
+        <div class="error-content">
+            <h1>{{ .Error.Title }}</h1>
+            <p>{{ .Error.Message }}</p>
+            <a href="/" class="error-home-link">Return to Home</a>
+        </div>
+    </div>
+{{end}}

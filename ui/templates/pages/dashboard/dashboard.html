@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoceene Auto - Dashboard</title>
+    <style>
+        :root {
+            --color-black: #000000;
+            --color-white: #FFFFFF;
+            --color-gray-100: #F5F5F5;
+            --color-gray-300: #D4D4D4;
+            --color-gray-700: #404040;
+            --color-gray-900: #171717;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--color-gray-100);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .dashboard-header {
+            background-color: var(--color-white);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: var(--color-white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--color-gray-900);
+        }
+
+        .activity-list {
+            background-color: var(--color-white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .activity-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--color-gray-300);
+        }
+
+        .activity-date {
+            color: var(--color-gray-700);
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>Tableau de bord</h1>
+            <div class="user-info">
+                <p>John Smith - Administrateur</p>
+            </div>
+        </div>
+
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <h3>Clients</h3>
+                <p class="stat-number">124</p>
+            </div>
+            <div class="stat-card">
+                <h3>Véhicules</h3>
+                <p class="stat-number">156</p>
+            </div>
+            <div class="stat-card">
+                <h3>Transactions</h3>
+                <p class="stat-number">89</p>
+            </div>
+        </div>
+
+        <div class="activity-list">
+            <h2>Activité récente</h2>
+            <div class="activity-item">
+                <span class="activity-date">23/03/2024</span>
+                <span>Nouvelle voiture ajoutée pour Martin Durant</span>
+            </div>
+            <div class="activity-item">
+                <span class="activity-date">22/03/2024</span>
+                <span>Transaction complétée pour Sophie Bernard</span>
+            </div>
+            <div class="activity-item">
+                <span class="activity-date">21/03/2024</span>
+                <span>Nouveau client enregistré: Pierre Dubois</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
