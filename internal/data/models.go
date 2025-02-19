@@ -6,9 +6,6 @@ import (
 )
 
 const (
-	UserToActivate = "to-activate"
-	UserActivated  = "activated"
-
 	TokenActivation = "activation"
 	TokenReset      = "reset"
 )
@@ -17,7 +14,7 @@ var (
 	ErrRecordNotFound = errors.New("record not found")
 	ErrEditConflict   = errors.New("edit conflict")
 	ErrDuplicateEmail = errors.New("duplicate email")
-
+	
 	// Shop represents a collection of constants related to the company's shop.
 	Shop = struct {
 		HEADQUARTERS string

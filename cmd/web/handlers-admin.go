@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"time"
 
 	"PhoceeneAuto/internal/data"
 )
@@ -13,7 +12,7 @@ func (app *application) createUser(w http.ResponseWriter, r *http.Request) {
 
 	// retrieving basic template data
 	tmplData := app.newTemplateData(r)
-	tmplData.Title = "Phoceene Auto - Register"
+	tmplData.Title = "Phoceene Auto - Create User"
 
 	// filling the form with empty values
 	tmplData.Form = newUserCreateForm()
@@ -50,7 +49,7 @@ func (app *application) createUserPost(w http.ResponseWriter, r *http.Request) {
 	user := &data.User{
 		Name:   form.Username,
 		Email:  form.Email,
-		Status: data.UserToActivate,
+		Status: data.UserStatus.ACTIVE,
 	}
 
 	// setting the password hash
@@ -80,28 +79,6 @@ func (app *application) createUserPost(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-
-	// Generating an activation token to send it via mail to the user
-	token, err := app.models.TokenModel.New(user.ID, 3*24*time.Hour, data.TokenActivation)
-	if err != nil {
-		app.serverError(w, r, err)
-		return
-	}
-
-	app.background(func() {
-
-		// TODO -> update the mailData for the command-receipt mail
-		mailData := map[string]any{
-			"userID":          user.ID,
-			"username":        user.Name,
-			"activationToken": token.Plaintext,
-		}
-
-		err = app.mailer.Send(user.Email, "user_welcome.tmpl", mailData)
-		if err != nil {
-			app.logger.Error(err.Error())
-		}
-	})
 
 	app.sessionManager.Put(r.Context(), "flash", "We've sent you a confirmation email!")
 
