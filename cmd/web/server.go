@@ -12,6 +12,15 @@ import (
 	"time"
 )
 
+// serve starts the HTTP server for the application.
+//
+// Parameters:
+//
+//	app - The application instance
+//
+// Returns:
+//
+//	error - If any error occurs during the process
 func (app *application) serve() error {
 
 	// initializing the server

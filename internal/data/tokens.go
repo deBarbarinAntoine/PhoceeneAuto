@@ -16,6 +16,7 @@ var (
 	ErrDuplicateToken = errors.New("duplicate token")
 )
 
+// Token represents a token with various fields.
 type Token struct {
 	Plaintext string    `json:"token"`
 	Hash      []byte    `json:"-"`
@@ -24,6 +25,18 @@ type Token struct {
 	Scope     string    `json:"-"`
 }
 
+// generateToken generates a new token for the given user ID, TTL, and scope.
+//
+// Parameters:
+//
+//	userID - The ID of the user associated with the token
+//	ttl - The time-to-live duration for the token
+//	scope - The scope or type of the token
+//
+// Returns:
+//
+//	*Token - A pointer to the newly generated Token instance
+//	error - If any error occurs during the process
 func generateToken(userID int, ttl time.Duration, scope string) (*Token, error) {
 
 	// creating the token structure with basic data
@@ -49,10 +62,23 @@ func generateToken(userID int, ttl time.Duration, scope string) (*Token, error) 
 	return token, nil
 }
 
+// TokenModel represents a model for interacting with tokens in the database.
 type TokenModel struct {
 	db *sql.DB
 }
 
+// New creates a new token and inserts it into the database.
+//
+// Parameters:
+//
+//	userID - The ID of the user associated with the token
+//	ttl - The time-to-live duration for the token
+//	scope - The scope or type of the token
+//
+// Returns:
+//
+//	*Token - A pointer to the newly created Token instance
+//	error - If any error occurs during the process
 func (m TokenModel) New(userID int, ttl time.Duration, scope string) (*Token, error) {
 
 	// generating a new token
@@ -75,6 +101,15 @@ func (m TokenModel) New(userID int, ttl time.Duration, scope string) (*Token, er
 	return token, err
 }
 
+// Insert inserts a new token into the database.
+//
+// Parameters:
+//
+//	token - The Token instance to insert
+//
+// Returns:
+//
+//	error - If any error occurs during the process
 func (m TokenModel) Insert(token *Token) error {
 
 	// generating the query
@@ -110,6 +145,16 @@ func (m TokenModel) Insert(token *Token) error {
 	return nil
 }
 
+// DeleteAllForUser deletes all tokens for a given user and scope.
+//
+// Parameters:
+//
+//	scope - The scope or type of the token (use "*" to delete all tokens for the user)
+//	userID - The ID of the user associated with the tokens
+//
+// Returns:
+//
+//	error - If any error occurs during the process
 func (m TokenModel) DeleteAllForUser(scope string, userID int) error {
 
 	// generating the query
@@ -151,6 +196,11 @@ func (m TokenModel) DeleteAllForUser(scope string, userID int) error {
 	return err
 }
 
+// DeleteExpired deletes all expired tokens from the database.
+//
+// Returns:
+//
+//	error - If any error occurs during the process
 func (m TokenModel) DeleteExpired() error {
 
 	// generating the query

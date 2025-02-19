@@ -18,6 +18,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
+// main is the entry point of the application.
 func main() {
 
 	// setting the configuration variables
@@ -119,6 +120,16 @@ func main() {
 	os.Exit(1)
 }
 
+// openDB opens a new PostgreSQL database connection.
+//
+// Parameters:
+//
+//	dsn - The Data Source Name (DSN) used to connect to the database
+//
+// Returns:
+//
+//	*sql.DB - A pointer to the opened database connection
+//	error - If any error occurs during the process
 func openDB(dsn string) (*sql.DB, error) {
 
 	db, err := sql.Open("postgres", dsn)

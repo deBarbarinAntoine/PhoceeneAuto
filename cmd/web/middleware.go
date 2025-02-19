@@ -6,13 +6,24 @@ import (
 	"log/slog"
 	"net/http"
 	
+	"PhoceeneAuto/internal/data"
 	"github.com/justinas/nosurf"
 )
 
 const (
 	authenticatedUserIDSessionManager = "authenticated_user_id"
+	userRoleSessionManager            = "user_role"
 )
 
+// commonHeaders middleware sets common HTTP headers and generates a nonce for script security.
+//
+// Parameters:
+//
+//	next - The next handler in the chain
+//
+// Returns:
+//
+//	http.Handler - A new handler that includes the common headers and nonce
 func commonHeaders(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		
@@ -40,6 +51,15 @@ func commonHeaders(next http.Handler) http.Handler {
 	})
 }
 
+// logRequest middleware logs incoming HTTP requests.
+//
+// Parameters:
+//
+//	next - The next handler in the chain
+//
+// Returns:
+//
+//	http.Handler - A new handler that logs the request details
 func (app *application) logRequest(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		
@@ -50,12 +70,22 @@ func (app *application) logRequest(next http.Handler) http.Handler {
 			uri    = r.URL.RequestURI()
 		)
 		
+		// DEBUG
 		app.logger.Debug("received request", slog.String("ip", ip), slog.String("protocol", proto), slog.String("method", method), slog.String("URI", uri))
 		
 		next.ServeHTTP(w, r)
 	})
 }
 
+// recoverPanic middleware recovers from any panics that occur during the handling of a request.
+//
+// Parameters:
+//
+//	next - The next handler in the chain
+//
+// Returns:
+//
+//	http.Handler - A new handler that recovers from panics and logs errors
 func (app *application) recoverPanic(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		
@@ -70,6 +100,15 @@ func (app *application) recoverPanic(next http.Handler) http.Handler {
 	})
 }
 
+// noSurf middleware adds CSRF protection to the application.
+//
+// Parameters:
+//
+//	next - The next handler in the chain
+//
+// Returns:
+//
+//	http.Handler - A new handler with CSRF protection enabled
 func noSurf(next http.Handler) http.Handler {
 	
 	csrfHandler := nosurf.New(next)
@@ -83,6 +122,15 @@ func noSurf(next http.Handler) http.Handler {
 	return csrfHandler
 }
 
+// authenticate middleware checks if the user is authenticated and sets the authentication status in the context.
+//
+// Parameters:
+//
+//	next - The next handler in the chain
+//
+// Returns:
+//
+//	http.Handler - A new handler that includes the authentication status in the context
 func (app *application) authenticate(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		
@@ -111,6 +159,15 @@ func (app *application) authenticate(next http.Handler) http.Handler {
 	})
 }
 
+// requireAuthentication middleware redirects unauthenticated users to the login page.
+//
+// Parameters:
+//
+//	next - The next handler in the chain
+//
+// Returns:
+//
+//	http.Handler - A new handler that requires authentication
 func (app *application) requireAuthentication(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		
@@ -125,15 +182,21 @@ func (app *application) requireAuthentication(next http.Handler) http.Handler {
 	})
 }
 
+// requireAdmin middleware redirects non-admin users to the dashboard.
+//
+// Parameters:
+//
+//	next - The next handler in the chain
+//
+// Returns:
+//
+//	http.Handler - A new handler that requires admin privileges
 func (app *application) requireAdmin(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		
-		user, err := app.models.UserModel.GetByID(app.getUserID(r))
-		if err != nil {
-			app.serverError(w, r, err)
-			return
-		}
-		if !user.IsAdmin() {
+		role := app.getUserRole(r)
+		
+		if data.IsAdmin(role) {
 			http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
 			return
 		}
