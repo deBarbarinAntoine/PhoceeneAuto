@@ -114,9 +114,9 @@ func (m ClientModel) Update(client *Client) error {
 		    complement = $10,
 		    city = $11,
 		    zip_code = $12,
-		    state = $13
+		    state = $13,
 		    updated_at = CURRENT_TIMESTAMP,
-		    version = version + 1,
+		    version = version + 1
 		WHERE id = $7 AND version = $8
 		RETURNING version;`
 
@@ -166,7 +166,7 @@ func (m ClientModel) Delete(client *Client) error {
 		SET status = $1,
 		    deleted_at = CURRENT_TIMESTAMP,
 		    updated_at = CURRENT_TIMESTAMP,
-		    version = version + 1,
+		    version = version + 1
 		WHERE id = $2 AND version = $3
 		RETURNING version;`
 
@@ -348,7 +348,7 @@ func (m ClientModel) Search(search string, filters *Filters) ([]*Client, Metadat
 
 	// creating the query
 	query := fmt.Sprintf(`
-		SELECT COUNT(*) OVER,
+		SELECT COUNT(*) OVER(),
 		       id, created_at, updated_at,
 		       first_name, last_name,
 		       email, phone,
