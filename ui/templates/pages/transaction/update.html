@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phoceene Auto - Modifier Transaction #12345</title>
+    <title>Phoceene Auto - Modifier la Transaction</title>
     <style>
         :root {
             --color-black: #000000;
@@ -13,157 +13,168 @@
             --color-gray-600: #525252;
             --color-gray-700: #404040;
             --color-gray-900: #171717;
+            --color-red-600: #DC2626;
         }
 
         body {
+            margin: 0;
+            padding: 0;
             font-family: system-ui, -apple-system, sans-serif;
             background-color: var(--color-gray-100);
-            margin: 0;
-            padding: 20px;
+            color: var(--color-gray-900);
         }
 
-        .update-container {
+        .transaction-form-container {
             max-width: 800px;
-            margin: 0 auto;
-            background-color: var(--color-white);
+            margin: 2rem auto;
             padding: 2rem;
+            background-color: var(--color-white);
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        .form-header {
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--color-gray-300);
         }
 
-        .transaction-status {
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--color-gray-900);
+        }
+
+        .transaction-id {
             font-size: 0.875rem;
-            background-color: #DBEAFE;
+            color: var(--color-gray-600);
         }
 
         .form-section {
             margin-bottom: 2rem;
         }
 
+        .form-section h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--color-gray-700);
+        }
+
         .form-group {
             margin-bottom: 1.5rem;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--color-gray-700);
-            font-weight: 500;
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
         }
 
-        .form-control {
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--color-gray-700);
+        }
+
+        input, select, textarea {
             width: 100%;
-            padding: 0.75rem;
+            padding: 0.5rem;
             border: 1px solid var(--color-gray-300);
             border-radius: 4px;
-            background-color: var(--color-white);
+            font-size: 1rem;
         }
 
         .car-selection {
-            border: 1px solid var(--color-gray-300);
-            padding: 1rem;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-            position: relative;
+            margin-top: 1rem;
         }
 
-        .remove-car {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            color: #DC2626;
-            cursor: pointer;
-            background: none;
-            border: none;
-            font-size: 1.25rem;
-        }
-
-        .add-car-button {
-            display: inline-flex;
+        .car-item {
+            display: flex;
             align-items: center;
-            padding: 0.5rem 1rem;
-            background-color: var(--color-gray-100);
+            padding: 1rem;
             border: 1px solid var(--color-gray-300);
             border-radius: 4px;
-            cursor: pointer;
-            color: var(--color-gray-700);
+            margin-bottom: 0.5rem;
+        }
+
+        .car-item input[type="checkbox"] {
+            width: auto;
+            margin-right: 1rem;
+        }
+
+        .history-item {
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+            margin-bottom: 0.5rem;
         }
 
         .action-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            display: flex;
+            justify-content: space-between;
             margin-top: 2rem;
         }
 
-        .update-button, .cancel-button {
-            padding: 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            text-align: center;
-            text-decoration: none;
+        .left-buttons, .right-buttons {
+            display: flex;
+            gap: 1rem;
         }
 
-        .update-button {
-            background-color: var(--color-gray-900);
-            color: var(--color-white);
+        .button {
+            padding: 0.75rem 1.5rem;
             border: none;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s;
         }
 
         .cancel-button {
             background-color: var(--color-gray-100);
-            color: var(--color-gray-900);
-            border: 1px solid var(--color-gray-300);
+            color: var(--color-gray-700);
         }
 
-        .price-summary {
-            background-color: var(--color-gray-100);
-            padding: 1.5rem;
-            border-radius: 4px;
-            margin-top: 2rem;
+        .save-button {
+            background-color: var(--color-gray-900);
+            color: var(--color-white);
         }
 
-        .price-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
+        .delete-button {
+            background-color: var(--color-red-600);
+            color: var(--color-white);
         }
 
-        .total-price {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--color-gray-900);
-            border-top: 1px solid var(--color-gray-300);
-            padding-top: 1rem;
-            margin-top: 1rem;
+        .cancel-button:hover {
+            background-color: var(--color-gray-300);
+        }
+
+        .save-button:hover {
+            background-color: var(--color-gray-700);
+        }
+
+        .delete-button:hover {
+            background-color: var(--color-red-600);
+            opacity: 0.9;
         }
     </style>
 </head>
 <body>
-    <div class="update-container">
-        <div class="form-header">
-            <h1>Modifier Transaction #12345</h1>
-            <span class="transaction-status">En cours</span>
+    <div class="transaction-form-container">
+        <div class="header">
+            <h1>Modifier la Transaction</h1>
+            <span class="transaction-id">#12345</span>
         </div>
 
-        <form action="/transaction/12345/update" method="POST">
+        <form method="post" action="/transaction/update/12345">
             <div class="form-section">
                 <h2>Informations Client</h2>
                 <div class="form-group">
-                    <label for="client">Client</label>
-                    <select id="client" name="client_id" class="form-control" required>
+                    <label for="client_id">Client</label>
+                    <select name="client_id" id="client_id" required>
+                        <option value="">Sélectionner un client</option>
                         <option value="1" selected>Martin Durant</option>
                         <option value="2">Sophie Bernard</option>
                         <option value="3">Pierre Dubois</option>
@@ -174,59 +185,49 @@
             <div class="form-section">
                 <h2>Véhicules</h2>
                 <div class="car-selection">
-                    <button type="button" class="remove-car">&times;</button>
-                    <div class="form-group">
-                        <label for="car1">Véhicule 1</label>
-                        <select id="car1" name="cars[]" class="form-control" required>
-                            <option value="1" selected>Peugeot 308 - AB-123-CD</option>
-                            <option value="2">Renault Clio - EF-456-GH</option>
-                        </select>
+                    <div class="car-item">
+                        <input type="checkbox" id="car_1" name="cars[]" value="1" checked>
+                        <label for="car_1">Peugeot 308 GT Line - AB-123-CD</label>
                     </div>
-                    <div class="form-group">
-                        <label for="price1">Prix</label>
-                        <input type="number" id="price1" name="prices[]" value="25000" class="form-control" required>
+                    <div class="car-item">
+                        <input type="checkbox" id="car_2" name="cars[]" value="2" checked>
+                        <label for="car_2">Renault Clio - EF-456-GH</label>
                     </div>
                 </div>
-
-                <div class="car-selection">
-                    <button type="button" class="remove-car">&times;</button>
-                    <div class="form-group">
-                        <label for="car2">Véhicule 2</label>
-                        <select id="car2" name="cars[]" class="form-control" required>
-                            <option value="1">Peugeot 308 - AB-123-CD</option>
-                            <option value="2" selected>Renault Clio - EF-456-GH</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="price2">Prix</label>
-                        <input type="number" id="price2" name="prices[]" value="20000" class="form-control" required>
-                    </div>
-                </div>
-
-                <button type="button" class="add-car-button">
-                    + Ajouter un véhicule
-                </button>
             </div>
 
-            <div class="price-summary">
-                <h2>Récapitulatif</h2>
-                <div class="price-row">
-                    <span>Peugeot 308</span>
-                    <span>25 000 €</span>
+            <div class="form-section">
+                <h2>Détails de la Transaction</h2>
+                <div class="form-group">
+                    <label for="status">Statut</label>
+                    <select name="status" id="status" required>
+                        <option value="pending">En attente</option>
+                        <option value="in_progress" selected>En cours</option>
+                        <option value="completed">Terminée</option>
+                    </select>
                 </div>
-                <div class="price-row">
-                    <span>Renault Clio</span>
-                    <span>20 000 €</span>
+
+                <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea name="notes" id="notes" rows="4">Rendez-vous prévu le 15/04/2024 pour la signature des documents.
+Client intéressé par l'extension de garantie.</textarea>
                 </div>
-                <div class="price-row total-price">
-                    <span>Total</span>
-                    <span>45 000 €</span>
-                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Historique des modifications</h2>
+                <div class="history-item">Créée le 12/04/2024 à 14:30 par Jean Dupont</div>
+                <div class="history-item">Modifiée le 13/04/2024 à 09:15 par Marie Martin</div>
             </div>
 
             <div class="action-buttons">
-                <a href="view.html" class="cancel-button">Annuler</a>
-                <button type="submit" class="update-button">Mettre à jour</button>
+                <div class="left-buttons">
+                    <button type="button" class="button delete-button" onclick="if(confirm('Êtes-vous sûr de vouloir supprimer cette transaction ?')) window.location.href='/transaction/delete/12345'">Supprimer</button>
+                </div>
+                <div class="right-buttons">
+                    <a href="/transaction/view/12345" class="button cancel-button">Annuler</a>
+                    <button type="submit" class="button save-button">Enregistrer</button>
+                </div>
             </div>
         </form>
     </div>

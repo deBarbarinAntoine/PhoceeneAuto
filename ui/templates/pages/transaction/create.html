@@ -16,119 +16,127 @@
         }
 
         body {
+            margin: 0;
+            padding: 0;
             font-family: system-ui, -apple-system, sans-serif;
             background-color: var(--color-gray-100);
-            margin: 0;
-            padding: 20px;
+            color: var(--color-gray-900);
         }
 
-        .create-container {
+        .transaction-form-container {
             max-width: 800px;
-            margin: 0 auto;
-            background-color: var(--color-white);
+            margin: 2rem auto;
             padding: 2rem;
+            background-color: var(--color-white);
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        .form-header {
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--color-gray-300);
+        h1 {
+            margin: 0 0 2rem;
+            font-size: 1.5rem;
+            color: var(--color-gray-900);
         }
 
         .form-section {
             margin-bottom: 2rem;
         }
 
+        .form-section h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--color-gray-700);
+        }
+
         .form-group {
             margin-bottom: 1.5rem;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--color-gray-700);
-            font-weight: 500;
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
         }
 
-        .form-control {
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--color-gray-700);
+        }
+
+        input, select, textarea {
             width: 100%;
-            padding: 0.75rem;
+            padding: 0.5rem;
             border: 1px solid var(--color-gray-300);
             border-radius: 4px;
-            background-color: var(--color-white);
+            font-size: 1rem;
         }
 
         .car-selection {
-            border: 1px solid var(--color-gray-300);
-            padding: 1rem;
-            border-radius: 4px;
-            margin-bottom: 1rem;
+            margin-top: 1rem;
         }
 
-        .add-car-button {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.5rem 1rem;
-            background-color: var(--color-gray-100);
-            border: 1px solid var(--color-gray-300);
-            border-radius: 4px;
-            cursor: pointer;
-            color: var(--color-gray-700);
-        }
-
-        .submit-button {
-            width: 100%;
-            padding: 1rem;
-            background-color: var(--color-gray-900);
-            color: var(--color-white);
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            margin-top: 2rem;
-        }
-
-        .submit-button:hover {
-            background-color: var(--color-gray-700);
-        }
-
-        .price-summary {
-            background-color: var(--color-gray-100);
-            padding: 1.5rem;
-            border-radius: 4px;
-            margin-top: 2rem;
-        }
-
-        .price-row {
+        .car-item {
             display: flex;
-            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid var(--color-gray-300);
+            border-radius: 4px;
             margin-bottom: 0.5rem;
         }
 
-        .total-price {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--color-gray-900);
-            border-top: 1px solid var(--color-gray-300);
-            padding-top: 1rem;
-            margin-top: 1rem;
+        .car-item input[type="checkbox"] {
+            width: auto;
+            margin-right: 1rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .cancel-button {
+            background-color: var(--color-gray-100);
+            color: var(--color-gray-700);
+            text-decoration: none;
+        }
+
+        .create-button {
+            background-color: var(--color-gray-900);
+            color: var(--color-white);
+        }
+
+        .cancel-button:hover {
+            background-color: var(--color-gray-300);
+        }
+
+        .create-button:hover {
+            background-color: var(--color-gray-700);
         }
     </style>
 </head>
 <body>
-    <div class="create-container">
-        <div class="form-header">
-            <h1>Nouvelle Transaction</h1>
-        </div>
-
-        <form action="/transaction/create" method="POST">
+    <div class="transaction-form-container">
+        <h1>Nouvelle Transaction</h1>
+        <form method="post" action="/transaction/create">
             <div class="form-section">
                 <h2>Informations Client</h2>
                 <div class="form-group">
-                    <label for="client">Client</label>
-                    <select id="client" name="client_id" class="form-control" required>
+                    <label for="client_id">Client</label>
+                    <select name="client_id" id="client_id" required>
                         <option value="">Sélectionner un client</option>
                         <option value="1">Martin Durant</option>
                         <option value="2">Sophie Bernard</option>
@@ -140,38 +148,38 @@
             <div class="form-section">
                 <h2>Véhicules</h2>
                 <div class="car-selection">
-                    <div class="form-group">
-                        <label for="car1">Véhicule 1</label>
-                        <select id="car1" name="cars[]" class="form-control" required>
-                            <option value="">Sélectionner un véhicule</option>
-                            <option value="1">Peugeot 308 - AB-123-CD</option>
-                            <option value="2">Renault Clio - EF-456-GH</option>
-                        </select>
+                    <div class="car-item">
+                        <input type="checkbox" id="car_1" name="cars[]" value="1">
+                        <label for="car_1">Peugeot 308 GT Line - AB-123-CD</label>
                     </div>
-                    <div class="form-group">
-                        <label for="price1">Prix</label>
-                        <input type="number" id="price1" name="prices[]" class="form-control" required>
+                    <div class="car-item">
+                        <input type="checkbox" id="car_2" name="cars[]" value="2">
+                        <label for="car_2">Renault Clio - EF-456-GH</label>
                     </div>
-                </div>
-
-                <button type="button" class="add-car-button">
-                    + Ajouter un véhicule
-                </button>
-            </div>
-
-            <div class="price-summary">
-                <h2>Récapitulatif</h2>
-                <div class="price-row">
-                    <span>Véhicule 1</span>
-                    <span>0 €</span>
-                </div>
-                <div class="price-row total-price">
-                    <span>Total</span>
-                    <span>0 €</span>
                 </div>
             </div>
 
-            <button type="submit" class="submit-button">Créer la transaction</button>
+            <div class="form-section">
+                <h2>Détails de la Transaction</h2>
+                <div class="form-group">
+                    <label for="status">Statut</label>
+                    <select name="status" id="status" required>
+                        <option value="pending">En attente</option>
+                        <option value="in_progress">En cours</option>
+                        <option value="completed">Terminée</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea name="notes" id="notes" rows="4"></textarea>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="/transaction/list" class="button cancel-button">Annuler</a>
+                <button type="submit" class="button create-button">Créer la transaction</button>
+            </div>
         </form>
     </div>
 </body>

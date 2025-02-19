@@ -3,138 +3,270 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phoceene Auto - Détail Client</title>
+    <title>Phoceene Auto - Détails du Client</title>
     <style>
         :root {
             --color-black: #000000;
             --color-white: #FFFFFF;
             --color-gray-100: #F5F5F5;
-            --color-gray-300: #d90909;
+            --color-gray-300: #D4D4D4;
             --color-gray-600: #525252;
             --color-gray-700: #404040;
             --color-gray-900: #171717;
+            --color-blue-100: #DBEAFE;
+            --color-blue-700: #1D4ED8;
         }
 
         body {
+            margin: 0;
+            padding: 0;
             font-family: system-ui, -apple-system, sans-serif;
             background-color: var(--color-gray-100);
-            margin: 0;
-            padding: 20px;
+            color: var(--color-gray-900);
         }
 
-        .detail-container {
+        .client-view-container {
             max-width: 1000px;
-            margin: 0 auto;
-            background-color: var(--color-white);
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 2rem auto;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
         }
 
-        .detail-header {
+        .client-sidebar {
+            background-color: var(--color-white);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+        }
+
+        .client-main {
+            background-color: var(--color-white);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+        }
+
+        .client-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
-            padding-bottom: 1rem;
+        }
+
+        .client-title {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--color-gray-900);
+        }
+
+        .client-type {
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            background-color: var(--color-blue-100);
+            color: var(--color-blue-700);
+        }
+
+        .info-section {
+            margin-bottom: 2rem;
+        }
+
+        .info-section h2 {
+            font-size: 1.25rem;
+            color: var(--color-gray-700);
+            margin-bottom: 1rem;
+        }
+
+        .info-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .info-item {
+            margin-bottom: 1rem;
+        }
+
+        .info-label {
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+            margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            color: var(--color-gray-900);
+        }
+
+        .tab-navigation {
+            display: flex;
+            gap: 1rem;
             border-bottom: 1px solid var(--color-gray-300);
+            margin-bottom: 1.5rem;
+        }
+
+        .tab {
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab.active {
+            color: var(--color-gray-900);
+            border-bottom-color: var(--color-gray-900);
+        }
+
+        .transaction-list, .vehicle-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .list-item {
+            padding: 1rem;
+            background-color: var(--color-gray-100);
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .list-item-info {
+            flex: 1;
+        }
+
+        .list-item-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .list-item-subtitle {
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
         }
 
         .action-buttons {
             display: flex;
             gap: 1rem;
-        }
-
-        .edit-button, .delete-button {
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-            border: none;
-            color: var(--color-white);
-        }
-
-        .edit-button {
-            background-color: var(--color-gray-700);
-        }
-
-        .delete-button {
-            background-color: #DC2626;
-        }
-
-        .info-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .info-group label {
-            display: block;
-            color: var(--color-gray-600);
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .data-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
             margin-top: 2rem;
         }
 
-        .data-card {
-            background-color: var(--color-gray-100);
-            padding: 1.5rem;
+        .button {
+            padding: 0.75rem 1.5rem;
+            border: none;
             border-radius: 4px;
-        }
-
-        .view-link {
-            display: inline-block;
-            margin-top: 1rem;
-            color: var(--color-gray-700);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
             text-decoration: none;
+            transition: background-color 0.2s;
         }
 
-        .view-link:hover {
-            text-decoration: underline;
+        .back-button {
+            background-color: var(--color-gray-100);
+            color: var(--color-gray-700);
+        }
+
+        .edit-button {
+            background-color: var(--color-gray-900);
+            color: var(--color-white);
+        }
+
+        .back-button:hover {
+            background-color: var(--color-gray-300);
+        }
+
+        .edit-button:hover {
+            background-color: var(--color-gray-700);
         }
     </style>
 </head>
 <body>
-    <div class="detail-container">
-        <div class="detail-header">
-            <h1>Martin Durant</h1>
+    <div class="client-view-container">
+        <div class="client-sidebar">
+            <div class="info-section">
+                <div class="client-header">
+                    <h1 class="client-title">Martin Durant</h1>
+                    <span class="client-type">Particulier</span>
+                </div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Email</div>
+                        <div class="info-value">martin.durant@email.com</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Téléphone</div>
+                        <div class="info-value">06 12 34 56 78</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Adresse</div>
+                        <div class="info-value">123 rue de la Paix<br>13000 Marseille</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h2>Informations Personnelles</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Date de naissance</div>
+                        <div class="info-value">15/03/1985</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Nationalité</div>
+                        <div class="info-value">Française</div>
+                    </div>
+                </div>
+            </div>
+
             <div class="action-buttons">
-                <button class="edit-button">Modifier</button>
-                <button class="delete-button">Supprimer</button>
+                <a href="/client/list" class="button back-button">Retour</a>
+                <a href="/client/update/1" class="button edit-button">Modifier</a>
             </div>
         </div>
 
-        <div class="detail-content">
-            <div class="info-group">
-                <label>Email</label>
-                <p>martin.durant@email.com</p>
+        <div class="client-main">
+            <div class="tab-navigation">
+                <div class="tab active">Transactions</div>
+                <div class="tab">Véhicules</div>
+                <div class="tab">Notes</div>
             </div>
 
-            <div class="info-group">
-                <label>Téléphone</label>
-                <p>06 12 34 56 78</p>
-            </div>
-
-            <div class="info-group">
-                <label>Adresse</label>
-                <p>123 Avenue de la République, 13001 Marseille</p>
-            </div>
-
-            <div class="related-data">
-                <h2>Véhicules associés</h2>
-                <div class="data-grid">
-                    <div class="data-card">
-                        <h3>Peugeot 308</h3>
-                        <p>Immatriculation: AB-123-CD</p>
-                        <a href="../car/view.html" class="view-link">Voir détails</a>
+            <div class="transaction-list">
+                <div class="list-item">
+                    <div class="list-item-info">
+                        <div class="list-item-title">Transaction #12345</div>
+                        <div class="list-item-subtitle">Créée le 12/04/2024 - En cours</div>
                     </div>
-                    <div class="data-card">
-                        <h3>Renault Clio</h3>
-                        <p>Immatriculation: EF-456-GH</p>
-                        <a href="../car/view.html" class="view-link">Voir détails</a>
+                    <a href="/transaction/view/12345" class="button back-button">Voir</a>
+                </div>
+                <div class="list-item">
+                    <div class="list-item-info">
+                        <div class="list-item-title">Transaction #12344</div>
+                        <div class="list-item-subtitle">Créée le 15/03/2024 - Terminée</div>
+                    </div>
+                    <a href="/transaction/view/12344" class="button back-button">Voir</a>
+                </div>
+            </div>
+
+            <div class="vehicle-list" style="display: none;">
+                <div class="list-item">
+                    <div class="list-item-info">
+                        <div class="list-item-title">Peugeot 308 GT Line</div>
+                        <div class="list-item-subtitle">AB-123-CD</div>
+                    </div>
+                    <a href="/vehicle/view/1" class="button back-button">Voir</a>
+                </div>
+            </div>
+
+            <div class="notes-section" style="display: none;">
+                <div class="info-item">
+                    <div class="info-value">
+                        Client fidèle depuis 2020.<br>
+                        Préfère être contacté par email.<br>
+                        Intéressé par les véhicules hybrides.
                     </div>
                 </div>
             </div>

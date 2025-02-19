@@ -10,5 +10,10 @@ CREATE TABLE IF NOT EXISTS clients (
     status      TEXT,
     address     TEXT,
     shop        TEXT,
+    street TEXT,
+    complement TEXT,
+    city TEXT,
+    zip_code TEXT,
+    state TEXT,
     version     INT DEFAULT 1
 );

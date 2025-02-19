@@ -31,6 +31,10 @@ type CarCatalog struct {
 	CatVersion       int // version
 }
 
+func EmptyCarCatalog() *CarCatalog {
+	return &CarCatalog{}
+}
+
 func ValidateCarCatalog(v *validator.Validator, car CarCatalog) {
 
 	v.Check(car.Year > 1980, "year", "must be greater than 1980")
@@ -134,7 +138,7 @@ func (m CarCatalogModel) Update(car *CarCatalog) error {
 		    electric_motor = $13,
 		    base_model = $14,
 		    updated_at = CURRENT_TIMESTAMP,
-		    version = version + 1,
+		    version = version + 1
 		WHERE id = $15 AND version = $16
 		RETURNING version;`
 
@@ -286,7 +290,7 @@ func (m CarCatalogModel) Search(search string, filters *Filters) ([]*CarCatalog,
 
 	// creating the query
 	query := fmt.Sprintf(`
-		SELECT COUNT(*) OVER,
+		SELECT COUNT(*) OVER(),
 		       id, created_at, updated_at,
 		       make, model,
 		       cylinders, drive, engine_descriptor,

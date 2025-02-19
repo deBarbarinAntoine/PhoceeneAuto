@@ -8,9 +8,15 @@ CREATE TABLE IF NOT EXISTS users (
                                      username    TEXT NOT NULL,
                                      email       CITEXT UNIQUE NOT NULL,
                                      address     TEXT,
-                                     password    BYTEA NOT NULL,
+                                     phone  TEXT,
+                                     password_hash    BYTEA NOT NULL,
                                      user_role   TEXT,
     status      TEXT,
     shop        TEXT,
+                                     street TEXT,
+                                     complement TEXT,
+                                     city TEXT,
+                                     zip_code TEXT,
+                                     state TEXT,
     version     INT DEFAULT 1
     );
