@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 
 	"PhoceeneAuto/internal/data"
@@ -52,8 +53,8 @@ func (app *application) deleteCarProduct(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	app.sessionManager.Put(r.Context(), "flash", "Car Product has been deleted successfully!")
-	http.Redirect(w, r, "/car-products", http.StatusSeeOther)
+	app.sessionManager.Put(r.Context(), "flash", fmt.Sprintf("Car Product %d has been deleted successfully!", carProduct.ID))
+	http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
 }
 
 func (app *application) createCarProduct(w http.ResponseWriter, r *http.Request) {
@@ -73,13 +74,19 @@ func (app *application) createCarProductPost(w http.ResponseWriter, r *http.Requ
 
 	carProduct := form.toCarProduct()
 
+	// check the Car Product data form
+	if data.ValidateCarProduct(&form.Validator, *carProduct); !form.Valid() {
+		app.failedValidationError(w, r, form, &form.Validator, "create-car-product.tmpl")
+		return
+	}
+
 	err = app.models.CarProductModel.Insert(carProduct)
 	if err != nil {
 		app.serverError(w, r, err)
 		return
 	}
-	app.sessionManager.Put(r.Context(), "flash", "Product has been created successfully")
-	http.Redirect(w, r, "/car-products", http.StatusSeeOther)
+	app.sessionManager.Put(r.Context(), "flash", "Car Product has been created successfully")
+	http.Redirect(w, r, fmt.Sprintf("/car-product/%d", carProduct.ID), http.StatusSeeOther)
 }
 
 func (app *application) updateCarProduct(w http.ResponseWriter, r *http.Request) {
@@ -132,7 +139,7 @@ func (app *application) updateCarProductPost(w http.ResponseWriter, r *http.Requ
 		form.AddNonFieldError("At least one field is required")
 	}
 
-	if !form.Valid() {
+	if data.ValidateCarProduct(&form.Validator, *carProduct); !form.Valid() {
 		app.failedValidationError(w, r, form, &form.Validator, "car-update.tmpl")
 		return
 	}
@@ -143,6 +150,6 @@ func (app *application) updateCarProductPost(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	app.sessionManager.Put(r.Context(), "flash", "Car Product has been updated successfully!")
-	http.Redirect(w, r, "/car-products", http.StatusSeeOther)
+	app.sessionManager.Put(r.Context(), "flash", fmt.Sprintf("Car Product %d has been updated successfully!", carProduct.ID))
+	http.Redirect(w, r, fmt.Sprintf("/car-product/%d", carProduct.ID), http.StatusSeeOther)
 }

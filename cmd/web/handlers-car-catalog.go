@@ -79,7 +79,7 @@ func (app *application) deleteCarCatalog(w http.ResponseWriter, r *http.Request)
 	app.sessionManager.Put(r.Context(), "flash", fmt.Sprintf("Car Catalog has been deleted successfully!"))
 	
 	// redirecting to the car catalog
-	http.Redirect(w, r, "/car-catalog", http.StatusSeeOther)
+	http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
 }
 
 func (app *application) createCarCatalog(w http.ResponseWriter, r *http.Request) {
@@ -128,9 +128,9 @@ func (app *application) createCarCatalogPost(w http.ResponseWriter, r *http.Requ
 	}
 	
 	// adding notification message
-	app.sessionManager.Put(r.Context(), "flash", fmt.Sprintf("Catalog has been created successfully"))
+	app.sessionManager.Put(r.Context(), "flash", "Car Catalog has been created successfully")
 	
-	http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
+	http.Redirect(w, r, fmt.Sprintf("/car-catalog/%d", carCatalog.CatID), http.StatusSeeOther)
 }
 
 func (app *application) updateCarCatalog(w http.ResponseWriter, r *http.Request) {
@@ -216,7 +216,7 @@ func (app *application) updateCarCatalogPost(w http.ResponseWriter, r *http.Requ
 	}
 	
 	// adding notification message
-	app.sessionManager.Put(r.Context(), "flash", "Car data has been updated successfully!")
+	app.sessionManager.Put(r.Context(), "flash", fmt.Sprintf("Car Catalog %d has been updated successfully!", carCatalog.CatID))
 	
-	http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
+	http.Redirect(w, r, fmt.Sprintf("/car-catalog/%d", carCatalog.CatID), http.StatusSeeOther)
 }
