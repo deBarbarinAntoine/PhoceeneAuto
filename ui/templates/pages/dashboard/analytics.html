@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoceene Auto - Statistiques</title>
+    <style>
+        :root {
+            --color-black: #000000;
+            --color-white: #FFFFFF;
+            --color-gray-100: #F5F5F5;
+            --color-gray-300: #D4D4D4;
+            --color-gray-600: #525252;
+            --color-gray-700: #404040;
+            --color-gray-900: #171717;
+            --color-blue-100: #DBEAFE;
+            --color-blue-700: #1D4ED8;
+            --color-green-100: #DCFCE7;
+            --color-green-700: #15803D;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--color-gray-100);
+            color: var(--color-gray-900);
+        }
+
+        .analytics-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .date-selector {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .date-button {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--color-gray-300);
+            background: var(--color-white);
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .date-button.active {
+            background: var(--color-gray-900);
+            color: var(--color-white);
+            border-color: var(--color-gray-900);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: var(--color-white);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-title {
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .stat-change.positive {
+            color: var(--color-green-700);
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            background-color: var(--color-white);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .chart-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-gray-900);
+        }
+
+        .chart-container {
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-gray-600);
+        }
+    </style>
+</head>
+<body>
+    <div class="analytics-container">
+        <div class="header">
+            <h1>Statistiques</h1>
+            <div class="date-selector">
+                <button class="date-button">7 jours</button>
+                <button class="date-button active">30 jours</button>
+                <button class="date-button">90 jours</button>
+                <button class="date-button">12 mois</button>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-title">Chiffre d'affaires</div>
+                <div class="stat-value">152 800 €</div>
+                <div class="stat-change positive">↑ +12.3% vs période précédente</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Véhicules vendus</div>
+                <div class="stat-value">24</div>
+                <div class="stat-change positive">↑ +8.5% vs période précédente</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Nouveaux clients</div>
+                <div class="stat-value">38</div>
+                <div class="stat-change positive">↑ +15.2% vs période précédente</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Taux de conversion</div>
+                <div class="stat-value">23.5%</div>
+                <div class="stat-change positive">↑ +2.1% vs période précédente</div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Ventes mensuelles</div>
+                </div>
+                <div class="chart-container">
+                    [Graphique des ventes mensuelles]
+                </div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Répartition par modèle</div>
+                </div>
+                <div class="chart-container">
+                    [Graphique camembert des modèles]
+                </div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Performance commerciale</div>
+                </div>
+                <div class="chart-container">
+                    [Graphique performance par vendeur]
+                </div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Sources des leads</div>
+                </div>
+                <div class="chart-container">
+                    [Graphique sources des leads]
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

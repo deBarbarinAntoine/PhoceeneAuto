@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoceene Auto - Rapports</title>
+    <style>
+        :root {
+            --color-black: #000000;
+            --color-white: #FFFFFF;
+            --color-gray-100: #F5F5F5;
+            --color-gray-300: #D4D4D4;
+            --color-gray-600: #525252;
+            --color-gray-700: #404040;
+            --color-gray-900: #171717;
+            --color-blue-100: #DBEAFE;
+            --color-blue-700: #1D4ED8;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--color-gray-100);
+            color: var(--color-gray-900);
+        }
+
+        .reports-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .report-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .report-card {
+            background-color: var(--color-white);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .report-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .report-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--color-blue-100);
+            color: var(--color-blue-700);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .report-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--color-gray-900);
+        }
+
+        .report-description {
+            color: var(--color-gray-600);
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+        }
+
+        .report-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .button {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .primary-button {
+            background-color: var(--color-gray-900);
+            color: var(--color-white);
+            border: none;
+        }
+
+        .secondary-button {
+            background-color: var(--color-white);
+            color: var(--color-gray-900);
+            border: 1px solid var(--color-gray-300);
+        }
+
+        .primary-button:hover {
+            background-color: var(--color-gray-700);
+        }
+
+        .secondary-button:hover {
+            background-color: var(--color-gray-100);
+        }
+
+        .report-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--color-gray-100);
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+        }
+    </style>
+</head>
+<body>
+    <div class="reports-container">
+        <div class="header">
+            <h1>Rapports</h1>
+        </div>
+
+        <div class="report-grid">
+            <!-- Rapport des Ventes -->
+            <div class="report-card">
+                <div class="report-header">
+                    <div class="report-icon">📊</div>
+                    <div class="report-title">Rapport des Ventes</div>
+                </div>
+                <div class="report-description">
+                    Analyse détaillée des ventes, incluant le chiffre d'affaires, 
+                    les marges et les tendances par période.
+                </div>
+                <div class="report-actions">
+                    <a href="/reports/sales/view" class="button primary-button">Voir</a>
+                    <a href="/reports/sales/export" class="button secondary-button">Exporter</a>
+                </div>
+                <div class="report-meta">
+                    <span>Mis à jour : Aujourd'hui 09:15</span>
+                    <span>Format : PDF, XLSX</span>
+                </div>
+            </div>
+
+            <!-- Rapport d'Inventaire -->
+            <div class="report-card">
+                <div class="report-header">
+                    <div class="report-icon">🚗</div>
+                    <div class="report-title">Rapport d'Inventaire</div>
+                </div>
+                <div class="report-description">
+                    État du stock, rotation des véhicules, valorisation 
+                    et analyse des modèles populaires.
+                </div>
+                <div class="report-actions">
+                    <a href="/reports/inventory/view" class="button primary-button">Voir</a>
+                    <a href="/reports/inventory/export" class="button secondary-button">Exporter</a>
+                </div>
+                <div class="report-meta">
+                    <span>Mis à jour : Aujourd'hui 08:30</span>
+                    <span>Format : PDF, XLSX</span>
+                </div>
+            </div>
+
+            <!-- Rapport Client -->
+            <div class="report-card">
+                <div class="report-header">
+                    <div class="report-icon">👥</div>
+                    <div class="report-title">Rapport Client</div>
+                </div>
+                <div class="report-description">
+                    Analyse de la base client, segmentation, satisfaction 
+                    et historique des interactions.
+                </div>
+                <div class="report-actions">
+                    <a href="/reports/customers/view" class="button primary-button">Voir</a>
+                    <a href="/reports/customers/export" class="button secondary-button">Exporter</a>
+                </div>
+                <div class="report-meta">
+                    <span>Mis à jour : Hier 17:45</span>
+                    <span>Format : PDF, XLSX</span>
+                </div>
+            </div>
+
+            <!-- Rapport Performance -->
+            <div class="report-card">
+                <div class="report-header">
+                    <div class="report-icon">🎯</div>
+                    <div class="report-title">Rapport Performance</div>
+                </div>
+                <div class="report-description">
+                    Performance des commerciaux, objectifs, conversions 
+                    et indicateurs clés.
+                </div>
+                <div class="report-actions">
+                    <a href="/reports/performance/view" class="button primary-button">Voir</a>
+                    <a href="/reports/performance/export" class="button secondary-button">Exporter</a>
+                </div>
+                <div class="report-meta">
+                    <span>Mis à jour : Aujourd'hui 10:00</span>
+                    <span>Format : PDF, XLSX</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

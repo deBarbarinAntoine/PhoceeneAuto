@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phoceene Auto - Page non trouvée</title>
+    <title>Phoceene Auto - Authentification Requise</title>
     <style>
         :root {
             --color-black: #000000;
@@ -13,6 +13,8 @@
             --color-gray-600: #525252;
             --color-gray-700: #404040;
             --color-gray-900: #171717;
+            --color-yellow-100: #FEF9C3;
+            --color-yellow-600: #c78a07;
         }
 
         body {
@@ -43,7 +45,7 @@
         .error-code {
             font-size: 6rem;
             font-weight: 700;
-            color: rgb(90, 10, 22);
+            color: var(--color-yellow-600);
             line-height: 1;
             margin-bottom: 2rem;
         }
@@ -55,84 +57,86 @@
         }
 
         .error-details {
-            background-color: var(--color-white);
+            background-color: var(--color-yellow-100);
             padding: 1.5rem;
             border-radius: 8px;
             margin-bottom: 2rem;
             text-align: left;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .error-illustration {
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
             margin: 2rem 0;
-            font-size: 3rem;
         }
 
-        .back-button {
+        .button {
             display: inline-block;
             padding: 0.75rem 1.5rem;
-            background-color: var(--color-gray-900);
-            color: var(--color-white);
-            text-decoration: none;
             border-radius: 4px;
             font-weight: 500;
+            text-decoration: none;
             transition: background-color 0.2s;
         }
 
-        .back-button:hover {
+        .login-button {
+            background-color: var(--color-gray-900);
+            color: var(--color-white);
+        }
+
+        .login-button:hover {
             background-color: var(--color-gray-700);
         }
 
-        .search-suggestion {
+        .register-button {
+            background-color: var(--color-white);
+            color: var(--color-gray-900);
+            border: 1px solid var(--color-gray-300);
+        }
+
+        .register-button:hover {
+            background-color: var(--color-gray-100);
+        }
+
+        .help-text {
             margin-top: 2rem;
             color: var(--color-gray-600);
             font-size: 0.875rem;
         }
 
-        .search-links {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .search-link {
+        .help-link {
             color: var(--color-gray-900);
             text-decoration: none;
             font-weight: 500;
         }
 
-        .search-link:hover {
+        .help-link:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <div class="error-container">
-        <h1 class="error-title">Page non trouvée</h1>
-        <div class="error-code">404</div>
-        <p class="error-message">La page que vous recherchez semble avoir disparu.</p>
+        <h1 class="error-title">Authentification Requise</h1>
+        <div class="error-code">401</div>
+        <p class="error-message">Vous devez être connecté pour accéder à cette page.</p>
 
         <div class="error-details">
-            <div class="error-illustration">
-                🚗 💨
-            </div>
-            <p>Cette route ne mène nulle part... Peut-être que vous cherchez :</p>
+            <p>🔑 Votre session a peut-être expiré ou vous n'êtes pas encore connecté.</p>
+            <p>Veuillez vous connecter pour accéder à cette ressource.</p>
         </div>
 
-        <div class="search-links">
-            <a href="/dashboard" class="search-link">Tableau de bord</a>
-            <a href="/cars" class="search-link">Véhicules</a>
-            <a href="/clients" class="search-link">Clients</a>
+        <div class="action-buttons">
+            <a href="/login" class="button login-button">Se connecter</a>
+            <a href="/register" class="button register-button">Créer un compte</a>
         </div>
 
-        <div style="margin: 2rem 0;">
-            <a href="/" class="back-button">Retour à l'accueil</a>
-        </div>
-
-        <p class="search-suggestion">
-            Vous pouvez également utiliser la barre de recherche pour trouver ce que vous cherchez
+        <p class="help-text">
+            Problème de connexion ? 
+            <a href="/password/forgot-password" class="help-link">Mot de passe oublié</a> ou 
+            <a href="/support" class="help-link">Contacter le support</a>
         </p>
     </div>
 </body>
-</html>
+</html> 

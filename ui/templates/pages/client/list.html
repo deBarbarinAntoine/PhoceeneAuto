@@ -20,13 +20,12 @@
             padding: 0;
             font-family: system-ui, -apple-system, sans-serif;
             background-color: var(--color-gray-100);
-            color: var(--color-gray-900);
         }
 
-        .client-list-container {
-            max-width: 1200px;
+        .client-container {
+            max-width: 1400px;
             margin: 2rem auto;
-            padding: 2rem;
+            padding: 0 2rem;
         }
 
         .header {
@@ -34,12 +33,6 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
-        }
-
-        h1 {
-            margin: 0;
-            font-size: 1.5rem;
-            color: var(--color-gray-900);
         }
 
         .search-bar {
@@ -53,187 +46,149 @@
             padding: 0.75rem;
             border: 1px solid var(--color-gray-300);
             border-radius: 4px;
-            font-size: 0.875rem;
         }
 
-        .client-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .client-card {
-            background-color: var(--color-white);
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            padding: 1.5rem;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .client-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .client-name {
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: var(--color-gray-900);
-            margin-bottom: 0.5rem;
-        }
-
-        .client-info {
-            font-size: 0.875rem;
-            color: var(--color-gray-600);
-            margin-bottom: 0.25rem;
-        }
-
-        .client-stats {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--color-gray-300);
-        }
-
-        .stat {
-            flex: 1;
-        }
-
-        .stat-label {
-            font-size: 0.75rem;
-            color: var(--color-gray-600);
-            margin-bottom: 0.25rem;
-        }
-
-        .stat-value {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--color-gray-900);
-        }
-
-        .button {
+        .filter-button {
             padding: 0.75rem 1.5rem;
+            background: var(--color-white);
+            border: 1px solid var(--color-gray-300);
+            border-radius: 4px;
+        }
+
+        .add-client {
+            padding: 0.75rem 1.5rem;
+            background: var(--color-gray-900);
+            color: var(--color-white);
             border: none;
             border-radius: 4px;
-            font-size: 0.875rem;
+        }
+
+        .client-table {
+            background: var(--color-white);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .client-table th {
+            text-align: left;
+            padding: 1rem;
+            border-bottom: 1px solid var(--color-gray-300);
+            color: var(--color-gray-600);
             font-weight: 500;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.2s;
         }
 
-        .create-button {
-            background-color: var(--color-gray-900);
-            color: var(--color-white);
+        .client-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--color-gray-100);
         }
 
-        .create-button:hover {
-            background-color: var(--color-gray-700);
+        .client-status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
         }
 
-        .card-actions {
+        .status-active {
+            background: var(--color-gray-100);
+            color: var(--color-gray-900);
+        }
+
+        .client-actions {
             display: flex;
-            justify-content: flex-end;
             gap: 0.5rem;
-            margin-top: 1rem;
         }
 
         .action-button {
             padding: 0.5rem;
-            font-size: 0.875rem;
+            background: none;
+            border: none;
+            cursor: pointer;
             color: var(--color-gray-600);
-            text-decoration: none;
-        }
-
-        .action-button:hover {
-            color: var(--color-gray-900);
         }
 
         .pagination {
             display: flex;
-            justify-content: center;
-            gap: 0.5rem;
+            justify-content: space-between;
+            align-items: center;
             margin-top: 2rem;
+        }
+
+        .page-info {
+            color: var(--color-gray-600);
+        }
+
+        .page-buttons {
+            display: flex;
+            gap: 0.5rem;
         }
 
         .page-button {
             padding: 0.5rem 1rem;
             border: 1px solid var(--color-gray-300);
+            background: var(--color-white);
             border-radius: 4px;
-            background-color: var(--color-white);
-            color: var(--color-gray-600);
-            cursor: pointer;
         }
 
         .page-button.active {
-            background-color: var(--color-gray-900);
+            background: var(--color-gray-900);
             color: var(--color-white);
             border-color: var(--color-gray-900);
         }
     </style>
 </head>
 <body>
-    <div class="client-list-container">
+    <div class="client-container">
         <div class="header">
             <h1>Clients</h1>
-            <a href="/client/create" class="button create-button">Nouveau Client</a>
+            <button class="add-client">+ Nouveau Client</button>
         </div>
 
         <div class="search-bar">
-            <input type="text" class="search-input" placeholder="Rechercher un client...">
+            <input type="search" class="search-input" placeholder="Rechercher un client...">
+            <button class="filter-button">Filtres</button>
         </div>
 
-        <div class="client-grid">
-            <div class="client-card">
-                <div class="client-name">Martin Durant</div>
-                <div class="client-info">martin.durant@email.com</div>
-                <div class="client-info">06 12 34 56 78</div>
-                <div class="client-info">123 rue de la Paix, 13000 Marseille</div>
-                <div class="client-stats">
-                    <div class="stat">
-                        <div class="stat-label">Transactions</div>
-                        <div class="stat-value">3</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-label">Véhicules</div>
-                        <div class="stat-value">2</div>
-                    </div>
-                </div>
-                <div class="card-actions">
-                    <a href="/client/view/1" class="action-button">Voir</a>
-                    <a href="/client/update/1" class="action-button">Modifier</a>
-                </div>
-            </div>
-
-            <div class="client-card">
-                <div class="client-name">Sophie Bernard</div>
-                <div class="client-info">sophie.bernard@email.com</div>
-                <div class="client-info">06 98 76 54 32</div>
-                <div class="client-info">456 avenue République, 13001 Marseille</div>
-                <div class="client-stats">
-                    <div class="stat">
-                        <div class="stat-label">Transactions</div>
-                        <div class="stat-value">1</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-label">Véhicules</div>
-                        <div class="stat-value">1</div>
-                    </div>
-                </div>
-                <div class="card-actions">
-                    <a href="/client/view/2" class="action-button">Voir</a>
-                    <a href="/client/update/2" class="action-button">Modifier</a>
-                </div>
-            </div>
-        </div>
+        <table class="client-table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Téléphone</th>
+                    <th>Dernier Contact</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Martin Dupont</td>
+                    <td>m.dupont@email.com</td>
+                    <td>06 12 34 56 78</td>
+                    <td>15/04/2024</td>
+                    <td><span class="client-status status-active">Actif</span></td>
+                    <td class="client-actions">
+                        <button class="action-button">👁️</button>
+                        <button class="action-button">✏️</button>
+                        <button class="action-button">📞</button>
+                    </td>
+                </tr>
+                <!-- Autres lignes de clients... -->
+            </tbody>
+        </table>
 
         <div class="pagination">
-            <button class="page-button">Précédent</button>
-            <button class="page-button active">1</button>
-            <button class="page-button">2</button>
-            <button class="page-button">3</button>
-            <button class="page-button">Suivant</button>
+            <div class="page-info">
+                Affichage 1-10 sur 84 clients
+            </div>
+            <div class="page-buttons">
+                <button class="page-button">←</button>
+                <button class="page-button active">1</button>
+                <button class="page-button">2</button>
+                <button class="page-button">3</button>
+                <button class="page-button">→</button>
+            </div>
         </div>
     </div>
 </body>
