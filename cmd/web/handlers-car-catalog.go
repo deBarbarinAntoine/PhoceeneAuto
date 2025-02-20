@@ -63,7 +63,8 @@ func (app *application) deleteCarCatalog(w http.ResponseWriter, r *http.Request)
 	if isUsed {
 		
 		// notify the user and redirect to dashboard page
-		app.sessionManager.Put(r.Context(), "flash", fmt.Sprintf("Unable to delete Car Catalog %d - car products depends on it.", car.CatID))
+		app.sessionManager.Put(r.Context(), "flash", fmt.Sprintf("Unable to delete Car Catalog %d - some Car Product depend on it.", car.CatID))
+		
 		http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
 		return
 	}
@@ -76,7 +77,7 @@ func (app *application) deleteCarCatalog(w http.ResponseWriter, r *http.Request)
 	}
 	
 	// adding the notification message
-	app.sessionManager.Put(r.Context(), "flash", fmt.Sprintf("Car Catalog has been deleted successfully!"))
+	app.sessionManager.Put(r.Context(), "flash", fmt.Sprintf("Car Catalog %d has been deleted successfully!", car.CatID))
 	
 	// redirecting to the car catalog
 	http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
