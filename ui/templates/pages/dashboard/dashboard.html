@@ -50,35 +50,61 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
 
         .stat-card {
-            background-color: var(--color-white);
-            border-radius: 8px;
+            background: var(--color-white);
             padding: 1.5rem;
+            border-radius: 8px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        .stat-title {
-            font-size: 0.875rem;
-            color: var(--color-gray-600);
+        .recent-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .recent-section {
+            background: var(--color-white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .item-list {
+            margin-top: 1rem;
+        }
+
+        .item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--color-gray-300);
+        }
+
+        .item:last-child {
+            border-bottom: none;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 0.5rem;
         }
 
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 600;
-            color: var(--color-gray-900);
-            margin-bottom: 0.5rem;
+        .status-tag {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
         }
 
-        .stat-change {
-            font-size: 0.875rem;
-            color: var(--color-green-700);
-        }
+        .status-onsale { background-color: #DEF7EC; color: #03543F; }
+        .status-coming { background-color: #E1EFFE; color: #1E429F; }
+        .status-processing { background-color: #FEF3C7; color: #92400E; }
+        .status-sold { background-color: #FEE2E2; color: #991B1B; }
 
         .dashboard-grid {
             display: grid;
@@ -192,6 +218,56 @@
         <div class="header">
             <h1>Tableau de Bord</h1>
             <div class="user-info">Bonjour, Jean Dupont</div>
+        </div>
+
+        <div class="recent-items">
+            <div class="recent-section">
+                <h2>Véhicules Récents</h2>
+                <div class="item-list">
+                    <div class="item">
+                        <div class="item-header">
+                            <strong>Peugeot 208</strong>
+                            <span class="status-tag status-onsale">EN VENTE</span>
+                        </div>
+                        <div>Prix: 25000 €</div>
+                        <div>Kilométrage: 15000 km</div>
+                        <div>Shop: HEADQUARTERS</div>
+                    </div>
+                    <div class="item">
+                        <div class="item-header">
+                            <strong>Renault Clio</strong>
+                            <span class="status-tag status-processing">EN TRAITEMENT</span>
+                        </div>
+                        <div>Prix: 22000 €</div>
+                        <div>Kilométrage: 25000 km</div>
+                        <div>Shop: HEADQUARTERS</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recent-section">
+                <h2>Clients Récents</h2>
+                <div class="item-list">
+                    <div class="item">
+                        <div class="item-header">
+                            <strong>Jean Martin</strong>
+                            <span class="status-tag">ACTIVE</span>
+                        </div>
+                        <div>Email: jean.martin@example.com</div>
+                        <div>Téléphone: 0612345678</div>
+                        <div>Shop: HEADQUARTERS</div>
+                    </div>
+                    <div class="item">
+                        <div class="item-header">
+                            <strong>Marie Dubois</strong>
+                            <span class="status-tag">ACTIVE</span>
+                        </div>
+                        <div>Email: marie.dubois@example.com</div>
+                        <div>Téléphone: 0687654321</div>
+                        <div>Shop: HEADQUARTERS</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="stats-grid">

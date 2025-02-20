@@ -201,27 +201,25 @@
 <body>
     <div class="profile-container">
         <div class="profile-header">
-            <div class="profile-avatar" onclick="document.getElementById('avatar').click()">
+            <div class="profile-avatar">
                 JD
-                <input type="file" id="avatar" style="display: none;" accept="image/*">
             </div>
             <div class="profile-info">
                 <h1>Jean Dupont</h1>
-                <div class="profile-role">Responsable Commercial</div>
+                <div class="profile-role">USER</div>
             </div>
         </div>
 
         <form method="post" action="/profile/update">
+            <input type="hidden" name="id" value="42">
+            <input type="hidden" name="version" value="1">
+
             <div class="profile-section">
                 <h2>Informations Personnelles</h2>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="firstname" class="required">Prénom</label>
-                        <input type="text" id="firstname" name="firstname" value="Jean" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="lastname" class="required">Nom</label>
-                        <input type="text" id="lastname" name="lastname" value="Dupont" required>
+                        <label for="name" class="required">Nom complet</label>
+                        <input type="text" id="name" name="name" value="Jean Dupont" required>
                     </div>
                     <div class="form-group">
                         <label for="email" class="required">Email</label>
@@ -230,6 +228,36 @@
                     <div class="form-group">
                         <label for="phone">Téléphone</label>
                         <input type="tel" id="phone" name="phone" value="06 12 34 56 78">
+                    </div>
+                    <div class="form-group">
+                        <label for="shop">Concession</label>
+                        <input type="text" id="shop" name="shop" value="HEADQUARTERS" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h2>Adresse</h2>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="street" class="required">Rue</label>
+                        <input type="text" id="street" name="street" value="123 Avenue de la République" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="complement">Complément</label>
+                        <input type="text" id="complement" name="complement" value="Bâtiment B">
+                    </div>
+                    <div class="form-group">
+                        <label for="city" class="required">Ville</label>
+                        <input type="text" id="city" name="city" value="Marseille" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="zip" class="required">Code Postal</label>
+                        <input type="text" id="zip" name="zip" value="13001" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="country" class="required">Pays</label>
+                        <input type="text" id="country" name="country" value="France" required>
                     </div>
                 </div>
             </div>
@@ -244,10 +272,6 @@
                     <div class="form-group">
                         <label for="new_password">Nouveau mot de passe</label>
                         <input type="password" id="new_password" name="new_password">
-                    </div>
-                    <div class="form-group">
-                        <label for="confirm_password">Confirmer le mot de passe</label>
-                        <input type="password" id="confirm_password" name="confirm_password">
                     </div>
                 </div>
             </div>

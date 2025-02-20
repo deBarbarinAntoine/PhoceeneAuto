@@ -48,93 +48,87 @@
             border-radius: 4px;
         }
 
-        .filter-button {
-            padding: 0.75rem 1.5rem;
-            background: var(--color-white);
-            border: 1px solid var(--color-gray-300);
-            border-radius: 4px;
+        .client-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
         }
 
-        .add-client {
-            padding: 0.75rem 1.5rem;
-            background: var(--color-gray-900);
-            color: var(--color-white);
-            border: none;
-            border-radius: 4px;
-        }
-
-        .client-table {
+        .client-card {
             background: var(--color-white);
             border-radius: 8px;
+            padding: 1.5rem;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            border-collapse: collapse;
         }
 
-        .client-table th {
-            text-align: left;
-            padding: 1rem;
-            border-bottom: 1px solid var(--color-gray-300);
-            color: var(--color-gray-600);
-            font-weight: 500;
+        .client-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
         }
 
-        .client-table td {
-            padding: 1rem;
-            border-bottom: 1px solid var(--color-gray-100);
+        .client-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--color-gray-900);
         }
 
         .client-status {
+            font-size: 0.875rem;
             padding: 0.25rem 0.5rem;
             border-radius: 4px;
-            font-size: 0.875rem;
+            background: var(--color-gray-100);
         }
 
-        .status-active {
-            background: var(--color-gray-100);
-            color: var(--color-gray-900);
+        .client-status.active {
+            background: #DCFCE7;
+            color: #15803D;
+        }
+
+        .client-info {
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+            margin-bottom: 0.5rem;
+        }
+
+        .client-address {
+            margin: 1rem 0;
+            padding-top: 1rem;
+            border-top: 1px solid var(--color-gray-100);
+        }
+
+        .client-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--color-gray-600);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--color-gray-100);
         }
 
         .client-actions {
             display: flex;
             gap: 0.5rem;
+            margin-top: 1rem;
         }
 
         .action-button {
-            padding: 0.5rem;
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--color-gray-600);
-        }
-
-        .pagination {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 2rem;
-        }
-
-        .page-info {
-            color: var(--color-gray-600);
-        }
-
-        .page-buttons {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .page-button {
             padding: 0.5rem 1rem;
-            border: 1px solid var(--color-gray-300);
-            background: var(--color-white);
             border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.875rem;
         }
 
-        .page-button.active {
+        .view-button {
             background: var(--color-gray-900);
             color: var(--color-white);
-            border-color: var(--color-gray-900);
+        }
+
+        .edit-button {
+            background: var(--color-white);
+            color: var(--color-gray-900);
+            border: 1px solid var(--color-gray-300);
         }
     </style>
 </head>
@@ -142,52 +136,64 @@
     <div class="client-container">
         <div class="header">
             <h1>Clients</h1>
-            <button class="add-client">+ Nouveau Client</button>
+            <a href="/client/create" class="action-button view-button">Nouveau Client</a>
         </div>
 
         <div class="search-bar">
             <input type="search" class="search-input" placeholder="Rechercher un client...">
-            <button class="filter-button">Filtres</button>
         </div>
 
-        <table class="client-table">
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Email</th>
-                    <th>Téléphone</th>
-                    <th>Dernier Contact</th>
-                    <th>Statut</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Martin Dupont</td>
-                    <td>m.dupont@email.com</td>
-                    <td>06 12 34 56 78</td>
-                    <td>15/04/2024</td>
-                    <td><span class="client-status status-active">Actif</span></td>
-                    <td class="client-actions">
-                        <button class="action-button">👁️</button>
-                        <button class="action-button">✏️</button>
-                        <button class="action-button">📞</button>
-                    </td>
-                </tr>
-                <!-- Autres lignes de clients... -->
-            </tbody>
-        </table>
-
-        <div class="pagination">
-            <div class="page-info">
-                Affichage 1-10 sur 84 clients
+        <div class="client-grid">
+            <!-- Client 1 -->
+            <div class="client-card">
+                <div class="client-header">
+                    <div class="client-name">Martin Dupont</div>
+                    <div class="client-status active">ACTIVE</div>
+                </div>
+                <div class="client-info">
+                    <div>📧 martin.dupont@email.com</div>
+                    <div>📱 06 12 34 56 78</div>
+                </div>
+                <div class="client-address">
+                    <div class="client-info">123 rue de la Paix</div>
+                    <div class="client-info">Bâtiment B</div>
+                    <div class="client-info">13001 Marseille</div>
+                    <div class="client-info">France</div>
+                </div>
+                <div class="client-meta">
+                    <div>Concession: HEADQUARTERS</div>
+                    <div>Créé le: 15/04/2024</div>
+                </div>
+                <div class="client-actions">
+                    <a href="/client/view/1" class="action-button view-button">Voir</a>
+                    <a href="/client/update/1" class="action-button edit-button">Modifier</a>
+                </div>
             </div>
-            <div class="page-buttons">
-                <button class="page-button">←</button>
-                <button class="page-button active">1</button>
-                <button class="page-button">2</button>
-                <button class="page-button">3</button>
-                <button class="page-button">→</button>
+
+            <!-- Client 2 -->
+            <div class="client-card">
+                <div class="client-header">
+                    <div class="client-name">Sophie Bernard</div>
+                    <div class="client-status active">ACTIVE</div>
+                </div>
+                <div class="client-info">
+                    <div>📧 sophie.bernard@email.com</div>
+                    <div>📱 06 98 76 54 32</div>
+                </div>
+                <div class="client-address">
+                    <div class="client-info">45 avenue du Prado</div>
+                    <div class="client-info">Étage 3</div>
+                    <div class="client-info">13006 Marseille</div>
+                    <div class="client-info">France</div>
+                </div>
+                <div class="client-meta">
+                    <div>Concession: HEADQUARTERS</div>
+                    <div>Créé le: 14/04/2024</div>
+                </div>
+                <div class="client-actions">
+                    <a href="/client/view/2" class="action-button view-button">Voir</a>
+                    <a href="/client/update/2" class="action-button edit-button">Modifier</a>
+                </div>
             </div>
         </div>
     </div>

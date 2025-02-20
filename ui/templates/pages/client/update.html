@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phoceene Auto - Modifier le Client</title>
+    <title>Phoceene Auto - Modifier Client</title>
     <style>
         :root {
             --color-black: #000000;
@@ -13,253 +13,149 @@
             --color-gray-600: #525252;
             --color-gray-700: #404040;
             --color-gray-900: #171717;
-            --color-red-600: #DC2626;
         }
-
         body {
             margin: 0;
             padding: 0;
             font-family: system-ui, -apple-system, sans-serif;
             background-color: var(--color-gray-100);
-            color: var(--color-gray-900);
         }
 
-        .client-form-container {
+        .form-container {
             max-width: 800px;
             margin: 2rem auto;
             padding: 2rem;
-            background-color: var(--color-white);
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        h1 {
-            margin: 0;
-            font-size: 1.5rem;
-            color: var(--color-gray-900);
-        }
-
-        .client-id {
-            font-size: 0.875rem;
-            color: var(--color-gray-600);
         }
 
         .form-section {
-            margin-bottom: 2rem;
-        }
-
-        .form-section h2 {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-            color: var(--color-gray-700);
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
+            background-color: var(--color-white);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
-
-        label {
+        .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            font-size: 0.875rem;
             color: var(--color-gray-700);
         }
 
-        input, select, textarea {
+        .form-group input {
             width: 100%;
-            padding: 0.75rem;
+            padding: 0.5rem;
             border: 1px solid var(--color-gray-300);
             border-radius: 4px;
-            font-size: 1rem;
-            color: var(--color-gray-900);
         }
 
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--color-gray-600);
-        }
-
-        .required::after {
-            content: " *";
-            color: #DC2626;
-        }
-
-        .history-section {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--color-gray-300);
-        }
-
-        .history-item {
-            font-size: 0.875rem;
-            color: var(--color-gray-600);
-            margin-bottom: 0.5rem;
-        }
-
-        .action-buttons {
+        .form-actions {
             display: flex;
-            justify-content: space-between;
-            margin-top: 2rem;
-        }
-
-        .left-buttons, .right-buttons {
-            display: flex;
+            justify-content: flex-end;
             gap: 1rem;
+            margin-top: 2rem;
         }
 
-        .button {
-            padding: 0.75rem 1.5rem;
+        .submit-button {
+            background-color: var(--color-gray-900);
+            color: var(--color-white);
+            padding: 0.5rem 1rem;
             border: none;
             border-radius: 4px;
-            font-size: 0.875rem;
-            font-weight: 500;
             cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.2s;
         }
 
         .cancel-button {
-            background-color: var(--color-gray-100);
-            color: var(--color-gray-700);
-        }
-
-        .save-button {
-            background-color: var(--color-gray-900);
-            color: var(--color-white);
-        }
-
-        .delete-button {
-            background-color: var(--color-red-600);
-            color: var(--color-white);
-        }
-
-        .cancel-button:hover {
-            background-color: var(--color-gray-300);
-        }
-
-        .save-button:hover {
-            background-color: var(--color-gray-700);
-        }
-
-        .delete-button:hover {
-            background-color: var(--color-red-600);
-            opacity: 0.9;
+            background-color: var(--color-white);
+            color: var(--color-gray-900);
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--color-gray-300);
+            border-radius: 4px;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-    <div class="client-form-container">
-        <div class="header">
-            <h1>Modifier le Client</h1>
-            <span class="client-id">#12345</span>
-        </div>
-
-        <form method="post" action="/client/update/12345">
+    <div class="form-container">
+        <h1>Modifier Client</h1>
+        <form method="post" action="/client/42" class="data-form">
+            <input type="hidden" name="id" value="42">
+            <input type="hidden" name="version" value="2">
+            
             <div class="form-section">
                 <h2>Informations Personnelles</h2>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="civility" class="required">Civilité</label>
-                        <select name="civility" id="civility" required>
-                            <option value="mr" selected>Monsieur</option>
-                            <option value="mme">Madame</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="type" class="required">Type</label>
-                        <select name="type" id="type" required>
-                            <option value="particular" selected>Particulier</option>
-                            <option value="professional">Professionnel</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="lastname" class="required">Nom</label>
-                        <input type="text" id="lastname" name="lastname" value="Durant" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="firstname" class="required">Prénom</label>
-                        <input type="text" id="firstname" name="firstname" value="Martin" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="birthdate">Date de naissance</label>
-                        <input type="date" id="birthdate" name="birthdate" value="1985-03-15">
-                    </div>
-                    <div class="form-group">
-                        <label for="nationality">Nationalité</label>
-                        <input type="text" id="nationality" name="nationality" value="Française">
-                    </div>
+                <div class="form-group">
+                    <label for="first-name">Prénom</label>
+                    <input type="text" name="first-name" id="first-name" value="Martin" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="last-name">Nom</label>
+                    <input type="text" name="last-name" id="last-name" value="Dupont" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" value="martin.dupont@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Téléphone</label>
+                    <input type="tel" name="phone" id="phone" value="06 12 34 56 78">
                 </div>
             </div>
 
             <div class="form-section">
-                <h2>Coordonnées</h2>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="email" class="required">Email</label>
-                        <input type="email" id="email" name="email" value="martin.durant@email.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone" class="required">Téléphone</label>
-                        <input type="tel" id="phone" name="phone" value="06 12 34 56 78" required>
-                    </div>
-                    <div class="form-group full-width">
-                        <label for="address" class="required">Adresse</label>
-                        <input type="text" id="address" name="address" value="123 rue de la Paix" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="postal_code" class="required">Code Postal</label>
-                        <input type="text" id="postal_code" name="postal_code" value="13000" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="city" class="required">Ville</label>
-                        <input type="text" id="city" name="city" value="Marseille" required>
-                    </div>
+                <h2>Adresse</h2>
+                <div class="form-group">
+                    <label for="street">Rue</label>
+                    <input type="text" name="street" id="street" value="123 rue de la Paix" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="complement">Complément</label>
+                    <input type="text" name="complement" id="complement" value="Bâtiment B">
+                </div>
+
+                <div class="form-group">
+                    <label for="city">Ville</label>
+                    <input type="text" name="city" id="city" value="Marseille" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="zip">Code Postal</label>
+                    <input type="text" name="zip" id="zip" value="13001" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="country">Pays</label>
+                    <input type="text" name="country" id="country" value="France" required>
                 </div>
             </div>
 
             <div class="form-section">
-                <h2>Informations Complémentaires</h2>
-                <div class="form-grid">
-                    <div class="form-group full-width">
-                        <label for="notes">Notes</label>
-                        <textarea id="notes" name="notes" rows="4">Client fidèle depuis 2020.
-Préfère être contacté par email.
-Intéressé par les véhicules hybrides.</textarea>
-                    </div>
+                <h2>Informations Concession</h2>
+                <div class="form-group">
+                    <label for="shop">Concession</label>
+                    <input type="text" name="shop" id="shop" value="HEADQUARTERS" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="status">Statut</label>
+                    <select name="status" id="status" required>
+                        <option value="ACTIVE" selected>ACTIVE</option>
+                        <option value="CONFLICT">CONFLICT</option>
+                        <option value="DELETED">DELETED</option>
+                    </select>
                 </div>
             </div>
 
-            <div class="history-section">
-                <h2>Historique des modifications</h2>
-                <div class="history-item">Créé le 12/04/2024 à 14:30 par Jean Dupont</div>
-                <div class="history-item">Modifié le 13/04/2024 à 09:15 par Marie Martin</div>
-            </div>
-
-            <div class="action-buttons">
-                <div class="left-buttons">
-                    <button type="button" class="button delete-button" onclick="if(confirm('Êtes-vous sûr de vouloir supprimer ce client ?')) window.location.href='/client/delete/12345'">Supprimer</button>
-                </div>
-                <div class="right-buttons">
-                    <a href="/client/view/12345" class="button cancel-button">Annuler</a>
-                    <button type="submit" class="button save-button">Enregistrer</button>
-                </div>
+            <div class="form-actions">
+                <a href="/clients" class="cancel-button">Annuler</a>
+                <button type="submit" class="submit-button">Enregistrer</button>
             </div>
         </form>
     </div>

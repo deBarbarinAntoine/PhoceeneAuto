@@ -133,14 +133,13 @@
         <h1>Nouvelle Transaction</h1>
         <form method="post" action="/transaction/create">
             <div class="form-section">
-                <h2>Informations Client</h2>
+                <h2>Client</h2>
                 <div class="form-group">
-                    <label for="client_id">Client</label>
+                    <label for="client_id">Sélectionner un client</label>
                     <select name="client_id" id="client_id" required>
-                        <option value="">Sélectionner un client</option>
-                        <option value="1">Martin Durant</option>
-                        <option value="2">Sophie Bernard</option>
-                        <option value="3">Pierre Dubois</option>
+                        <option value="">Choisir...</option>
+                        <option value="1">Jean Martin (ACTIVE)</option>
+                        <option value="2">Marie Dubois (ACTIVE)</option>
                     </select>
                 </div>
             </div>
@@ -150,35 +149,35 @@
                 <div class="car-selection">
                     <div class="car-item">
                         <input type="checkbox" id="car_1" name="cars[]" value="1">
-                        <label for="car_1">Peugeot 308 GT Line - AB-123-CD</label>
+                        <label for="car_1">Peugeot 308 (ONSALE) - 25000€ - 50000km</label>
                     </div>
                     <div class="car-item">
                         <input type="checkbox" id="car_2" name="cars[]" value="2">
-                        <label for="car_2">Renault Clio - EF-456-GH</label>
+                        <label for="car_2">Renault Clio (ONSALE) - 18000€ - 30000km</label>
                     </div>
                 </div>
             </div>
 
             <div class="form-section">
-                <h2>Détails de la Transaction</h2>
+                <h2>Détails</h2>
                 <div class="form-group">
                     <label for="status">Statut</label>
                     <select name="status" id="status" required>
-                        <option value="pending">En attente</option>
-                        <option value="in_progress">En cours</option>
-                        <option value="completed">Terminée</option>
+                        <option value="PROCESSING">PROCESSING</option>
+                        <option value="ONGOING">ONGOING</option>
+                        <option value="DONE">DONE</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="notes">Notes</label>
-                    <textarea name="notes" id="notes" rows="4"></textarea>
+                    <label for="leases">Mensualités (séparées par des virgules)</label>
+                    <input type="text" name="leases" id="leases" placeholder="300.50, 300.50, 300.50">
                 </div>
             </div>
 
             <div class="action-buttons">
                 <a href="/transaction/list" class="button cancel-button">Annuler</a>
-                <button type="submit" class="button create-button">Créer la transaction</button>
+                <button type="submit" class="button create-button">Créer</button>
             </div>
         </form>
     </div>
