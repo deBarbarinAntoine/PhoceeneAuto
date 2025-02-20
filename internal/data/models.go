@@ -5,11 +5,6 @@ import (
 	"errors"
 )
 
-const (
-	TokenActivation = "activation"
-	TokenReset      = "reset"
-)
-
 var (
 	ErrRecordNotFound      = errors.New("record not found")
 	ErrEditConflict        = errors.New("edit conflict")
