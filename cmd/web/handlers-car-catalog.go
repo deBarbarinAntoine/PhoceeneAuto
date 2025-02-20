@@ -54,6 +54,20 @@ func (app *application) deleteCarCatalog(w http.ResponseWriter, r *http.Request)
 		return
 	}
 	
+	// check if the Car Catalog is used by Car Products
+	isUsed, err := app.models.CarProductModel.ExistsCatID(car.CatID)
+	if err != nil {
+		app.serverError(w, r, err)
+		return
+	}
+	if isUsed {
+		
+		// notify the user and redirect to dashboard page
+		app.sessionManager.Put(r.Context(), "flash", fmt.Sprintf("Unable to delete Car Catalog %d - car products depends on it.", car.CatID))
+		http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
+		return
+	}
+	
 	// deleting the Car
 	err = app.models.CarCatalogModel.Delete(car)
 	if err != nil {
@@ -116,7 +130,7 @@ func (app *application) createCarCatalogPost(w http.ResponseWriter, r *http.Requ
 	// adding notification message
 	app.sessionManager.Put(r.Context(), "flash", fmt.Sprintf("Catalog has been created successfully"))
 	
-	http.Redirect(w, r, "/car_catalog", http.StatusSeeOther)
+	http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
 }
 
 func (app *application) updateCarCatalog(w http.ResponseWriter, r *http.Request) {
@@ -204,5 +218,5 @@ func (app *application) updateCarCatalogPost(w http.ResponseWriter, r *http.Requ
 	// adding notification message
 	app.sessionManager.Put(r.Context(), "flash", "Car data has been updated successfully!")
 	
-	http.Redirect(w, r, "/car-catalog", http.StatusSeeOther)
+	http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
 }
