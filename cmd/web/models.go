@@ -245,7 +245,7 @@ type searchForm struct {
 	Search       *string  `form:"search"` // Classic search bar input
 	Make         *string  `form:"make"`   // Car make
 	Model        *string  `form:"model"`  // Car model
-	MYear        *int     `form:"year,omitempty"`
+	Year         *int     `form:"year,omitempty"`
 	PriceMin     *float64 `form:"price_min"`    // Minimum price
 	PriceMax     *float64 `form:"price_max"`    // Maximum price
 	KmMin        *float64 `form:"km_min"`       // Minimum kilometers driven
