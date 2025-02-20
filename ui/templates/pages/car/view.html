@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoceene Auto - Détails Voiture</title>
+    <style>
+        :root {
+            --color-black: #000000;
+            --color-white: #FFFFFF;
+            --color-gray-100: #F5F5F5;
+            --color-gray-300: #D4D4D4;
+            --color-gray-600: #525252;
+            --color-gray-700: #404040;
+            --color-gray-900: #171717;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--color-gray-100);
+        }
+
+        .car-view-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .info-block {
+            background-color: var(--color-white);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .car-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .car-title {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--color-gray-900);
+        }
+
+        .car-status {
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-onsale { background-color: #DEF7EC; color: #03543F; }
+        .status-coming { background-color: #E1EFFE; color: #1E429F; }
+        .status-processing { background-color: #FEF3C7; color: #92400E; }
+        .status-sold { background-color: #FEE2E2; color: #991B1B; }
+
+        .info-section h2 {
+            font-size: 1.25rem;
+            color: var(--color-gray-900);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--color-gray-300);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .info-item {
+            display: grid;
+            gap: 0.25rem;
+        }
+
+        .info-label {
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+        }
+
+        .info-value {
+            color: var(--color-gray-900);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .button {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+
+        .back-button {
+            background-color: var(--color-white);
+            border: 1px solid var(--color-gray-300);
+            color: var(--color-gray-900);
+        }
+
+        .edit-button {
+            background-color: var(--color-gray-900);
+            color: var(--color-white);
+        }
+
+        @media (max-width: 768px) {
+            .car-view-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .full-width {
+                grid-column: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="car-view-container">
+        <div class="info-block full-width">
+            <div class="car-header">
+                <h1 class="car-title">Peugeot 208</h1>
+                <span class="car-status status-onsale">EN VENTE</span>
+            </div>
+            <div class="action-buttons">
+                <a href="/cars" class="button back-button">Retour</a>
+                <a href="/car/edit/42" class="button edit-button">Modifier</a>
+            </div>
+        </div>
+
+        <div class="info-block">
+            <div class="info-section">
+                <h2>Informations Produit</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Kilométrage</div>
+                        <div class="info-value">15000 km</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Propriétaires</div>
+                        <div class="info-value">1</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Couleur</div>
+                        <div class="info-value">Blanc</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Prix</div>
+                        <div class="info-value">25000 €</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Concession</div>
+                        <div class="info-value">HEADQUARTERS</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-block">
+            <div class="info-section">
+                <h2>Informations Système</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">ID Produit</div>
+                        <div class="info-value">42</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">ID Catalogue</div>
+                        <div class="info-value">208</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Créé le</div>
+                        <div class="info-value">15/04/2024 14:30</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Dernière mise à jour</div>
+                        <div class="info-value">15/04/2024 16:45</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Version</div>
+                        <div class="info-value">2</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-block">
+            <div class="info-section">
+                <h2>Caractéristiques Techniques</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Marque</div>
+                        <div class="info-value">Peugeot</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Modèle</div>
+                        <div class="info-value">208</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Cylindres</div>
+                        <div class="info-value">4</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Transmission</div>
+                        <div class="info-value">Manuelle</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Description Moteur</div>
+                        <div class="info-value">1.2L PureTech</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Type Transmission</div>
+                        <div class="info-value">Manuelle 6 vitesses</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-block">
+            <div class="info-section">
+                <h2>Spécifications</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Carburant Principal</div>
+                        <div class="info-value">Essence</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Carburant Secondaire</div>
+                        <div class="info-value">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Volume Coffre</div>
+                        <div class="info-value">311 L</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Volume Passagers</div>
+                        <div class="info-value">1400 L</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Catégorie</div>
+                        <div class="info-value">Citadine</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Puissance Électrique</div>
+                        <div class="info-value">0 kW</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

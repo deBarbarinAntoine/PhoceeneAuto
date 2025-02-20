@@ -5,8 +5,13 @@
             <input type="hidden" name="csrf_token" value="{{ .CSRFToken }}">
             
             <div class="form-group">
-                <label for="name">Nom</label>
-                <input type="text" name="name" id="name" value="{{ .Form.Name }}" required>
+                <label for="first-name">Prénom</label>
+                <input type="text" name="first-name" id="first-name" value="{{ .Form.FirstName }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="last-name">Nom</label>
+                <input type="text" name="last-name" id="last-name" value="{{ .Form.LastName }}" required>
             </div>
 
             <div class="form-group">
@@ -19,12 +24,43 @@
                 <input type="tel" name="phone" id="phone" value="{{ .Form.Phone }}" required>
             </div>
 
-            <div class="form-group">
-                <label for="address">Adresse</label>
-                <textarea name="address" id="address" required>{{ .Form.Address }}</textarea>
+            <div class="form-section">
+                <h2>Adresse</h2>
+                <div class="form-group">
+                    <label for="street">Rue</label>
+                    <input type="text" name="street" id="street" value="{{ .Form.Address.Street }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="complement">Complément</label>
+                    <input type="text" name="complement" id="complement" value="{{ .Form.Address.Complement }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="city">Ville</label>
+                    <input type="text" name="city" id="city" value="{{ .Form.Address.City }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="zip">Code Postal</label>
+                    <input type="text" name="zip" id="zip" value="{{ .Form.Address.ZIP }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="country">Pays</label>
+                    <input type="text" name="country" id="country" value="{{ .Form.Address.Country }}" required>
+                </div>
             </div>
 
-            <button type="submit" class="submit-button">Créer Client</button>
+            <div class="form-group">
+                <label for="shop">Concession</label>
+                <input type="text" name="shop" id="shop" value="{{ .Form.Shop }}" required>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="submit-button">Créer Client</button>
+                <a href="/clients" class="cancel-button">Annuler</a>
+            </div>
         </form>
     </div>
 {{ end }} 

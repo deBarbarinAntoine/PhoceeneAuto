@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoceene Auto - Détails Transaction</title>
+    <style>
+        :root {
+            --color-black: #000000;
+            --color-white: #FFFFFF;
+            --color-gray-100: #F5F5F5;
+            --color-gray-300: #D4D4D4;
+            --color-gray-600: #525252;
+            --color-gray-700: #404040;
+            --color-gray-900: #171717;
+            --color-green-100: #DCFCE7;
+            --color-green-700: #15803D;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--color-gray-100);
+            color: var(--color-gray-900);
+        }
+
+        .transaction-details {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--color-gray-900);
+        }
+
+        .status-tag {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+        }
+
+        .status-processing { background: #FEF3C7; color: #92400E; }
+        .status-ongoing { background: #DBEAFE; color: #1E40AF; }
+        .status-done { background: #D1FAE5; color: #065F46; }
+
+        .section {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            color: var(--color-gray-700);
+            margin-bottom: 1rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .info-item {
+            margin-bottom: 1rem;
+        }
+
+        .info-label {
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+            margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            color: var(--color-gray-900);
+        }
+
+        .vehicle-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .vehicle-card {
+            padding: 1rem;
+            background-color: var(--color-gray-100);
+            border-radius: 4px;
+        }
+
+        .notes {
+            white-space: pre-line;
+            line-height: 1.5;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .back-button {
+            background-color: var(--color-gray-100);
+            color: var(--color-gray-700);
+        }
+
+        .edit-button {
+            background-color: var(--color-gray-900);
+            color: var(--color-white);
+        }
+
+        .back-button:hover {
+            background-color: var(--color-gray-300);
+        }
+
+        .edit-button:hover {
+            background-color: var(--color-gray-700);
+        }
+
+        .car-item {
+            background: var(--color-gray-50);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="transaction-details">
+            <div class="header">
+                <h1>Transaction #42</h1>
+                <span class="status-tag status-ongoing">ONGOING</span>
+            </div>
+
+            <div class="section">
+                <h2>Client</h2>
+                <div>Nom: Jean Martin</div>
+                <div>Email: jean.martin@example.com</div>
+                <div>Téléphone: 0612345678</div>
+            </div>
+
+            <div class="section">
+                <h2>Agent</h2>
+                <div>Nom: Marie Dubois</div>
+                <div>Email: marie.dubois@phoceene-auto.fr</div>
+            </div>
+
+            <div class="section">
+                <h2>Véhicules</h2>
+                <div class="car-item">
+                    <h3>Peugeot 308</h3>
+                    <div>Status: ONSALE</div>
+                    <div>Prix: 25000€</div>
+                    <div>Kilométrage: 50000km</div>
+                    <div>Concession: HEADQUARTERS</div>
+                </div>
+                <div class="car-item">
+                    <h3>Renault Clio</h3>
+                    <div>Status: ONSALE</div>
+                    <div>Prix: 18000€</div>
+                    <div>Kilométrage: 30000km</div>
+                    <div>Concession: HEADQUARTERS</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Détails Financiers</h2>
+                <div>Mensualités: 300.50€, 300.50€, 300.50€</div>
+                <div class="price-total">Total: 43000€</div>
+            </div>
+
+            <div class="section">
+                <h2>Informations Système</h2>
+                <div>ID: 42</div>
+                <div>Version: 1</div>
+                <div>Créée le: 15/04/2024</div>
+                <div>Mise à jour: 16/04/2024</div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="/transaction/list" class="button back-button">Retour</a>
+                <a href="/transaction/edit/42" class="button edit-button">Modifier</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

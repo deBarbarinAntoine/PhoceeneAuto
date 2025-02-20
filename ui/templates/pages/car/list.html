@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phoceene Auto - Liste des Véhicules</title>
+    <title>Phoceene Auto - Liste des Voitures</title>
     <style>
         :root {
             --color-black: #000000;
@@ -13,10 +13,6 @@
             --color-gray-600: #525252;
             --color-gray-700: #404040;
             --color-gray-900: #171717;
-            --color-green-100: #DCFCE7;
-            --color-green-700: #15803D;
-            --color-yellow-100: #FEF9C3;
-            --color-yellow-700: #A16207;
         }
 
         body {
@@ -24,13 +20,12 @@
             padding: 0;
             font-family: system-ui, -apple-system, sans-serif;
             background-color: var(--color-gray-100);
-            color: var(--color-gray-900);
         }
 
-        .vehicle-list-container {
-            max-width: 1200px;
+        .car-container {
+            max-width: 1400px;
             margin: 2rem auto;
-            padding: 2rem;
+            padding: 0 2rem;
         }
 
         .header {
@@ -40,13 +35,7 @@
             margin-bottom: 2rem;
         }
 
-        h1 {
-            margin: 0;
-            font-size: 1.5rem;
-            color: var(--color-gray-900);
-        }
-
-        .filters {
+        .search-bar {
             display: flex;
             gap: 1rem;
             margin-bottom: 2rem;
@@ -57,245 +46,155 @@
             padding: 0.75rem;
             border: 1px solid var(--color-gray-300);
             border-radius: 4px;
-            font-size: 0.875rem;
         }
 
-        .filter-select {
-            padding: 0.75rem;
-            border: 1px solid var(--color-gray-300);
-            border-radius: 4px;
-            font-size: 0.875rem;
-            min-width: 150px;
-        }
-
-        .vehicle-grid {
+        .car-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
         }
 
-        .vehicle-card {
-            background-color: var(--color-white);
+        .car-card {
+            background: var(--color-white);
             border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .vehicle-image {
-            width: 100%;
-            height: 200px;
-            background-color: var(--color-gray-300);
-            background-size: cover;
-            background-position: center;
-        }
-
-        .vehicle-content {
             padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        .vehicle-header {
+        .car-header {
             display: flex;
             justify-content: space-between;
-            align-items: start;
+            align-items: center;
             margin-bottom: 1rem;
         }
 
-        .vehicle-title {
-            font-size: 1.125rem;
+        .car-title {
+            font-size: 1.25rem;
             font-weight: 600;
             color: var(--color-gray-900);
-            margin: 0;
         }
 
-        .vehicle-status {
+        .car-status {
             padding: 0.25rem 0.75rem;
             border-radius: 9999px;
-            font-size: 0.75rem;
+            font-size: 0.875rem;
             font-weight: 500;
         }
 
-        .status-available {
-            background-color: var(--color-green-100);
-            color: var(--color-green-700);
-        }
+        .car-status.onsale { background-color: #DEF7EC; color: #03543F; }
+        .car-status.coming { background-color: #E1EFFE; color: #1E429F; }
+        .car-status.processing { background-color: #FEF3C7; color: #92400E; }
+        .car-status.sold { background-color: #FEE2E2; color: #991B1B; }
 
-        .status-reserved {
-            background-color: var(--color-yellow-100);
-            color: var(--color-yellow-700);
-        }
-
-        .vehicle-details {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .detail-item {
-            font-size: 0.875rem;
-        }
-
-        .detail-label {
+        .car-info {
+            margin-bottom: 0.5rem;
             color: var(--color-gray-600);
-            margin-bottom: 0.25rem;
         }
 
-        .detail-value {
-            color: var(--color-gray-900);
-            font-weight: 500;
-        }
-
-        .vehicle-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 0.5rem;
-        }
-
-        .button {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 4px;
+        .car-meta {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--color-gray-300);
             font-size: 0.875rem;
-            font-weight: 500;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.2s;
+            color: var(--color-gray-600);
         }
 
-        .create-button {
-            background-color: var(--color-gray-900);
-            color: var(--color-white);
+        .car-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .action-button {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.875rem;
         }
 
         .view-button {
-            background-color: var(--color-gray-100);
-            color: var(--color-gray-700);
-        }
-
-        .create-button:hover {
-            background-color: var(--color-gray-700);
-        }
-
-        .view-button:hover {
-            background-color: var(--color-gray-300);
-        }
-
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: 2rem;
-        }
-
-        .page-button {
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--color-gray-300);
-            border-radius: 4px;
-            background-color: var(--color-white);
-            color: var(--color-gray-600);
-            cursor: pointer;
-        }
-
-        .page-button.active {
             background-color: var(--color-gray-900);
             color: var(--color-white);
-            border-color: var(--color-gray-900);
+        }
+
+        .edit-button {
+            background-color: var(--color-white);
+            border: 1px solid var(--color-gray-300);
+            color: var(--color-gray-900);
         }
     </style>
 </head>
 <body>
-    <div class="vehicle-list-container">
+    <div class="car-container">
         <div class="header">
-            <h1>Véhicules</h1>
-            <a href="/vehicle/create" class="button create-button">Nouveau Véhicule</a>
+            <h1>Voitures</h1>
+            <a href="/car/create" class="action-button view-button">Nouvelle Voiture</a>
         </div>
 
-        <div class="filters">
-            <input type="text" class="search-input" placeholder="Rechercher un véhicule...">
-            <select class="filter-select">
-                <option value="">Tous les statuts</option>
-                <option value="available">Disponible</option>
-                <option value="reserved">Réservé</option>
-                <option value="sold">Vendu</option>
-            </select>
-            <select class="filter-select">
-                <option value="">Toutes les marques</option>
-                <option value="peugeot">Peugeot</option>
-                <option value="renault">Renault</option>
-                <option value="citroen">Citroën</option>
-            </select>
+        <div class="search-bar">
+            <input type="search" class="search-input" placeholder="Rechercher une voiture...">
         </div>
 
-        <div class="vehicle-grid">
-            <div class="vehicle-card">
-                <div class="vehicle-image" style="background-image: url('/static/images/vehicles/peugeot-308.jpg')"></div>
-                <div class="vehicle-content">
-                    <div class="vehicle-header">
-                        <h2 class="vehicle-title">Peugeot 308 GT Line</h2>
-                        <span class="vehicle-status status-available">Disponible</span>
-                    </div>
-                    <div class="vehicle-details">
-                        <div class="detail-item">
-                            <div class="detail-label">Immatriculation</div>
-                            <div class="detail-value">AB-123-CD</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Année</div>
-                            <div class="detail-value">2022</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Kilométrage</div>
-                            <div class="detail-value">45 000 km</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Prix</div>
-                            <div class="detail-value">24 900 €</div>
-                        </div>
-                    </div>
-                    <div class="vehicle-actions">
-                        <a href="/vehicle/view/1" class="button view-button">Voir détails</a>
-                    </div>
+        <div class="car-grid">
+            <!-- Exemple de voiture -->
+            <div class="car-card">
+                <div class="car-header">
+                    <div class="car-title">Peugeot 208</div>
+                    <div class="car-status onsale">EN VENTE</div>
+                </div>
+                <div class="car-info">
+                    <div>🏢 Make: Peugeot</div>
+                    <div>📝 Model: 208</div>
+                    <div>🛢️ Fuel: Essence</div>
+                    <div>⚙️ Transmission: Manuelle</div>
+                    <div>📏 Taille: Compacte</div>
+                    <div>📅 Année: 2023</div>
+                </div>
+                <div class="car-info">
+                    <div>🚗 Kilométrage: 15000 km</div>
+                    <div>👥 Propriétaires: 1</div>
+                    <div>🎨 Couleur: Blanc</div>
+                    <div>💰 Prix: 25000 €</div>
+                </div>
+                <div class="car-meta">
+                    <div>Concession: HEADQUARTERS</div>
+                    <div>Ajoutée le: 15/04/2024</div>
+                </div>
+                <div class="car-actions">
+                    <a href="/car/view/1" class="action-button view-button">Voir</a>
+                    <a href="/car/update/1" class="action-button edit-button">Modifier</a>
                 </div>
             </div>
 
-            <div class="vehicle-card">
-                <div class="vehicle-image" style="background-image: url('/static/images/vehicles/renault-clio.jpg')"></div>
-                <div class="vehicle-content">
-                    <div class="vehicle-header">
-                        <h2 class="vehicle-title">Renault Clio</h2>
-                        <span class="vehicle-status status-reserved">Réservé</span>
-                    </div>
-                    <div class="vehicle-details">
-                        <div class="detail-item">
-                            <div class="detail-label">Immatriculation</div>
-                            <div class="detail-value">EF-456-GH</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Année</div>
-                            <div class="detail-value">2021</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Kilométrage</div>
-                            <div class="detail-value">32 000 km</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Prix</div>
-                            <div class="detail-value">18 500 €</div>
-                        </div>
-                    </div>
-                    <div class="vehicle-actions">
-                        <a href="/vehicle/view/2" class="button view-button">Voir détails</a>
-                    </div>
+            <!-- Autre exemple de voiture -->
+            <div class="car-card">
+                <div class="car-header">
+                    <div class="car-title">Renault Clio</div>
+                    <div class="car-status processing">EN TRAITEMENT</div>
+                </div>
+                <div class="car-info">
+                    <div>🏢 Make: Renault</div>
+                    <div>📝 Model: Clio</div>
+                    <div>🛢️ Fuel: Diesel</div>
+                    <div>⚙️ Transmission: Automatique</div>
+                    <div>📏 Taille: Compacte</div>
+                    <div>📅 Année: 2022</div>
+                </div>
+                <div class="car-info">
+                    <div>🚗 Kilométrage: 25000 km</div>
+                    <div>👥 Propriétaires: 1</div>
+                    <div>🎨 Couleur: Gris</div>
+                    <div>💰 Prix: 22000 €</div>
+                </div>
+                <div class="car-meta">
+                    <div>Concession: HEADQUARTERS</div>
+                    <div>Ajoutée le: 14/04/2024</div>
+                </div>
+                <div class="car-actions">
+                    <a href="/car/view/2" class="action-button view-button">Voir</a>
+                    <a href="/car/update/2" class="action-button edit-button">Modifier</a>
                 </div>
             </div>
-        </div>
-
-        <div class="pagination">
-            <button class="page-button">Précédent</button>
-            <button class="page-button active">1</button>
-            <button class="page-button">2</button>
-            <button class="page-button">3</button>
-            <button class="page-button">Suivant</button>
         </div>
     </div>
 </body>

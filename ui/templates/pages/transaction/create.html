@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoceene Auto - Nouvelle Transaction</title>
+    <style>
+        :root {
+            --color-black: #000000;
+            --color-white: #FFFFFF;
+            --color-gray-100: #F5F5F5;
+            --color-gray-300: #D4D4D4;
+            --color-gray-600: #525252;
+            --color-gray-700: #404040;
+            --color-gray-900: #171717;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--color-gray-100);
+            color: var(--color-gray-900);
+        }
+
+        .transaction-form-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: var(--color-white);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin: 0 0 2rem;
+            font-size: 1.5rem;
+            color: var(--color-gray-900);
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-section h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--color-gray-700);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--color-gray-700);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--color-gray-300);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .car-selection {
+            margin-top: 1rem;
+        }
+
+        .car-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid var(--color-gray-300);
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+
+        .car-item input[type="checkbox"] {
+            width: auto;
+            margin-right: 1rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .cancel-button {
+            background-color: var(--color-gray-100);
+            color: var(--color-gray-700);
+            text-decoration: none;
+        }
+
+        .create-button {
+            background-color: var(--color-gray-900);
+            color: var(--color-white);
+        }
+
+        .cancel-button:hover {
+            background-color: var(--color-gray-300);
+        }
+
+        .create-button:hover {
+            background-color: var(--color-gray-700);
+        }
+    </style>
+</head>
+<body>
+    <div class="transaction-form-container">
+        <h1>Nouvelle Transaction</h1>
+        <form method="post" action="/transaction/create">
+            <div class="form-section">
+                <h2>Client</h2>
+                <div class="form-group">
+                    <label for="client_id">Sélectionner un client</label>
+                    <select name="client_id" id="client_id" required>
+                        <option value="">Choisir...</option>
+                        <option value="1">Jean Martin (ACTIVE)</option>
+                        <option value="2">Marie Dubois (ACTIVE)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Véhicules</h2>
+                <div class="car-selection">
+                    <div class="car-item">
+                        <input type="checkbox" id="car_1" name="cars[]" value="1">
+                        <label for="car_1">Peugeot 308 (ONSALE) - 25000€ - 50000km</label>
+                    </div>
+                    <div class="car-item">
+                        <input type="checkbox" id="car_2" name="cars[]" value="2">
+                        <label for="car_2">Renault Clio (ONSALE) - 18000€ - 30000km</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Détails</h2>
+                <div class="form-group">
+                    <label for="status">Statut</label>
+                    <select name="status" id="status" required>
+                        <option value="PROCESSING">PROCESSING</option>
+                        <option value="ONGOING">ONGOING</option>
+                        <option value="DONE">DONE</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="leases">Mensualités (séparées par des virgules)</label>
+                    <input type="text" name="leases" id="leases" placeholder="300.50, 300.50, 300.50">
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="/transaction/list" class="button cancel-button">Annuler</a>
+                <button type="submit" class="button create-button">Créer</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html> 

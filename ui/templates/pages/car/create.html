@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoceene Auto - Nouvelle Voiture</title>
+    <style>
+        :root {
+            --color-black: #000000;
+            --color-white: #FFFFFF;
+            --color-gray-100: #F5F5F5;
+            --color-gray-300: #D4D4D4;
+            --color-gray-600: #525252;
+            --color-gray-700: #404040;
+            --color-gray-900: #171717;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--color-gray-100);
+            color: var(--color-gray-900);
+        }
+
+        .vehicle-form-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: var(--color-white);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin: 0 0 2rem;
+            font-size: 1.5rem;
+            color: var(--color-gray-900);
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-section h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--color-gray-700);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--color-gray-700);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--color-gray-300);
+            border-radius: 4px;
+            font-size: 1rem;
+            color: var(--color-gray-900);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--color-gray-600);
+        }
+
+        .required::after {
+            content: " *";
+            color: #DC2626;
+        }
+
+        .image-upload {
+            border: 2px dashed var(--color-gray-300);
+            padding: 2rem;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .image-upload:hover {
+            border-color: var(--color-gray-600);
+        }
+
+        .upload-icon {
+            font-size: 2rem;
+            color: var(--color-gray-600);
+            margin-bottom: 1rem;
+        }
+
+        .upload-text {
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .cancel-button {
+            background-color: var(--color-gray-100);
+            color: var(--color-gray-700);
+        }
+
+        .create-button {
+            background-color: var(--color-gray-900);
+            color: var(--color-white);
+        }
+
+        .cancel-button:hover {
+            background-color: var(--color-gray-300);
+        }
+
+        .create-button:hover {
+            background-color: var(--color-gray-700);
+        }
+    </style>
+</head>
+<body>
+    <div class="vehicle-form-container">
+        <h1>Nouvelle Voiture</h1>
+        <form method="post" action="/car" class="data-form">
+            <div class="form-section">
+                <h2>Informations Catalogue</h2>
+                <div class="form-group">
+                    <label for="make">Marque</label>
+                    <input type="text" name="make" id="make" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="model">Modèle</label>
+                    <input type="text" name="model" id="model" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="cylinders">Cylindres</label>
+                    <input type="number" name="cylinders" id="cylinders" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="drive">Transmission</label>
+                    <input type="text" name="drive" id="drive" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="engine-descriptor">Description Moteur</label>
+                    <input type="text" name="engine-descriptor" id="engine-descriptor">
+                </div>
+
+                <div class="form-group">
+                    <label for="fuel1">Carburant Principal</label>
+                    <input type="text" name="fuel1" id="fuel1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="fuel2">Carburant Secondaire</label>
+                    <input type="text" name="fuel2" id="fuel2">
+                </div>
+
+                <div class="form-group">
+                    <label for="luggage-volume">Volume Coffre (L)</label>
+                    <input type="number" name="luggage-volume" id="luggage-volume" step="0.1" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="passenger-volume">Volume Passagers (L)</label>
+                    <input type="number" name="passenger-volume" id="passenger-volume" step="0.1" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="transmission">Type de Transmission</label>
+                    <input type="text" name="transmission" id="transmission" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="size-class">Catégorie de Taille</label>
+                    <input type="text" name="size-class" id="size-class">
+                </div>
+
+                <div class="form-group">
+                    <label for="year">Année Modèle</label>
+                    <input type="number" name="year" id="year" min="1980" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="electric-motor">Puissance Moteur Électrique (kW)</label>
+                    <input type="number" name="electric-motor" id="electric-motor" step="0.1" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="base-model">Modèle de Base</label>
+                    <input type="text" name="base-model" id="base-model">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Informations Produit</h2>
+                <div class="form-group">
+                    <label for="status">Statut</label>
+                    <select name="status" id="status" required>
+                        <option value="COMING">À venir</option>
+                        <option value="ONSALE" selected>En Vente</option>
+                        <option value="PROCESSING">En Traitement</option>
+                        <option value="SOLD">Vendu</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="kilometers">Kilométrage</label>
+                    <input type="number" name="kilometers" id="kilometers" step="0.1" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="owner-nb">Nombre de Propriétaires</label>
+                    <input type="number" name="owner-nb" id="owner-nb" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="color">Couleur</label>
+                    <input type="text" name="color" id="color" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Prix (€)</label>
+                    <input type="number" name="price" id="price" step="0.01" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="shop">Concession</label>
+                    <input type="text" name="shop" id="shop" value="HEADQUARTERS" readonly>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Photos</h2>
+                <div class="form-group">
+                    <label for="images">Photos du véhicule</label>
+                    <div class="image-upload" onclick="document.getElementById('images').click()">
+                        <div class="upload-icon">📁</div>
+                        <div class="upload-text">Cliquez ou déposez les photos ici</div>
+                        <input type="file" id="images" name="images[]" multiple accept="image/*" style="display: none;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Description</h2>
+                <div class="form-group full-width">
+                    <label for="description">Description détaillée</label>
+                    <textarea id="description" name="description" rows="4"></textarea>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="/cars" class="button cancel-button">Annuler</a>
+                <button type="submit" class="button create-button">Créer</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html> 

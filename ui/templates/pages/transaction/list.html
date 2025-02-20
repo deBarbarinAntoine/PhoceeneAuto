@@ -161,81 +161,79 @@
             color: var(--color-white);
             border-color: var(--color-gray-900);
         }
+
+        .transaction-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .transaction-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .transaction-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .status-tag {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+        }
+
+        .status-processing { background: #FEF3C7; color: #92400E; }
+        .status-ongoing { background: #DBEAFE; color: #1E40AF; }
+        .status-done { background: #D1FAE5; color: #065F46; }
+
+        .cars-list {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .price-total {
+            font-weight: 600;
+            color: var(--color-gray-900);
+            text-align: right;
+        }
     </style>
 </head>
 <body>
-    <div class="transaction-list-container">
+    <div class="container">
         <div class="header">
             <h1>Transactions</h1>
-            <a href="/transaction/create" class="action-button">Nouvelle Transaction</a>
+            <a href="/transaction/create" class="button create-button">Nouvelle Transaction</a>
         </div>
 
-        <div class="filters">
-            <input type="text" class="search-input" placeholder="Rechercher une transaction...">
-            <select class="filter-select">
-                <option value="">Tous les statuts</option>
-                <option value="draft">Brouillon</option>
-                <option value="pending">En cours</option>
-                <option value="completed">Terminée</option>
-                <option value="cancelled">Annulée</option>
-            </select>
-            <select class="filter-select">
-                <option value="">Toutes les dates</option>
-                <option value="today">Aujourd'hui</option>
-                <option value="week">Cette semaine</option>
-                <option value="month">Ce mois</option>
-            </select>
-        </div>
-
-        <table class="transaction-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Date</th>
-                    <th>Client</th>
-                    <th>Véhicule</th>
-                    <th>Montant</th>
-                    <th>Statut</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>#12345</td>
-                    <td>12/04/2024</td>
-                    <td>Martin Durant</td>
-                    <td>Peugeot 308 GT Line</td>
-                    <td>24 900 €</td>
-                    <td><span class="status-badge status-pending">En cours</span></td>
-                    <td><a href="/transaction/view/12345" class="action-button">Voir</a></td>
-                </tr>
-                <tr>
-                    <td>#12344</td>
-                    <td>11/04/2024</td>
-                    <td>Sophie Bernard</td>
-                    <td>Renault Clio</td>
-                    <td>18 500 €</td>
-                    <td><span class="status-badge status-completed">Terminée</span></td>
-                    <td><a href="/transaction/view/12344" class="action-button">Voir</a></td>
-                </tr>
-                <tr>
-                    <td>#12343</td>
-                    <td>10/04/2024</td>
-                    <td>Pierre Durand</td>
-                    <td>Citroën C3</td>
-                    <td>16 900 €</td>
-                    <td><span class="status-badge status-draft">Brouillon</span></td>
-                    <td><a href="/transaction/view/12343" class="action-button">Voir</a></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="pagination">
-            <button class="page-button">Précédent</button>
-            <button class="page-button active">1</button>
-            <button class="page-button">2</button>
-            <button class="page-button">3</button>
-            <button class="page-button">Suivant</button>
+        <div class="transaction-list">
+            <div class="transaction-card">
+                <div class="transaction-header">
+                    <div>
+                        <h3>Transaction #42</h3>
+                        <div class="client-info">Client: Jean Martin</div>
+                        <div class="user-info">Agent: Marie Dubois</div>
+                    </div>
+                    <span class="status-tag status-ongoing">ONGOING</span>
+                </div>
+                <div class="cars-list">
+                    <div>Peugeot 308 - 25000€</div>
+                    <div>Renault Clio - 18000€</div>
+                </div>
+                <div class="transaction-footer">
+                    <div>Mensualités: 300.50€, 300.50€, 300.50€</div>
+                    <div class="price-total">Total: 43000€</div>
+                    <div class="dates">
+                        <div>Créée le: 15/04/2024</div>
+                        <div>Mise à jour: 16/04/2024</div>
+                    </div>
+                </div>
+                <a href="/transaction/42" class="button view-button">Voir les détails</a>
+            </div>
         </div>
     </div>
 </body>
