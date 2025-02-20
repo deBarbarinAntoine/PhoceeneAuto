@@ -1,0 +1,98 @@
+{{ define "page" }}
+
+<div class="dashboard-container">
+    <div class="header">
+        <h1>Tableau de Bord</h1>
+        <div class="user-info">Bonjour, Jean Dupont</div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-title">Ventes du mois</div>
+            <div class="stat-value">12</div>
+            <div class="stat-change">+20% vs mois dernier</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">Chiffre d'affaires</div>
+            <div class="stat-value">245 K€</div>
+            <div class="stat-change">+15% vs mois dernier</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">Véhicules en stock</div>
+            <div class="stat-value">45</div>
+            <div class="stat-change">-5% vs mois dernier</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">Clients actifs</div>
+            <div class="stat-value">89</div>
+            <div class="stat-change">+10% vs mois dernier</div>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="section">
+            <h2>Activité Récente</h2>
+            <div class="activity-list">
+                <div class="activity-item">
+                    <div class="activity-icon">🚗</div>
+                    <div class="activity-content">
+                        <div class="activity-title">Nouvelle vente - Peugeot 308</div>
+                        <div class="activity-time">Il y a 2 heures par Marie Martin</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">👤</div>
+                    <div class="activity-content">
+                        <div class="activity-title">Nouveau client - Sophie Bernard</div>
+                        <div class="activity-time">Il y a 4 heures par Jean Dupont</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">📋</div>
+                    <div class="activity-content">
+                        <div class="activity-title">Mise à jour de l'inventaire</div>
+                        <div class="activity-time">Il y a 6 heures par Pierre Durand</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="margin-top: 2rem;">Performance des Ventes</h2>
+            <div class="chart-container">
+                [Graphique des ventes mensuelles]
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Tâches à Faire</h2>
+            <div class="task-list">
+                <div class="task-item">
+                    <div class="task-checkbox"></div>
+                    <div class="task-content">
+                        <div>Appeler M. Durant pour suivi</div>
+                        <div class="task-date">Aujourd'hui</div>
+                    </div>
+                </div>
+                <div class="task-item">
+                    <div class="task-checkbox"></div>
+                    <div class="task-content">
+                        <div>Préparer les documents pour la Renault Clio</div>
+                        <div class="task-date">Demain</div>
+                    </div>
+                </div>
+                <div class="task-item">
+                    <div class="task-checkbox"></div>
+                    <div class="task-content">
+                        <div>Mise à jour des prix du stock</div>
+                        <div class="task-date">15/04/2024</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="margin-top: 2rem;">Véhicules Populaires</h2>
+            <div class="chart-container">
+                [Graphique des modèles les plus consultés]
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}

@@ -1,0 +1,30 @@
+{{ define "page" }}
+
+<div class="error-container">
+    <h1 class="error-title">Page non trouvée</h1>
+    <div class="error-code">404</div>
+    <p class="error-message">La page que vous recherchez semble avoir disparu.</p>
+
+    <div class="error-details">
+        <div class="error-illustration">
+            🚗 💨
+        </div>
+        <p>Cette route ne mène nulle part... Peut-être que vous cherchez :</p>
+    </div>
+
+    <div class="search-links">
+        <a href="/dashboard" class="search-link">Tableau de bord</a>
+        <a href="/cars" class="search-link">Véhicules</a>
+        <a href="/clients" class="search-link">Clients</a>
+    </div>
+
+    <div style="margin: 2rem 0;">
+        <a href="/" class="back-button">Retour à l'accueil</a>
+    </div>
+
+    <p class="search-suggestion">
+        Vous pouvez également utiliser la barre de recherche pour trouver ce que vous cherchez
+    </p>
+</div>
+
+{{ end }}

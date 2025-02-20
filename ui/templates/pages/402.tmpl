@@ -1,0 +1,30 @@
+{{ define "page" }}
+
+<div class="error-container">
+    <h1 class="error-title">Paiement Requis</h1>
+    <div class="error-code">402</div>
+    <p class="error-message">Un paiement est nécessaire pour accéder à cette ressource.</p>
+
+    <div class="error-details">
+        <p>💳 Cette fonctionnalité nécessite un abonnement actif ou un paiement.</p>
+        <p>Veuillez procéder au paiement pour continuer.</p>
+    </div>
+
+    <div class="payment-info">
+        <h2>Détails du paiement</h2>
+        <div class="payment-amount">299,00 €</div>
+        <p>Accès complet à toutes les fonctionnalités pour 12 mois</p>
+    </div>
+
+    <div class="action-buttons">
+        <a href="/payment" class="button pay-button">Procéder au paiement</a>
+        <a href="/contact" class="button contact-button">Contacter le service commercial</a>
+    </div>
+
+    <p class="help-text">
+        Vous avez des questions ?
+        <a href="/pricing" class="help-link">Voir les tarifs</a> ou
+        <a href="/support" class="help-link">Contacter le support</a>
+    </p>
+</div>
+{{ end }}

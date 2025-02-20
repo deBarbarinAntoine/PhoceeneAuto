@@ -1,0 +1,75 @@
+{{ define "page" }}
+
+<div class="search-container">
+    <div class="search-header">
+        <h1>Recherche</h1>
+    </div>
+
+    <form class="search-form">
+        <input type="search" placeholder="Rechercher..." class="search-input" value="308">
+        <button type="submit" class="search-button">Rechercher</button>
+    </form>
+
+    <div class="search-filters">
+        <select class="filter-select">
+            <option value="">Tous les types</option>
+            <option value="cars">Voitures</option>
+            <option value="clients">Clients</option>
+            <option value="transactions">Transactions</option>
+        </select>
+        <select class="filter-select">
+            <option value="">Trier par</option>
+            <option value="relevance">Pertinence</option>
+            <option value="date">Date</option>
+            <option value="name">Nom</option>
+        </select>
+    </div>
+
+    <div class="results-info">
+        3 résultats trouvés pour "308"
+    </div>
+
+    <div class="results-tabs">
+        <a href="#" class="tab active">Tout (3)</a>
+        <a href="#" class="tab">Voitures (2)</a>
+        <a href="#" class="tab">Clients (1)</a>
+        <a href="#" class="tab">Transactions (0)</a>
+    </div>
+
+    <div class="results-grid">
+        <div class="result-card">
+            <div class="result-type">Voiture</div>
+            <h2 class="result-title">Peugeot 308 GT Line</h2>
+            <div class="result-details">
+                <div>Immatriculation: AB-123-CD</div>
+                <div>Année: 2022</div>
+                <div>Kilométrage: 45 000 km</div>
+            </div>
+            <a href="/car/view" class="result-link">Voir les détails →</a>
+        </div>
+
+        <div class="result-card">
+            <div class="result-type">Voiture</div>
+            <h2 class="result-title">Peugeot 308 Active</h2>
+            <div class="result-details">
+                <div>Immatriculation: EF-456-GH</div>
+                <div>Année: 2021</div>
+                <div>Kilométrage: 65 000 km</div>
+            </div>
+            <a href="/car/view" class="result-link">Voir les détails →</a>
+        </div>
+
+        <div class="result-card">
+            <div class="result-type">Client</div>
+            <h2 class="result-title">Martin Durant</h2>
+            <div class="result-details">
+                <div>Email: martin.durant@email.com</div>
+                <div>Téléphone: 06 12 34 56 78</div>
+                <div>Véhicule: Peugeot 308 GT Line</div>
+            </div>
+            <a href="/client/view" class="result-link">Voir le profil →</a>
+        </div>
+    </div>
+</div>
+
+{{ end }}

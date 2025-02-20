@@ -1,0 +1,24 @@
+{{ define "page" }}
+
+<div class="error-container">
+    <h1 class="error-title">Authentification Requise</h1>
+    <div class="error-code">401</div>
+    <p class="error-message">Vous devez être connecté pour accéder à cette page.</p>
+
+    <div class="error-details">
+        <p>🔑 Votre session a peut-être expiré ou vous n'êtes pas encore connecté.</p>
+        <p>Veuillez vous connecter pour accéder à cette ressource.</p>
+    </div>
+
+    <div class="action-buttons">
+        <a href="/login" class="button login-button">Se connecter</a>
+        <a href="/register" class="button register-button">Créer un compte</a>
+    </div>
+
+    <p class="help-text">
+        Problème de connexion ?
+        <a href="/password/forgot-password" class="help-link">Mot de passe oublié</a> ou
+        <a href="/support" class="help-link">Contacter le support</a>
+    </p>
+</div>
+{{ end }}

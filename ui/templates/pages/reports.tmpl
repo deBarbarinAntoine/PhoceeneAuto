@@ -1,0 +1,90 @@
+{{ define "page" }}
+
+<div class="reports-container">
+    <div class="header">
+        <h1>Rapports</h1>
+    </div>
+
+    <div class="report-grid">
+        <!-- Rapport des Ventes -->
+        <div class="report-card">
+            <div class="report-header">
+                <div class="report-icon">📊</div>
+                <div class="report-title">Rapport des Ventes</div>
+            </div>
+            <div class="report-description">
+                Analyse détaillée des ventes, incluant le chiffre d'affaires,
+                les marges et les tendances par période.
+            </div>
+            <div class="report-actions">
+                <a href="/reports/sales/view" class="button primary-button">Voir</a>
+                <a href="/reports/sales/export" class="button secondary-button">Exporter</a>
+            </div>
+            <div class="report-meta">
+                <span>Mis à jour : Aujourd'hui 09:15</span>
+                <span>Format : PDF, XLSX</span>
+            </div>
+        </div>
+
+        <!-- Rapport d'Inventaire -->
+        <div class="report-card">
+            <div class="report-header">
+                <div class="report-icon">🚗</div>
+                <div class="report-title">Rapport d'Inventaire</div>
+            </div>
+            <div class="report-description">
+                État du stock, rotation des véhicules, valorisation
+                et analyse des modèles populaires.
+            </div>
+            <div class="report-actions">
+                <a href="/reports/inventory/view" class="button primary-button">Voir</a>
+                <a href="/reports/inventory/export" class="button secondary-button">Exporter</a>
+            </div>
+            <div class="report-meta">
+                <span>Mis à jour : Aujourd'hui 08:30</span>
+                <span>Format : PDF, XLSX</span>
+            </div>
+        </div>
+
+        <!-- Rapport Client -->
+        <div class="report-card">
+            <div class="report-header">
+                <div class="report-icon">👥</div>
+                <div class="report-title">Rapport Client</div>
+            </div>
+            <div class="report-description">
+                Analyse de la base client, segmentation, satisfaction
+                et historique des interactions.
+            </div>
+            <div class="report-actions">
+                <a href="/reports/customers/view" class="button primary-button">Voir</a>
+                <a href="/reports/customers/export" class="button secondary-button">Exporter</a>
+            </div>
+            <div class="report-meta">
+                <span>Mis à jour : Hier 17:45</span>
+                <span>Format : PDF, XLSX</span>
+            </div>
+        </div>
+
+        <!-- Rapport Performance -->
+        <div class="report-card">
+            <div class="report-header">
+                <div class="report-icon">🎯</div>
+                <div class="report-title">Rapport Performance</div>
+            </div>
+            <div class="report-description">
+                Performance des commerciaux, objectifs, conversions
+                et indicateurs clés.
+            </div>
+            <div class="report-actions">
+                <a href="/reports/performance/view" class="button primary-button">Voir</a>
+                <a href="/reports/performance/export" class="button secondary-button">Exporter</a>
+            </div>
+            <div class="report-meta">
+                <span>Mis à jour : Aujourd'hui 10:00</span>
+                <span>Format : PDF, XLSX</span>
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}

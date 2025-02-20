@@ -1,0 +1,23 @@
+{{ define "page" }}
+
+<div class="error-container">
+    <h1 class="error-title">Une erreur est survenue</h1>
+    <div class="error-code">500</div>
+    <p class="error-message">Désolé, quelque chose s'est mal passé.</p>
+
+    <div class="error-details">
+        <div class="error-stack">
+Oups !
+Mauvaise route ?
+Votre voiture a fini là !
+        </div>
+    </div>
+
+    <a href="/" class="back-button">Retour à l'accueil</a>
+
+    <p class="contact-support">
+        Si le problème persiste, veuillez
+        <a href="mailto:support@phoceene-auto.fr" class="support-link">contacter le support</a>
+    </p>
+</div>
+{{ end }}
