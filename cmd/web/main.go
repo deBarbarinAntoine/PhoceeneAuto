@@ -104,11 +104,8 @@ func main() {
 		wg:             new(sync.WaitGroup),
 	}
 
-	// Clean expired tokens every N duration with no timeout
-	go app.cleanExpiredTokens(*frequency, time.Hour*0)
-
-	// Clean deleted clients after a legal period (RGPD) after an hour timeout
-	go app.cleanExpiredDeletedClients(*frequency, time.Hour*1)
+	// Clean deleted clients after a legal period (RGPD) with no timeout
+	go app.cleanExpiredDeletedClients(*frequency, time.Hour*0)
 
 	// Running the server
 	err = app.serve()
