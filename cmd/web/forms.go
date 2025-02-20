@@ -137,6 +137,7 @@ func newCarCatalogUpdateForm(car *data.CarCatalog) *carCatalogUpdateForm {
 
 	// filling the form with the data if any
 	if car != nil {
+		form.ID = &car.CatID
 		form.Make = &car.Make
 		form.Model = &car.Model
 		form.Year = &car.Year
@@ -186,6 +187,7 @@ func newCarProductUpdateForm(car *data.CarProduct) *carProductUpdateForm {
 
 	// filling the form with the data if any
 	if car != nil {
+		form.ID = &car.ID
 		form.CatID = &car.CatID
 		form.Shop = &car.Shop
 		form.Status = &car.Status
@@ -471,50 +473,66 @@ func (form carCatalogCreateForm) toCarCatalog() *data.CarCatalog {
 	return car
 }
 
-func (form carCatalogUpdateForm) toCarCatalog(car *data.CarCatalog) {
+func (form carCatalogUpdateForm) toCarCatalog(car *data.CarCatalog) bool {
+	isEmpty := true
 
 	if form.Make != nil {
+		isEmpty = false
 		car.Make = *form.Make
 	}
 	if form.Model != nil {
+		isEmpty = false
 		car.Model = *form.Model
 	}
 	if form.Cylinders != nil {
+		isEmpty = false
 		car.Cylinders = *form.Cylinders
 	}
 	if form.Drive != nil {
+		isEmpty = false
 		car.Drive = *form.Drive
 	}
 	if form.EngineDescriptor != nil {
+		isEmpty = false
 		car.EngineDescriptor = *form.EngineDescriptor
 	}
 	if form.Fuel1 != nil {
+		isEmpty = false
 		car.Fuel1 = *form.Fuel1
 	}
 	if form.Fuel2 != nil {
+		isEmpty = false
 		car.Fuel2 = *form.Fuel2
 	}
 	if form.LuggageVolume != nil {
+		isEmpty = false
 		car.LuggageVolume = *form.LuggageVolume
 	}
 	if form.PassengerVolume != nil {
+		isEmpty = false
 		car.PassengerVolume = *form.PassengerVolume
 	}
 	if form.Transmission != nil {
+		isEmpty = false
 		car.Transmission = *form.Transmission
 	}
 	if form.SizeClass != nil {
+		isEmpty = false
 		car.SizeClass = *form.SizeClass
 	}
 	if form.Year != nil {
+		isEmpty = false
 		car.Year = *form.Year
 	}
 	if form.ElectricMotor != nil {
+		isEmpty = false
 		car.ElectricMotor = *form.ElectricMotor
 	}
 	if form.BaseModel != nil {
+		isEmpty = false
 		car.BaseModel = *form.BaseModel
 	}
+	return isEmpty
 }
 
 func (form carProductCreateForm) toCarProduct() *data.CarProduct {
@@ -539,23 +557,30 @@ func (form carProductCreateForm) toCarProduct() *data.CarProduct {
 	return car
 }
 
-func (form carProductUpdateForm) toCarProduct(car *data.CarProduct) {
+func (form carProductUpdateForm) toCarProduct(car *data.CarProduct) bool {
+	isEmpty := true
 
 	if form.OwnerNb != nil {
+		isEmpty = false
 		car.OwnerNb = *form.OwnerNb
 	}
 	if form.Color != nil {
+		isEmpty = false
 		car.Color = *form.Color
 	}
 	if form.Price != nil {
+		isEmpty = false
 		car.Price = *form.Price
 	}
 	if form.Shop != nil {
+		isEmpty = false
 		car.Shop = *form.Shop
 	}
 	if form.CatID != nil {
+		isEmpty = false
 		car.CatID = *form.CatID
 	}
+	return isEmpty
 }
 
 func (form transactionCreateForm) toTransaction() *data.Transaction {

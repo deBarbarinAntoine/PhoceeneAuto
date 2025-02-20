@@ -11,10 +11,10 @@ const (
 )
 
 var (
-	ErrRecordNotFound = errors.New("record not found")
-	ErrEditConflict   = errors.New("edit conflict")
-	ErrDuplicateEmail = errors.New("duplicate email")
-
+	ErrRecordNotFound      = errors.New("record not found")
+	ErrEditConflict        = errors.New("edit conflict")
+	ErrDuplicateEmail      = errors.New("duplicate email")
+	ErrDuplicateCarCatalog = errors.New("exact duplicate row: This car already exists in the catalog")
 	// Shop represents a collection of constants related to the company's shop.
 	Shop = struct {
 		HEADQUARTERS string

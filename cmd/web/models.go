@@ -175,6 +175,7 @@ type carCatalogCreateForm struct {
 
 // carCatalogUpdateForm represents the form used for updating a car catalog entry.
 type carCatalogUpdateForm struct {
+	ID                  *int     `form:"id,omitempty"`
 	Make                *string  `form:"make,omitempty"`
 	Model               *string  `form:"model,omitempty"`
 	Cylinders           *int     `form:"cylinders,omitempty"`
@@ -206,6 +207,7 @@ type carProductCreateForm struct {
 
 // carProductUpdateForm represents the form used for updating a car product.
 type carProductUpdateForm struct {
+	ID                  *int     `form:"id,omitempty"`
 	Status              *string  `form:"status,omitempty"`
 	Kilometers          *float32 `form:"kilometers,omitempty"`
 	OwnerNb             *int     `form:"owner_nb,omitempty"`
