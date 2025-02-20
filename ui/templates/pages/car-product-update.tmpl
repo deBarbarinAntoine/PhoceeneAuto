@@ -1,113 +1,141 @@
 {{ define "page" }}
 
-<div class="vehicle-form-container">
-    <div class="header">
-        <h1>Modifier le Véhicule</h1>
-        <span class="vehicle-id">#12345</span>
-    </div>
-
-    <form method="post" action="/vehicle/update/12345" enctype="multipart/form-data">
-        <div class="form-section">
-            <h2>Informations Générales</h2>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="brand" class="required">Marque</label>
-                    <select name="brand" id="brand" required>
-                        <option value="peugeot" selected>Peugeot</option>
-                        <option value="renault">Renault</option>
-                        <option value="citroen">Citroën</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="model" class="required">Modèle</label>
-                    <input type="text" id="model" name="model" value="308" required>
-                </div>
-                <div class="form-group">
-                    <label for="version">Version</label>
-                    <input type="text" id="version" name="version" value="GT Line">
-                </div>
-                <div class="form-group">
-                    <label for="year" class="required">Année</label>
-                    <input type="number" id="year" name="year" value="2022" min="1900" max="2024" required>
-                </div>
-            </div>
+    <div class="vehicle-form-container">
+        <div class="header">
+            <h1>Modifier le Véhicule</h1>
+            <span class="vehicle-id">#42</span>
         </div>
 
-        <div class="form-section">
-            <h2>Caractéristiques Techniques</h2>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="registration" class="required">Immatriculation</label>
-                    <input type="text" id="registration" name="registration" value="AB-123-CD" required>
-                </div>
-                <div class="form-group">
-                    <label for="mileage" class="required">Kilométrage</label>
-                    <input type="number" id="mileage" name="mileage" value="45000" required>
-                </div>
-                <div class="form-group">
-                    <label for="fuel_type" class="required">Carburant</label>
-                    <select name="fuel_type" id="fuel_type" required>
-                        <option value="diesel" selected>Diesel</option>
-                        <option value="essence">Essence</option>
-                        <option value="hybrid">Hybride</option>
-                        <option value="electric">Électrique</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="transmission" class="required">Transmission</label>
-                    <select name="transmission" id="transmission" required>
-                        <option value="manual">Manuelle</option>
-                        <option value="automatic" selected>Automatique</option>
-                    </select>
-                </div>
-            </div>
-        </div>
+        <form method="post" action="/car/42" class="data-form">
+            <input type="hidden" name="id" value="42">
+            <input type="hidden" name="version" value="1">
+            <input type="hidden" name="cat_id" value="208">
+            <input type="hidden" name="cat_version" value="1">
 
-        <div class="form-section">
-            <h2>Prix et Disponibilité</h2>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="price" class="required">Prix (€)</label>
-                    <input type="number" id="price" name="price" value="24900" min="0" step="100" required>
-                </div>
-                <div class="form-group">
-                    <label for="status" class="required">Statut</label>
-                    <select name="status" id="status" required>
-                        <option value="available" selected>Disponible</option>
-                        <option value="reserved">Réservé</option>
-                        <option value="sold">Vendu</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-section">
-            <h2>Photos</h2>
-            <div class="form-group">
-                <label>Photos actuelles</label>
-                <div class="current-images">
-                    <div class="image-item">
-                        <div class="image-preview" style="background-image: url('/static/images/vehicles/peugeot-308-1.jpg')"></div>
-                        <button type="button" class="delete-image">×</button>
+            <div class="form-section">
+                <h2>Informations Produit</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="status" class="required">Statut</label>
+                        <select name="status" id="status" required>
+                            <option value="COMING">À venir</option>
+                            <option value="ONSALE" selected>En Vente</option>
+                            <option value="PROCESSING">En Traitement</option>
+                            <option value="SOLD">Vendu</option>
+                        </select>
                     </div>
-                    <div class="image-item">
-                        <div class="image-preview" style="background-image: url('/static/images/vehicles/peugeot-308-2.jpg')"></div>
-                        <button type="button" class="delete-image">×</button>
+                    <div class="form-group">
+                        <label for="kilometers" class="required">Kilométrage</label>
+                        <input type="number" id="kilometers" name="kilometers" value="15000" step="0.1" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="owner-nb" class="required">Nombre de propriétaires</label>
+                        <input type="number" id="owner-nb" name="owner-nb" value="1" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="color" class="required">Couleur</label>
+                        <input type="text" id="color" name="color" value="Blanc" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="price" class="required">Prix (€)</label>
+                        <input type="number" id="price" name="price" value="25000" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shop">Concession</label>
+                        <input type="text" id="shop" name="shop" value="HEADQUARTERS" readonly>
                     </div>
                 </div>
-                <div class="image-upload" onclick="document.getElementById('new_images').click()">
-                    <div class="upload-icon">📁</div>
-                    <div class="upload-text">Ajouter de nouvelles photos</div>
-                    <input type="file" id="new_images" name="new_images[]" multiple accept="image/*" style="display: none;">
+            </div>
+
+            <div class="form-section">
+                <h2>Informations Catalogue</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="make" class="required">Marque</label>
+                        <input type="text" id="make" name="make" value="Peugeot" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="model" class="required">Modèle</label>
+                        <input type="text" id="model" name="model" value="208" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cylinders">Cylindres</label>
+                        <input type="number" id="cylinders" name="cylinders" value="4" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="drive" class="required">Transmission</label>
+                        <input type="text" id="drive" name="drive" value="Avant" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="engine-descriptor">Description Moteur</label>
+                        <input type="text" id="engine-descriptor" name="engine-descriptor" value="1.2L PureTech">
+                    </div>
+                    <div class="form-group">
+                        <label for="fuel1" class="required">Carburant Principal</label>
+                        <input type="text" id="fuel1" name="fuel1" value="Essence" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fuel2">Carburant Secondaire</label>
+                        <input type="text" id="fuel2" name="fuel2" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="luggage-volume">Volume Coffre (L)</label>
+                        <input type="number" id="luggage-volume" name="luggage-volume" value="311" step="0.1" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="passenger-volume">Volume Passagers (L)</label>
+                        <input type="number" id="passenger-volume" name="passenger-volume" value="1400" step="0.1" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="transmission" class="required">Type Transmission</label>
+                        <input type="text" id="transmission" name="transmission" value="Manuelle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="size-class">Catégorie</label>
+                        <input type="text" id="size-class" name="size-class" value="Citadine">
+                    </div>
+                    <div class="form-group">
+                        <label for="year" class="required">Année</label>
+                        <input type="number" id="year" name="year" value="2023" min="1980" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="electric-motor">Puissance Électrique (kW)</label>
+                        <input type="number" id="electric-motor" name="electric-motor" value="0" step="0.1" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="base-model">Modèle de Base</label>
+                        <input type="text" id="base-model" name="base-model" value="208 Active">
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="form-section">
-            <h2>Description</h2>
-            <div class="form-group full-width">
-                <label for="description">Description détaillée</label>
-                <textarea id="description" name="description" rows="4">Superbe Peugeot 308 GT Line en excellent état.
+            <div class="form-section">
+                <h2>Photos</h2>
+                <div class="form-group">
+                    <label>Photos actuelles</label>
+                    <div class="current-images">
+                        <div class="image-item">
+                            <div class="image-preview" style="background-image: url('/static/images/vehicles/peugeot-308-1.jpg')"></div>
+                            <button type="button" class="delete-image">×</button>
+                        </div>
+                        <div class="image-item">
+                            <div class="image-preview" style="background-image: url('/static/images/vehicles/peugeot-308-2.jpg')"></div>
+                            <button type="button" class="delete-image">×</button>
+                        </div>
+                    </div>
+                    <div class="image-upload" onclick="document.getElementById('new_images').click()">
+                        <div class="upload-icon">📁</div>
+                        <div class="upload-text">Ajouter de nouvelles photos</div>
+                        <input type="file" id="new_images" name="new_images[]" multiple accept="image/*" style="display: none;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Description</h2>
+                <div class="form-group full-width">
+                    <label for="description">Description détaillée</label>
+                    <textarea id="description" name="description" rows="4">Superbe Peugeot 308 GT Line en excellent état.
 Première main, carnet d'entretien complet.
 Équipements :
 - GPS
@@ -115,24 +143,25 @@ Première main, carnet d'entretien complet.
 - Sièges chauffants
 - Toit panoramique
 - Jantes alliage 18"</textarea>
+                </div>
             </div>
-        </div>
 
-        <div class="history-section">
-            <h2>Historique des modifications</h2>
-            <div class="history-item">Créé le 12/04/2024 à 14:30 par Jean Dupont</div>
-            <div class="history-item">Modifié le 13/04/2024 à 09:15 par Marie Martin</div>
-        </div>
+            <div class="history-section">
+                <h2>Historique des modifications</h2>
+                <div class="history-item">Créé le 12/04/2024 à 14:30 par Jean Dupont</div>
+                <div class="history-item">Modifié le 13/04/2024 à 09:15 par Marie Martin</div>
+            </div>
 
-        <div class="action-buttons">
-            <div class="left-buttons">
-                <button type="button" class="button delete-button" onclick="if(confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?')) window.location.href='/vehicle/delete/12345'">Supprimer</button>
+            <div class="action-buttons">
+                <div class="left-buttons">
+                    <button type="button" class="button delete-button" onclick="if(confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?')) window.location.href='/car/delete/42'">Supprimer</button>
+                </div>
+                <div class="right-buttons">
+                    <a href="/cars" class="button cancel-button">Annuler</a>
+                    <button type="submit" class="button save-button">Enregistrer</button>
+                </div>
             </div>
-            <div class="right-buttons">
-                <a href="/vehicle/view/12345" class="button cancel-button">Annuler</a>
-                <button type="submit" class="button save-button">Enregistrer</button>
-            </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
+
 {{ end }}

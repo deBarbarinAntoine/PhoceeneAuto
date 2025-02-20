@@ -1,73 +1,69 @@
 {{ define "page" }}
 
-<div class="transaction-form-container">
-    <div class="header">
-        <h1>Modifier la Transaction</h1>
-        <span class="transaction-id">#12345</span>
-    </div>
-
-    <form method="post" action="/transaction/update/12345">
-        <div class="form-section">
-            <h2>Informations Client</h2>
-            <div class="form-group">
-                <label for="client_id">Client</label>
-                <select name="client_id" id="client_id" required>
-                    <option value="">Sélectionner un client</option>
-                    <option value="1" selected>Martin Durant</option>
-                    <option value="2">Sophie Bernard</option>
-                    <option value="3">Pierre Dubois</option>
-                </select>
-            </div>
+    <div class="transaction-form-container">
+        <div class="header">
+            <h1>Modifier la Transaction #42</h1>
         </div>
 
-        <div class="form-section">
-            <h2>Véhicules</h2>
-            <div class="car-selection">
-                <div class="car-item">
-                    <input type="checkbox" id="car_1" name="cars[]" value="1" checked>
-                    <label for="car_1">Peugeot 308 GT Line - AB-123-CD</label>
-                </div>
-                <div class="car-item">
-                    <input type="checkbox" id="car_2" name="cars[]" value="2" checked>
-                    <label for="car_2">Renault Clio - EF-456-GH</label>
+        <form method="post" action="/transaction/42">
+            <input type="hidden" name="id" value="42">
+            <input type="hidden" name="version" value="1">
+            <input type="hidden" name="user_id" value="15">
+
+            <div class="form-section">
+                <h2>Client</h2>
+                <div class="form-group">
+                    <label for="client_id">Client</label>
+                    <select name="client_id" id="client_id" required>
+                        <option value="1" selected>Jean Martin (ACTIVE)</option>
+                        <option value="2">Marie Dubois (ACTIVE)</option>
+                    </select>
                 </div>
             </div>
-        </div>
 
-        <div class="form-section">
-            <h2>Détails de la Transaction</h2>
-            <div class="form-group">
-                <label for="status">Statut</label>
-                <select name="status" id="status" required>
-                    <option value="pending">En attente</option>
-                    <option value="in_progress" selected>En cours</option>
-                    <option value="completed">Terminée</option>
-                </select>
+            <div class="form-section">
+                <h2>Véhicules</h2>
+                <div class="car-selection">
+                    <div class="car-item">
+                        <input type="checkbox" id="car_1" name="cars[]" value="1" checked>
+                        <label for="car_1">Peugeot 308 (ONSALE) - 25000€ - 50000km</label>
+                    </div>
+                    <div class="car-item">
+                        <input type="checkbox" id="car_2" name="cars[]" value="2" checked>
+                        <label for="car_2">Renault Clio (ONSALE) - 18000€ - 30000km</label>
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="notes">Notes</label>
-                <textarea name="notes" id="notes" rows="4">Rendez-vous prévu le 15/04/2024 pour la signature des documents.
-Client intéressé par l'extension de garantie.</textarea>
-            </div>
-        </div>
+            <div class="form-section">
+                <h2>Détails</h2>
+                <div class="form-group">
+                    <label for="status">Statut</label>
+                    <select name="status" id="status" required>
+                        <option value="PROCESSING">PROCESSING</option>
+                        <option value="ONGOING" selected>ONGOING</option>
+                        <option value="DONE">DONE</option>
+                    </select>
+                </div>
 
-        <div class="form-section">
-            <h2>Historique des modifications</h2>
-            <div class="history-item">Créée le 12/04/2024 à 14:30 par Jean Dupont</div>
-            <div class="history-item">Modifiée le 13/04/2024 à 09:15 par Marie Martin</div>
-        </div>
-
-        <div class="action-buttons">
-            <div class="left-buttons">
-                <button type="button" class="button delete-button" onclick="if(confirm('Êtes-vous sûr de vouloir supprimer cette transaction ?')) window.location.href='/transaction/delete/12345'">Supprimer</button>
+                <div class="form-group">
+                    <label for="leases">Mensualités (séparées par des virgules)</label>
+                    <input type="text" name="leases" id="leases" value="300.50, 300.50, 300.50" required>
+                </div>
             </div>
-            <div class="right-buttons">
-                <a href="/transaction/view/12345" class="button cancel-button">Annuler</a>
+
+            <div class="form-section">
+                <h2>Informations Système</h2>
+                <div>Créée le: 15/04/2024</div>
+                <div>Dernière modification: 16/04/2024</div>
+                <div>Par: Marie Dubois</div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="/transaction/list" class="button cancel-button">Annuler</a>
                 <button type="submit" class="button save-button">Enregistrer</button>
             </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
 
 {{ end }}

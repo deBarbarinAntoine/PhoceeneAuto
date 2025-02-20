@@ -32,7 +32,7 @@ func (app *application) clientGet(w http.ResponseWriter, r *http.Request) {
 	tmplData.Client = *client
 
 	// rendering the template
-	app.render(w, r, http.StatusOK, "create-client.tmpl", tmplData)
+	app.render(w, r, http.StatusOK, "client-create.tmpl", tmplData)
 }
 
 func (app *application) deleteClient(w http.ResponseWriter, r *http.Request) {
@@ -80,7 +80,7 @@ func (app *application) createClient(w http.ResponseWriter, r *http.Request) {
 	tmplData.Form = newClientCreateForm()
 
 	// rendering the template
-	app.render(w, r, http.StatusOK, "create-client.tmpl", tmplData)
+	app.render(w, r, http.StatusOK, "client-create.tmpl", tmplData)
 }
 
 func (app *application) createClientPost(w http.ResponseWriter, r *http.Request) {
@@ -103,7 +103,7 @@ func (app *application) createClientPost(w http.ResponseWriter, r *http.Request)
 	if data.ValidateClient(&form.Validator, client); !form.Valid() {
 
 		// redirect to form with errors
-		app.failedValidationError(w, r, form, &form.Validator, "create-client.tmpl")
+		app.failedValidationError(w, r, form, &form.Validator, "client-create.tmpl")
 		return
 	}
 
@@ -113,7 +113,7 @@ func (app *application) createClientPost(w http.ResponseWriter, r *http.Request)
 		switch {
 		case errors.Is(err, data.ErrDuplicateEmail):
 			form.AddFieldError("email", "a client with this email address already exists")
-			app.failedValidationError(w, r, form, &form.Validator, "create-client.tmpl")
+			app.failedValidationError(w, r, form, &form.Validator, "client-create.tmpl")
 		default:
 			app.serverError(w, r, err)
 		}
@@ -192,7 +192,7 @@ func (app *application) updateClientPost(w http.ResponseWriter, r *http.Request)
 	if data.ValidateClient(&form.Validator, client); !form.Valid() {
 
 		// redirect to form with errors
-		app.failedValidationError(w, r, form, &form.Validator, "create-client.tmpl")
+		app.failedValidationError(w, r, form, &form.Validator, "client-create.tmpl")
 		return
 	}
 
@@ -202,7 +202,7 @@ func (app *application) updateClientPost(w http.ResponseWriter, r *http.Request)
 		switch {
 		case errors.Is(err, data.ErrDuplicateEmail):
 			form.AddFieldError("email", "a client with this email address already exists")
-			app.failedValidationError(w, r, form, &form.Validator, "create-client.tmpl")
+			app.failedValidationError(w, r, form, &form.Validator, "client-create.tmpl")
 		default:
 			app.serverError(w, r, err)
 		}

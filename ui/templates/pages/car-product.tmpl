@@ -1,91 +1,136 @@
 {{ define "page" }}
 
-<div class="vehicle-view-container">
-    <div class="vehicle-main">
-        <div class="header">
-            <h1>Peugeot 308 GT Line</h1>
-            <span class="status-badge">Disponible</span>
-        </div>
-
-        <div class="gallery">
-            <div class="main-image" style="background-image: url('/static/images/vehicles/peugeot-308-1.jpg')"></div>
-            <div class="thumbnail-grid">
-                <div class="thumbnail" style="background-image: url('/static/images/vehicles/peugeot-308-1.jpg')"></div>
-                <div class="thumbnail" style="background-image: url('/static/images/vehicles/peugeot-308-2.jpg')"></div>
-                <div class="thumbnail" style="background-image: url('/static/images/vehicles/peugeot-308-3.jpg')"></div>
-                <div class="thumbnail" style="background-image: url('/static/images/vehicles/peugeot-308-4.jpg')"></div>
-                <div class="thumbnail" style="background-image: url('/static/images/vehicles/peugeot-308-5.jpg')"></div>
+    <div class="car-view-container">
+        <div class="info-block full-width">
+            <div class="car-header">
+                <h1 class="car-title">Peugeot 208</h1>
+                <span class="car-status status-onsale">EN VENTE</span>
+            </div>
+            <div class="action-buttons">
+                <a href="/cars" class="button back-button">Retour</a>
+                <a href="/car/edit/42" class="button edit-button">Modifier</a>
             </div>
         </div>
 
-        <div class="section">
-            <h2>Caractéristiques Techniques</h2>
-            <div class="specs-grid">
-                <div class="spec-item">
-                    <div class="spec-label">Immatriculation</div>
-                    <div class="spec-value">AB-123-CD</div>
-                </div>
-                <div class="spec-item">
-                    <div class="spec-label">Année</div>
-                    <div class="spec-value">2022</div>
-                </div>
-                <div class="spec-item">
-                    <div class="spec-label">Kilométrage</div>
-                    <div class="spec-value">45 000 km</div>
-                </div>
-                <div class="spec-item">
-                    <div class="spec-label">Carburant</div>
-                    <div class="spec-value">Diesel</div>
-                </div>
-                <div class="spec-item">
-                    <div class="spec-label">Transmission</div>
-                    <div class="spec-value">Automatique</div>
-                </div>
-                <div class="spec-item">
-                    <div class="spec-label">Puissance</div>
-                    <div class="spec-value">130 ch</div>
+        <div class="info-block">
+            <div class="info-section">
+                <h2>Informations Produit</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Kilométrage</div>
+                        <div class="info-value">15000 km</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Propriétaires</div>
+                        <div class="info-value">1</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Couleur</div>
+                        <div class="info-value">Blanc</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Prix</div>
+                        <div class="info-value">25000 €</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Concession</div>
+                        <div class="info-value">HEADQUARTERS</div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="section">
-            <h2>Description</h2>
-            <div class="description">
-                Superbe Peugeot 308 GT Line en excellent état.
-                Première main, carnet d'entretien complet.
-                Équipements :
-                - GPS
-                - Caméra de recul
-                - Sièges chauffants
-                - Toit panoramique
-                - Jantes alliage 18"
+        <div class="info-block">
+            <div class="info-section">
+                <h2>Informations Système</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">ID Produit</div>
+                        <div class="info-value">42</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">ID Catalogue</div>
+                        <div class="info-value">208</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Créé le</div>
+                        <div class="info-value">15/04/2024 14:30</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Dernière mise à jour</div>
+                        <div class="info-value">15/04/2024 16:45</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Version</div>
+                        <div class="info-value">2</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-block">
+            <div class="info-section">
+                <h2>Caractéristiques Techniques</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Marque</div>
+                        <div class="info-value">Peugeot</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Modèle</div>
+                        <div class="info-value">208</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Cylindres</div>
+                        <div class="info-value">4</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Transmission</div>
+                        <div class="info-value">Manuelle</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Description Moteur</div>
+                        <div class="info-value">1.2L PureTech</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Type Transmission</div>
+                        <div class="info-value">Manuelle 6 vitesses</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-block">
+            <div class="info-section">
+                <h2>Spécifications</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Carburant Principal</div>
+                        <div class="info-value">Essence</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Carburant Secondaire</div>
+                        <div class="info-value">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Volume Coffre</div>
+                        <div class="info-value">311 L</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Volume Passagers</div>
+                        <div class="info-value">1400 L</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Catégorie</div>
+                        <div class="info-value">Citadine</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Puissance Électrique</div>
+                        <div class="info-value">0 kW</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-    <div class="vehicle-sidebar">
-        <div class="price-section">
-            <div class="price-label">Prix</div>
-            <div class="price-value">24 900 €</div>
-        </div>
-
-        <div class="section">
-            <h2>Historique</h2>
-            <div class="spec-item">
-                <div class="spec-label">Date d'ajout</div>
-                <div class="spec-value">12/04/2024</div>
-            </div>
-            <div class="spec-item">
-                <div class="spec-label">Dernière modification</div>
-                <div class="spec-value">13/04/2024</div>
-            </div>
-        </div>
-
-        <div class="action-buttons">
-            <a href="/vehicle/update/1" class="button primary-button">Modifier</a>
-            <a href="/vehicle/list" class="button secondary-button">Retour à la liste</a>
-        </div>
-    </div>
-</div>
 
 {{ end }}

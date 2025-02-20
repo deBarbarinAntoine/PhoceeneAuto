@@ -1,82 +1,116 @@
 {{ define "page" }}
 
 <div class="vehicle-form-container">
-    <h1>Nouveau Véhicule</h1>
-    <form method="post" action="/vehicle/create" enctype="multipart/form-data">
+    <h1>Nouvelle Voiture</h1>
+    <form method="post" action="/car" class="data-form">
         <div class="form-section">
-            <h2>Informations Générales</h2>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="brand" class="required">Marque</label>
-                    <select name="brand" id="brand" required>
-                        <option value="">Sélectionner une marque</option>
-                        <option value="peugeot">Peugeot</option>
-                        <option value="renault">Renault</option>
-                        <option value="citroen">Citroën</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="model" class="required">Modèle</label>
-                    <input type="text" id="model" name="model" required>
-                </div>
-                <div class="form-group">
-                    <label for="version">Version</label>
-                    <input type="text" id="version" name="version">
-                </div>
-                <div class="form-group">
-                    <label for="year" class="required">Année</label>
-                    <input type="number" id="year" name="year" min="1900" max="2024" required>
-                </div>
+            <h2>Informations Catalogue</h2>
+            <div class="form-group">
+                <label for="make">Marque</label>
+                <input type="text" name="make" id="make" required>
+            </div>
+
+            <div class="form-group">
+                <label for="model">Modèle</label>
+                <input type="text" name="model" id="model" required>
+            </div>
+
+            <div class="form-group">
+                <label for="cylinders">Cylindres</label>
+                <input type="number" name="cylinders" id="cylinders" min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="drive">Transmission</label>
+                <input type="text" name="drive" id="drive" required>
+            </div>
+
+            <div class="form-group">
+                <label for="engine-descriptor">Description Moteur</label>
+                <input type="text" name="engine-descriptor" id="engine-descriptor">
+            </div>
+
+            <div class="form-group">
+                <label for="fuel1">Carburant Principal</label>
+                <input type="text" name="fuel1" id="fuel1" required>
+            </div>
+
+            <div class="form-group">
+                <label for="fuel2">Carburant Secondaire</label>
+                <input type="text" name="fuel2" id="fuel2">
+            </div>
+
+            <div class="form-group">
+                <label for="luggage-volume">Volume Coffre (L)</label>
+                <input type="number" name="luggage-volume" id="luggage-volume" step="0.1" min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="passenger-volume">Volume Passagers (L)</label>
+                <input type="number" name="passenger-volume" id="passenger-volume" step="0.1" min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="transmission">Type de Transmission</label>
+                <input type="text" name="transmission" id="transmission" required>
+            </div>
+
+            <div class="form-group">
+                <label for="size-class">Catégorie de Taille</label>
+                <input type="text" name="size-class" id="size-class">
+            </div>
+
+            <div class="form-group">
+                <label for="year">Année Modèle</label>
+                <input type="number" name="year" id="year" min="1980" required>
+            </div>
+
+            <div class="form-group">
+                <label for="electric-motor">Puissance Moteur Électrique (kW)</label>
+                <input type="number" name="electric-motor" id="electric-motor" step="0.1" min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="base-model">Modèle de Base</label>
+                <input type="text" name="base-model" id="base-model">
             </div>
         </div>
 
         <div class="form-section">
-            <h2>Caractéristiques Techniques</h2>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="registration" class="required">Immatriculation</label>
-                    <input type="text" id="registration" name="registration" required>
-                </div>
-                <div class="form-group">
-                    <label for="mileage" class="required">Kilométrage</label>
-                    <input type="number" id="mileage" name="mileage" required>
-                </div>
-                <div class="form-group">
-                    <label for="fuel_type" class="required">Carburant</label>
-                    <select name="fuel_type" id="fuel_type" required>
-                        <option value="">Sélectionner</option>
-                        <option value="diesel">Diesel</option>
-                        <option value="essence">Essence</option>
-                        <option value="hybrid">Hybride</option>
-                        <option value="electric">Électrique</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="transmission" class="required">Transmission</label>
-                    <select name="transmission" id="transmission" required>
-                        <option value="">Sélectionner</option>
-                        <option value="manual">Manuelle</option>
-                        <option value="automatic">Automatique</option>
-                    </select>
-                </div>
+            <h2>Informations Produit</h2>
+            <div class="form-group">
+                <label for="status">Statut</label>
+                <select name="status" id="status" required>
+                    <option value="COMING">À venir</option>
+                    <option value="ONSALE" selected>En Vente</option>
+                    <option value="PROCESSING">En Traitement</option>
+                    <option value="SOLD">Vendu</option>
+                </select>
             </div>
-        </div>
 
-        <div class="form-section">
-            <h2>Prix et Disponibilité</h2>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="price" class="required">Prix (€)</label>
-                    <input type="number" id="price" name="price" min="0" step="100" required>
-                </div>
-                <div class="form-group">
-                    <label for="status" class="required">Statut</label>
-                    <select name="status" id="status" required>
-                        <option value="available">Disponible</option>
-                        <option value="reserved">Réservé</option>
-                        <option value="sold">Vendu</option>
-                    </select>
-                </div>
+            <div class="form-group">
+                <label for="kilometers">Kilométrage</label>
+                <input type="number" name="kilometers" id="kilometers" step="0.1" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="owner-nb">Nombre de Propriétaires</label>
+                <input type="number" name="owner-nb" id="owner-nb" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="color">Couleur</label>
+                <input type="text" name="color" id="color" required>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Prix (€)</label>
+                <input type="number" name="price" id="price" step="0.01" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="shop">Concession</label>
+                <input type="text" name="shop" id="shop" value="HEADQUARTERS" readonly>
             </div>
         </div>
 
@@ -101,9 +135,10 @@
         </div>
 
         <div class="action-buttons">
-            <a href="/vehicle/list" class="button cancel-button">Annuler</a>
-            <button type="submit" class="button create-button">Créer le véhicule</button>
+            <a href="/cars" class="button cancel-button">Annuler</a>
+            <button type="submit" class="button create-button">Créer</button>
         </div>
     </form>
 </div>
+
 {{ end }}
