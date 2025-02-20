@@ -1,0 +1,52 @@
+{{ define "pagination" }}
+
+    {{/*Pagination*/}}
+    <div class="pagination">
+
+        {{/*First Page*/}}
+        <div class="pag-link relative">
+            {{ if ne .CurrentPage .FirstPage }}
+                <a href="?pag={{ .FirstPage }}" class="abs full on-top"></a>
+            {{ end }}
+            <svg class="pag-icon" width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 17L13 12L18 7M11 17L6 12L11 7" {{ if eq .CurrentPage .FirstPage }}stroke="#034163"{{ end }} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        {{/*Previous Page*/}}
+        <div class="pag-link relative">
+            {{ if ne .CurrentPage .FirstPage }}
+                <a href="?pag={{ decrement .CurrentPage }}" class="abs full on-top"></a>
+            {{ end }}
+            <svg class="pag-icon big-icon" width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 18L9 12L15 6" {{ if eq .CurrentPage .FirstPage }}stroke="#034163"{{ end }} stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        {{/*Current Page*/}}
+        <div class="pag-link relative">
+            <span class="pag-current">page {{ .CurrentPage }} of {{ .LastPage }}</span>
+        </div>
+
+        {{/*Next Page*/}}
+        <div class="pag-link relative">
+            {{ if ne .CurrentPage .LastPage }}
+                <a href="?pag={{ increment .CurrentPage }}" class="abs full on-top"></a>
+            {{ end }}
+            <svg class="pag-icon big-icon" width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 18L15 12L9 6" {{ if eq .CurrentPage .LastPage }}stroke="#034163"{{ end }} stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        {{/*Last Page*/}}
+        <div class="pag-link relative">
+            {{ if ne .CurrentPage .LastPage }}
+                <a href="?pag={{ .LastPage }}" class="abs full on-top"></a>
+            {{ end }}
+            <svg class="pag-icon" width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 17L11 12L6 7M13 17L18 12L13 7" {{ if eq .CurrentPage .LastPage }}stroke="#034163"{{ end }} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </div>
+
+{{end}}

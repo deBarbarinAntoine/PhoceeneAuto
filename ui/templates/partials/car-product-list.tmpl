@@ -1,0 +1,42 @@
+{{define "car-product-list"}}
+
+    {{/*Car Products List*/}}
+    <div class="car-grid">
+
+        {{ range . }}
+
+            <div class="car-card">
+                <div class="car-header">
+                    <div class="car-title">{{ .Make }}{{ .Model }}</div>
+                    <div class="car-status processing">{{ .Status }}</div>
+                </div>
+                <div class="car-info">
+                    <div>🏢 Make: {{ .Make }}</div>
+                    <div>📝 Model: {{ .Model }}</div>
+                    <div>🛢️ Fuel: {{ .Fuel1 }}</div>
+                    <div>⚙️ Transmission: {{ .Transmission }}</div>
+                    <div>📏 Taille: {{ .ClassSize }}</div>
+                    <div>📅 Année: {{ .Year }}</div>
+                </div>
+                <div class="car-info">
+                    <div>🚗 Kilométrage: {{ .Kilometers }}</div>
+                    <div>👥 Propriétaires: {{ .OwnerNb }}</div>
+                    <div>🎨 Couleur: {{ .Color }}</div>
+                    <div>💰 Prix: {{ .Price }} €</div>
+                </div>
+                <div class="car-meta">
+                    <div>Concession: {{ .Shop }}</div>
+                    <div>Ajoutée le: {{ humanDate .CreatedAt }}</div>
+                </div>
+                <div class="car-actions">
+                    <a href="/car/view/{{ .ID }}" class="action-button view-button">Voir</a>
+                    <a href="/car/update/{{ .ID }}" class="action-button edit-button">Modifier</a>
+                    <a href="/car/delete/{{ .ID }}" class="action-button delete-button">Supprimer</a>
+                </div>
+            </div>
+
+        {{ end }}
+
+    </div>
+
+{{end}}

@@ -1,0 +1,38 @@
+{{define "client-list"}}
+
+    {{/*Client List*/}}
+    <div class="client-grid">
+
+        {{ range . }}
+
+            <div class="client-card">
+                <div class="client-header">
+                    <div class="client-name">{{ .FirstName }} {{ .LastName }}</div>
+                    <div class="client-status active">{{ .Status }}</div>
+                </div>
+                <div class="client-info">
+                    <div>📧{{ .Email }}</div>
+                    <div>📱 {{ .Phone }}</div>
+                </div>
+                <div class="client-address">
+                    <div class="client-info">{{ .Address.Street }}</div>
+                    <div class="client-info">{{ .Address.Complement }}</div>
+                    <div class="client-info">{{ .Address.ZIP }} {{ .Address.City }}</div>
+                    <div class="client-info">{{ .Address.Country }}</div>
+                </div>
+                <div class="client-meta">
+                    <div>Concession: {{ .Shop }}</div>
+                    <div>Créé le: {{ humanDate .CreatedAt }}</div>
+                </div>
+                <div class="client-actions">
+                    <a href="/client/view/{{ .ID }}" class="action-button view-button">Voir</a>
+                    <a href="/client/update/{{ .ID }}" class="action-button edit-button">Modifier</a>
+                    <a href="/client/delete/{{ .ID }}" class="action-button delete-button">Supprimer</a>
+                </div>
+            </div>
+
+        {{ end }}
+
+    </div>
+
+{{end}}

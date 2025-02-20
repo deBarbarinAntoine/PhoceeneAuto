@@ -1,0 +1,105 @@
+{{ define "page" }
+
+    <div class="analytics-container">
+        <div class="header">
+            <h1>Statistiques</h1>
+            <div class="date-selector">
+                <button class="date-button">7 jours</button>
+                <button class="date-button active">30 jours</button>
+                <button class="date-button">90 jours</button>
+                <button class="date-button">12 mois</button>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-title">Véhicules en stock</div>
+                <div class="stat-value">42</div>
+                <div class="stat-details">
+                    <div>ONSALE: 25</div>
+                    <div>COMING: 8</div>
+                    <div>PROCESSING: 9</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Véhicules vendus (SOLD)</div>
+                <div class="stat-value">15</div>
+                <div class="stat-details">
+                    <div>Prix moyen: 28500 €</div>
+                    <div>Kilométrage moyen: 22000 km</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Clients actifs</div>
+                <div class="stat-value">65</div>
+                <div class="stat-details">
+                    <div>ACTIVE: 58</div>
+                    <div>CONFLICT: 5</div>
+                    <div>DELETED: 2</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Concession</div>
+                <div class="stat-value">HEADQUARTERS</div>
+                <div class="stat-details">
+                    <div>Véhicules: 42</div>
+                    <div>Clients: 65</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Répartition des statuts véhicules</div>
+                </div>
+                <div class="chart-container">
+                    <div class="status-distribution">
+                        <div>ONSALE: 25 (59.5%)</div>
+                        <div>COMING: 8 (19%)</div>
+                        <div>PROCESSING: 9 (21.5%)</div>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Répartition des marques</div>
+                </div>
+                <div class="chart-container">
+                    <div class="make-distribution">
+                        <div>Peugeot: 15 (35.7%)</div>
+                        <div>Renault: 12 (28.6%)</div>
+                        <div>Citroën: 8 (19%)</div>
+                        <div>Autres: 7 (16.7%)</div>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Répartition des statuts clients</div>
+                </div>
+                <div class="chart-container">
+                    <div class="client-status-distribution">
+                        <div>ACTIVE: 58 (89.2%)</div>
+                        <div>CONFLICT: 5 (7.7%)</div>
+                        <div>DELETED: 2 (3.1%)</div>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Gamme de prix véhicules</div>
+                </div>
+                <div class="chart-container">
+                    <div class="price-distribution">
+                        <div>< 20000 €: 12 (28.6%)</div>
+                        <div>20000-30000 €: 18 (42.9%)</div>
+                        <div>30000-40000 €: 8 (19%)</div>
+                        <div>> 40000 €: 4 (9.5%)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{{ end }}

@@ -1,0 +1,39 @@
+{{define "client-list"}}
+
+    {{/*Client List*/}}
+    <div class="transaction-list">
+
+        {{ range . }}
+
+                <div class="transaction-card">
+                    <div class="transaction-header">
+                        <div>
+                            <h3>Transaction #{{ .ID }}</h3>
+                            <div class="client-info">Client: {{ .Client.FirstName }} {{ .Client.LastName }}</div>
+                            <div class="user-info">Agent: {{ .User.Name }}</div>
+                        </div>
+                        <span class="status-tag status-ongoing">{{ .Status }}</span>
+                    </div>
+                    <div class="cars-list">
+                        {{ range .Cars }}
+                            <div>{{ .Make }} {{ .Model }} - {{ .Price }} €</div>
+                        {{ end }}
+                    </div>
+                    <div class="transaction-footer">
+                        <div>Mensualités: {{ range .Leases }} {{ . }} €, {{ end }}</div>
+                        <div class="price-total">Total: {{ .ID }} €</div>
+                        <div class="dates">
+                            <div>Créée le: {{ .ID }}</div>
+                            <div>Mise à jour: {{ .ID }}</div>
+                        </div>
+                    </div>
+                    <a href="/transaction/{{ .ID }}" class="button view-button">Voir les détails</a>
+                    <a href="/transaction/{{ .ID }}/update" class="button edit-button">Modifier</a>
+                    <a href="/transaction/{{ .ID }}/delete" class="button delete-button">Supprimer</a>
+                </div>
+
+        {{ end }}
+
+    </div>
+
+{{end}}
