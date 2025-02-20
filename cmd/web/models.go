@@ -64,7 +64,6 @@ type templateData struct {
 	User           data.User
 	Client         data.Client
 	Clients        []*data.Client
-	Search         string
 	CarCatalog     data.CarCatalog
 	CarsCatalog    []*data.CarCatalog
 	CarProduct     data.CarProduct

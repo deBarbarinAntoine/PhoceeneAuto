@@ -14,7 +14,7 @@ var (
 	ErrRecordNotFound      = errors.New("record not found")
 	ErrEditConflict        = errors.New("edit conflict")
 	ErrDuplicateEmail      = errors.New("duplicate email")
-	ErrDuplicateCarCatalog = errors.New("exact duplicate row: This car already exists in the catalog")
+	ErrDuplicateCarCatalog = errors.New("exact duplicate row: This car catalog already exists")
 	// Shop represents a collection of constants related to the company's shop.
 	Shop = struct {
 		HEADQUARTERS string
@@ -25,7 +25,6 @@ var (
 
 // Models represents a collection of models for interacting with the database.
 type Models struct {
-	TokenModel       *TokenModel
 	UserModel        *UserModel
 	ClientModel      *ClientModel
 	CarProductModel  *CarProductModel
@@ -44,7 +43,6 @@ type Models struct {
 //	Models - A new instance of Models
 func NewModels(db *sql.DB) Models {
 	return Models{
-		TokenModel:       &TokenModel{db},
 		UserModel:        &UserModel{db},
 		ClientModel:      &ClientModel{db},
 		CarProductModel:  &CarProductModel{db},

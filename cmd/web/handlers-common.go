@@ -1,10 +1,7 @@
 package main
 
 import (
-	"errors"
 	"net/http"
-
-	"PhoceeneAuto/internal/data"
 )
 
 func (app *application) notFound(w http.ResponseWriter, r *http.Request) {
@@ -42,31 +39,38 @@ func (app *application) dashboard(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) search(w http.ResponseWriter, r *http.Request) {
-	// retrieving the research text
-	query := r.URL.Query().Get("q")
-	if query == "" {
+	// Parse the form data
+	if err := r.ParseForm(); err != nil {
 		app.clientError(w, r, http.StatusBadRequest)
 		return
 	}
 
-	// retrieving basic template data
-	tmplData := app.newTemplateData(r)
-	tmplData.Title = "Phoceene Auto - Search"
-	tmplData.Search = query
-
-	// search in the posts
-	var err error
-	tmplData.Posts.List, tmplData.Posts.Metadata, err = app.models.PostModel.Get(tmplData.Search, data.NewPostFilters(r.URL.Query()))
-	if err != nil {
-		switch {
-		case errors.Is(err, data.ErrRecordNotFound):
-			app.clientError(w, r, http.StatusNotFound)
-		default:
-			app.serverError(w, r, err)
-		}
+	// Decode form values into searchForm struct
+	var form searchForm
+	decoder := form.NewDecoder()
+	if err := decoder.Decode(&form, r.Form); err != nil {
+		app.serverError(w, r, err)
 		return
 	}
 
-	// rendering the template
+	// Validate form inputs
+	form.Validate()
+	if !form.Valid() {
+		app.clientError(w, r, http.StatusUnprocessableEntity)
+		return
+	}
+
+	// Retrieve search results from DB (pseudo-query)
+	results, err := app.models.Cars.Search(form)
+	if err != nil {
+		app.serverError(w, r, err)
+		return
+	}
+
+	// Prepare template data
+	tmplData := app.newTemplateData(r)
+	tmplData.Title = "Phoceene Auto - Search Results"
+
+	// Render the template with results
 	app.render(w, r, http.StatusOK, "search.tmpl", tmplData)
 }
