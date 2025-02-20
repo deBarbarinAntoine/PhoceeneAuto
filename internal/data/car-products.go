@@ -309,7 +309,7 @@ func (m CarProductModel) Search(search string, filters *Filters) ([]*CarProduct,
 
 	// creating the query
 	query := fmt.Sprintf(`
-		SELECT COUNT(*) OVER,
+		SELECT COUNT(*) OVER(),
 		       cp.id, cp.created_at, cp.updated_at,
 		       cp.status, cp.kilometers, cp.owner_nb, cp.color, cp.price, cp.shop,
 		       cp.version,

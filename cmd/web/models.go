@@ -242,7 +242,37 @@ type transactionUpdateForm struct {
 
 // searchForm represents the form used for searching.
 type searchForm struct {
-	search *string
-	// TODO -> fill the searchForm struct here
-	validator.Validator `form:"-"`
+	Search       *string  `form:"search"` // Classic search bar input
+	Make         *string  `form:"make"`   // Car make
+	Model        *string  `form:"model"`  // Car model
+	MYear        *int     `form:"year,omitempty"`
+	PriceMin     *float64 `form:"price_min"`    // Minimum price
+	PriceMax     *float64 `form:"price_max"`    // Maximum price
+	KmMin        *float64 `form:"km_min"`       // Minimum kilometers driven
+	KmMax        *float64 `form:"km_max"`       // Maximum kilometers driven
+	Color        *string  `form:"color"`        // Car color
+	Transmission *string  `form:"transmission"` // Manual or Automatic
+	Fuel1        *string  `form:"fuel1"`        // Gas, Diesel, Electric, Hybrid
+	Fuel2        *string  `form:"fuel2"`
+	SizeClass    *string  `form:"size_class,omitempty"`
+	OwnerCount   *int     `form:"owner_count"` // Number of previous owners
+	Shop         *string  `form:"shop"`        // Shop name
+	Status       *string  `form:"status"`      // Available, Sold, etc.
+
+	// Client-related fields
+	ClientName   *string `form:"client_name"`   // First name / Last name search
+	Email        *string `form:"email"`         // Email search
+	Phone        *string `form:"phone"`         // Phone number search
+	ClientStatus *string `form:"client_status"` // Active, Inactive
+
+	// Transaction-related fields
+	TransactionID     *int     `form:"transaction_id"`     // Exact match for transaction ID
+	UserID            *int     `form:"user_id"`            // Salesperson ID
+	TransactionStatus *string  `form:"transaction_status"` // Pending, Completed, etc.
+	DateStart         *string  `form:"date_start"`         // Transaction start date
+	DateEnd           *string  `form:"date_end"`           // Transaction end date
+	LeaseAmountMin    *float64 `form:"lease_min"`          // Minimum lease amount
+	LeaseAmountMax    *float64 `form:"lease_max"`          // Maximum lease amount
+
+	validator.Validator `form:"-"` // Keep the validator
 }
