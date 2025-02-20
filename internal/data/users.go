@@ -2,7 +2,6 @@ package data
 
 import (
 	"context"
-	"crypto/sha256"
 	"database/sql"
 	"errors"
 	"fmt"
@@ -350,68 +349,6 @@ func (m UserModel) GetByEmail(email string) (*User, error) {
 
 	// executing the query
 	err = stmt.QueryRowContext(ctx, email).Scan(
-		&user.ID,
-		&user.CreatedAt,
-		&user.UpdatedAt,
-		&user.Name,
-		&user.Email,
-		&user.Password.hash,
-		&user.Phone,
-		&user.Status,
-		&user.Shop,
-		&user.Address.Street,
-		&user.Address.Complement,
-		&user.Address.City,
-		&user.Address.ZIP,
-		&user.Address.Country,
-		&user.Version,
-	)
-
-	if err != nil {
-		switch {
-		case errors.Is(err, sql.ErrNoRows):
-			return nil, ErrRecordNotFound
-		default:
-			return nil, err
-		}
-	}
-
-	return &user, nil
-}
-
-func (m UserModel) GetForToken(tokenScope, tokenPlaintext string) (*User, error) {
-
-	tokenHash := sha256.Sum256([]byte(tokenPlaintext))
-
-	// creating the query
-	query := `
-		SELECT u.id, u.created_at, u.updated_at, u.username, u.email, u.password_hash, u.phone, u.status, u.shop, u.street, u.complement, u.city, u.zip_code, u.state, u.version
-		FROM users u
-		INNER JOIN tokens t
-		ON u.id = t.user_id
-		WHERE t.hash = $1
-		AND t.scope = $2
-		AND t.expiry > $3;`
-
-	// setting the arguments
-	args := []any{tokenHash[:], tokenScope, time.Now()}
-
-	// setting the user variable
-	var user User
-
-	// setting the timeout context for the query execution
-	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
-	defer cancel()
-
-	// preparing the query
-	stmt, err := m.db.PrepareContext(ctx, query)
-	if err != nil {
-		return nil, err
-	}
-	defer stmt.Close()
-
-	// executing the query
-	err = stmt.QueryRowContext(ctx, args...).Scan(
 		&user.ID,
 		&user.CreatedAt,
 		&user.UpdatedAt,
