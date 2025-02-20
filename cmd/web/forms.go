@@ -633,3 +633,120 @@ func (form transactionUpdateForm) toTransaction(transaction *data.Transaction) {
 		transaction.TotalPrice = *form.TotalPrice
 	}
 }
+
+func (form searchForm) toSearch(search *data.Search) {
+	filled := false
+
+	if form.Search != nil {
+		search.Search = form.Search
+		filled = true
+	}
+	if form.Make != nil {
+		search.Make = form.Make
+		filled = true
+	}
+	if form.Model != nil {
+		search.Model = form.Model
+		filled = true
+	}
+	if form.Year != nil {
+		search.Year = form.Year
+		filled = true
+	}
+	if form.PriceMin != nil {
+		search.PriceMin = form.PriceMin
+		filled = true
+	}
+	if form.PriceMax != nil {
+		search.PriceMax = form.PriceMax
+		filled = true
+	}
+	if form.KmMin != nil {
+		search.KmMin = form.KmMin
+		filled = true
+	}
+	if form.KmMax != nil {
+		search.KmMax = form.KmMax
+		filled = true
+	}
+	if form.Color != nil {
+		search.Color = form.Color
+		filled = true
+	}
+	if form.Transmission != nil {
+		search.Transmission = form.Transmission
+		filled = true
+	}
+	if form.Fuel1 != nil {
+		search.Fuel1 = form.Fuel1
+		filled = true
+	}
+	if form.Fuel2 != nil {
+		search.Fuel2 = form.Fuel2
+		filled = true
+	}
+	if form.SizeClass != nil {
+		search.SizeClass = form.SizeClass
+		filled = true
+	}
+	if form.OwnerCount != nil {
+		search.OwnerCount = form.OwnerCount
+		filled = true
+	}
+	if form.Shop != nil {
+		search.Shop = form.Shop
+		filled = true
+	}
+	if form.Status != nil {
+		search.Status = form.Status
+		filled = true
+	}
+	if form.ClientName != nil {
+		search.ClientName = form.ClientName
+		filled = true
+	}
+	if form.Email != nil {
+		search.Email = form.Email
+		filled = true
+	}
+	if form.Phone != nil {
+		search.Phone = form.Phone
+		filled = true
+	}
+	if form.ClientStatus != nil {
+		search.ClientStatus = form.ClientStatus
+		filled = true
+	}
+	if form.TransactionID != nil {
+		search.TransactionID = form.TransactionID
+		filled = true
+	}
+	if form.UserID != nil {
+		search.UserID = form.UserID
+		filled = true
+	}
+	if form.TransactionStatus != nil {
+		search.TransactionStatus = form.TransactionStatus
+		filled = true
+	}
+	if form.DateStart != nil {
+		search.DateStart = form.DateStart
+		filled = true
+	}
+	if form.DateEnd != nil {
+		search.DateEnd = form.DateEnd
+		filled = true
+	}
+	if form.LeaseAmountMin != nil {
+		search.LeaseAmountMin = form.LeaseAmountMin
+		filled = true
+	}
+	if form.LeaseAmountMax != nil {
+		search.LeaseAmountMax = form.LeaseAmountMax
+		filled = true
+	}
+
+	if !filled {
+		// panic("At least one search parameter must be provided")
+	}
+}

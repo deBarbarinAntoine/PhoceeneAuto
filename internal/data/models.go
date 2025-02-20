@@ -25,6 +25,7 @@ type Models struct {
 	CarProductModel  *CarProductModel
 	CarCatalogModel  *CarCatalogModel
 	TransactionModel *TransactionModel
+	SearchModel      *SearchModel
 }
 
 // NewModels creates a new instance of Models with the provided database connection.
@@ -43,5 +44,6 @@ func NewModels(db *sql.DB) Models {
 		CarProductModel:  &CarProductModel{db},
 		CarCatalogModel:  &CarCatalogModel{db},
 		TransactionModel: &TransactionModel{db},
+		SearchModel:      &SearchModel{db},
 	}
 }
