@@ -92,7 +92,7 @@ func (app *application) createCarCatalog(w http.ResponseWriter, r *http.Request)
 	tmplData.Form = newCarCatalogCreateForm()
 
 	// rendering the template
-	app.render(w, r, http.StatusOK, "create-car-catalog.tmpl", tmplData)
+	app.render(w, r, http.StatusOK, "car-catalog-create.tmpl", tmplData)
 }
 
 func (app *application) createCarCatalogPost(w http.ResponseWriter, r *http.Request) {
@@ -112,7 +112,7 @@ func (app *application) createCarCatalogPost(w http.ResponseWriter, r *http.Requ
 
 	// checking the form data
 	if data.ValidateCarCatalog(&form.Validator, *carCatalog); !form.Valid() {
-		app.failedValidationError(w, r, form, &form.Validator, "create-car-catalog.tmpl")
+		app.failedValidationError(w, r, form, &form.Validator, "car-catalog-create.tmpl")
 		return
 	}
 
@@ -121,7 +121,7 @@ func (app *application) createCarCatalogPost(w http.ResponseWriter, r *http.Requ
 		switch {
 		case errors.Is(err, data.ErrDuplicateCarCatalog):
 			form.Validator.AddFieldError("make", "This car catalog already exists")
-			app.failedValidationError(w, r, form, &form.Validator, "create-car-catalog.tmpl")
+			app.failedValidationError(w, r, form, &form.Validator, "car-catalog-create.tmpl")
 		default:
 			app.serverError(w, r, err)
 		}
@@ -157,7 +157,7 @@ func (app *application) updateCarCatalog(w http.ResponseWriter, r *http.Request)
 	tmplData.Form = newCarCatalogUpdateForm(carCatalog)
 
 	// rendering the template
-	app.render(w, r, http.StatusOK, "car-update.tmpl", tmplData)
+	app.render(w, r, http.StatusOK, "car-catalog-update.tmpl", tmplData)
 }
 
 func (app *application) updateCarCatalogPost(w http.ResponseWriter, r *http.Request) {
@@ -197,7 +197,7 @@ func (app *application) updateCarCatalogPost(w http.ResponseWriter, r *http.Requ
 
 	// checking the form data
 	if data.ValidateCarCatalog(&form.Validator, *carCatalog); !form.Valid() {
-		app.failedValidationError(w, r, form, &form.Validator, "update-car-catalog.tmpl")
+		app.failedValidationError(w, r, form, &form.Validator, "car-catalog-update.tmpl")
 		return
 	}
 
@@ -209,7 +209,7 @@ func (app *application) updateCarCatalogPost(w http.ResponseWriter, r *http.Requ
 			app.clientError(w, r, http.StatusNotFound)
 		case errors.Is(err, data.ErrDuplicateCarCatalog):
 			form.Validator.AddFieldError("make", "This car catalog already exists")
-			app.failedValidationError(w, r, form, &form.Validator, "create-car-catalog.tmpl")
+			app.failedValidationError(w, r, form, &form.Validator, "car-catalog-update.tmpl")
 		default:
 			app.serverError(w, r, err)
 		}

@@ -3,17 +3,17 @@
     <div class="vehicle-form-container">
         <div class="header">
             <h1>Modifier le Véhicule</h1>
-            <span class="vehicle-id">#{{ .Form.CatID }}</span>
+            <span class="vehicle-id">#{{ .Form.ID }}</span>
         </div>
 
-        <form method="post" action="/car-catalog/{{ .Form.CatID }}/update" class="data-form">
+        <form method="post" action="/car-catalog/{{ .Form.ID }}/update" class="data-form">
 
             <input type="hidden" name="csrf_token" value="{{ .CSRFToken }}">
 
             {{ range .Form.NonFieldErrors }}
                 <div class="error-message">{{ . }}</div>
             {{ end }}
-            <input type="hidden" name="cat_id" value="{{ .Form.CatID }}">
+            <input type="hidden" name="cat_id" value="{{ .Form.ID }}">
 
             <div class="form-section">
                 <h2>Informations Catalogue</h2>
@@ -135,7 +135,7 @@
 
             <div class="action-buttons">
                 <div class="left-buttons">
-                    <button type="button" class="button delete-button" onclick="if(confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?')) window.location.href='/car-catalog/{{ .Form.CatID }}/delete'">Supprimer</button>
+                    <button type="button" class="button delete-button" onclick="if(confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?')) window.location.href='/car-catalog/{{ .Form.ID }}/delete'">Supprimer</button>
                 </div>
                 <div class="right-buttons">
                     <a href="/search" class="button cancel-button">Annuler</a>

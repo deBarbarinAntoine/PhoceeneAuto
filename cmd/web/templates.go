@@ -11,10 +11,19 @@ import (
 
 // functions is a map of template functions available in all templates.
 var functions = template.FuncMap{
-	"humanDate":     humanDate,
-	"bytesToString": bytesToString,
-	"increment":     increment,
-	"decrement":     decrement,
+	"humanDate":         humanDate,
+	"bytesToString":     bytesToString,
+	"increment":         increment,
+	"decrement":         decrement,
+	"transactionStatus": transactionStatus,
+}
+
+func transactionStatus(transactionStatus any, status string) string {
+	trStatus := transactionStatus.(*string)
+	if *trStatus == status {
+		return "selected"
+	}
+	return ""
 }
 
 // humanDate formats a time.Time value to a human-readable string.

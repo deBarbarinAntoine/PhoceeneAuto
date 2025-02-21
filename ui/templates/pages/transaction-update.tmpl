@@ -7,7 +7,6 @@
 
         <form method="post" action="/transaction/{{ .Form.ID }}" class="data-form">
             <input type="hidden" name="id" value="{{ .Form.ID }}">
-            <input type="hidden" name="version" value="{{ .Form.Version }}">
             <input type="hidden" name="csrf_token" value="{{ .CSRFToken }}">
 
             {{ range .Form.NonFieldErrors }}
@@ -18,13 +17,7 @@
                 <h2>Client</h2>
                 <div class="form-group">
                     <label for="client_id">Client</label>
-                    <select name="client_id" id="client_id" required>
-                        {{ range .Clients }}
-                            <option value="{{ .ID }}" {{ if eq .ID $.Form.Client.ID }}selected{{ end }}>
-                                {{ .FirstName }} {{ .LastName }} ({{ .Status }})
-                            </option>
-                        {{ end }}
-                    </select>
+                    <input name="client_id" id="client_id" value="{{ .Form.ClientID }}" required>
                     {{ with .Form.FieldErrors.client_id }}
                         <div class="error-message">{{ . }}</div>
                     {{ end }}
@@ -34,13 +27,10 @@
             <div class="form-section">
                 <h2>Véhicules</h2>
                 <div class="car-selection">
-                    {{ range .Cars }}
+                    {{ range .Form.CarsID }}
                         <div class="car-item">
-                            <input type="checkbox" id="car_{{ .ID }}" name="cars[]" value="{{ .ID }}"
-                                   {{ with .ID }}checked{{ end }}>
-                            <label for="car_{{ .ID }}">
-                                {{ .Make }} {{ .Model }} ({{ .Status }}) - {{ .Price }}€ - {{ .Kilometers }}km
-                            </label>
+                            <input type="checkbox" id="car_{{ . }}" name="cars_id[]" value="{{ . }}" checked>
+                            <label for="car_{{ . }}">{{ . }}</label>
                         </div>
                     {{ end }}
                 </div>
@@ -54,9 +44,9 @@
                 <div class="form-group">
                     <label for="status">Statut</label>
                     <select name="status" id="status" required>
-                        <option value="PROCESSING" {{ if eq .Form.Status "PROCESSING" }}selected{{ end }}>PROCESSING</option>
-                        <option value="ONGOING" {{ if eq .Form.Status "ONGOING" }}selected{{ end }}>ONGOING</option>
-                        <option value="DONE" {{ if eq .Form.Status "DONE" }}selected{{ end }}>DONE</option>
+                        <option value="PROCESSING" {{ transactionStatus .Form.Status "PROCESSING" }}>PROCESSING</option>
+                        <option value="ONGOING" {{ transactionStatus .Form.Status "ONGOING" }}>ONGOING</option>
+                        <option value="DONE" {{ transactionStatus .Form.Status "DONE" }}>DONE</option>
                     </select>
                     {{ with .Form.FieldErrors.status }}
                         <div class="error-message">{{ . }}</div>
@@ -70,13 +60,6 @@
                         <div class="error-message">{{ . }}</div>
                     {{ end }}
                 </div>
-            </div>
-
-            <div class="form-section">
-                <h2>Informations Système</h2>
-                <div>Créée le: {{ .Form.CreatedAt }}</div>
-                <div>Dernière modification: {{ .Form.UpdatedAt }}</div>
-                <div>Par: {{ .Form.User.Name }}</div>
             </div>
 
             <div class="action-buttons">

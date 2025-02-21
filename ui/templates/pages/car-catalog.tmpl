@@ -22,15 +22,11 @@
                     </div>
                     <div class="info-item">
                         <div class="info-label">Créé le</div>
-                        <div class="info-value">{{ humanDate .CarCatalog.CreatedAt }}</div>
+                        <div class="info-value">{{ humanDate .CarCatalog.CatCreatedAt }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Dernière mise à jour</div>
-                        <div class="info-value">{{ humanDate .CarCatalog.UpdatedAt }}</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Version</div>
-                        <div class="info-value">{{ .CarCatalog.Version }}</div>
+                        <div class="info-value">{{ humanDate .CarCatalog.CatUpdatedAt }}</div>
                     </div>
                 </div>
             </div>
@@ -58,7 +54,7 @@
                     </div>
                     <div class="info-item">
                         <div class="info-label">Description Moteur</div>
-                        <div class="info-value">{{ with .CarCatalog.EngineDescription }}{{ . }}{{ end }}</div>
+                        <div class="info-value">{{ with .CarCatalog.EngineDescriptor }}{{ . }}{{ end }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Type Motorisation</div>

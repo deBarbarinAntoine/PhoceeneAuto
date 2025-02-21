@@ -5,11 +5,11 @@ import (
 	"log/slog"
 	"sync"
 	"time"
-
+	
 	"PhoceeneAuto/internal/data"
 	"PhoceeneAuto/internal/mailer"
 	"PhoceeneAuto/internal/validator"
-
+	
 	"github.com/alexedwards/scs/v2"
 	"github.com/go-playground/form/v4"
 )
@@ -230,6 +230,7 @@ type transactionCreateForm struct {
 
 // transactionUpdateForm represents the form used for updating a transaction.
 type transactionUpdateForm struct {
+	ID                  *int      `form:"id"`
 	CarsID              []int     `form:"cars_id,omitempty"`
 	ClientID            *int      `form:"client_id,omitempty"`
 	UserID              *int      `form:"user_id,omitempty"`
@@ -237,7 +238,6 @@ type transactionUpdateForm struct {
 	Leases              []float32 `form:"leases,omitempty"`
 	TotalPrice          *float32  `form:"total_price,omitempty"`
 	validator.Validator `form:"-"`
-	ID                  *int
 }
 
 // searchForm represents the form used for searching.
@@ -258,13 +258,13 @@ type searchForm struct {
 	OwnerCount   *int     `form:"owner_count"` // Number of previous owners
 	Shop         *string  `form:"shop"`        // Shop name
 	Status       *string  `form:"status"`      // Available, Sold, etc.
-
+	
 	// Client-related fields
 	ClientName   *string `form:"client_name"`   // First name / Last name search
 	Email        *string `form:"email"`         // Email search
 	Phone        *string `form:"phone"`         // Phone number search
 	ClientStatus *string `form:"client_status"` // Active, Inactive
-
+	
 	// Transaction-related fields
 	TransactionID     *int     `form:"transaction_id"`     // Exact match for transaction ID
 	UserID            *int     `form:"user_id"`            // Salesperson ID
@@ -273,6 +273,6 @@ type searchForm struct {
 	DateEnd           *string  `form:"date_end"`           // Transaction end date
 	LeaseAmountMin    *float64 `form:"lease_min"`          // Minimum lease amount
 	LeaseAmountMax    *float64 `form:"lease_max"`          // Maximum lease amount
-
+	
 	validator.Validator `form:"-"` // Keep the validator
 }

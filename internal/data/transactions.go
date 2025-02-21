@@ -269,7 +269,7 @@ func (m TransactionModel) GetByID(id int) (*Transaction, error) {
 	// creating the query
 	query := `
 		SELECT t.id, t.created_at, t.updated_at, t.status, t.lease_amount, t.version,
-		       u.id, u.created_at, u.updated_at, u.name, u.email, u.status, u.version,
+		       u.id, u.created_at, u.updated_at, u.username, u.email, u.status, u.version,
 		       c.id, c.created_at, c.updated_at,
 		       c.first_name, c.last_name,
 		       c.email, c.phone,
@@ -282,7 +282,7 @@ func (m TransactionModel) GetByID(id int) (*Transaction, error) {
 		       cp.status, cp.kilometers, cp.owner_nb, cp.color, cp.price, cp.shop,
 		       cp.version,
 		       cp.cat_id,
-		       cc.id, cc.created_at, cc.updated_at,
+		       cc.created_at, cc.updated_at,
 		       cc.make, cc.model,
 		       cc.cylinders, cc.drive, cc.engine_descriptor,
 		       cc.fuel1, cc.fuel2,
@@ -328,6 +328,7 @@ func (m TransactionModel) GetByID(id int) (*Transaction, error) {
 
 	for rows.Next() {
 		var car CarProduct
+		var carSql CarCatalogSql
 
 		err = rows.Scan(
 			// transaction
@@ -344,7 +345,6 @@ func (m TransactionModel) GetByID(id int) (*Transaction, error) {
 			&transaction.User.UpdatedAt,
 			&transaction.User.Name,
 			&transaction.User.Email,
-			&transaction.User.Password.hash,
 			&transaction.User.Status,
 			&transaction.User.Version,
 
@@ -376,29 +376,31 @@ func (m TransactionModel) GetByID(id int) (*Transaction, error) {
 			&car.Price,
 			&car.Shop,
 			&car.Version,
-			&car.CatID,
-			&car.CatCreatedAt,
-			&car.CatUpdatedAt,
-			&car.Make,
-			&car.Model,
-			&car.Cylinders,
-			&car.Drive,
-			&car.EngineDescriptor,
-			&car.Fuel1,
-			&car.Fuel2,
-			&car.LuggageVolume,
-			&car.PassengerVolume,
-			&car.Transmission,
-			&car.SizeClass,
-			&car.Year,
-			&car.ElectricMotor,
-			&car.BaseModel,
-			&car.CatVersion,
+			&carSql.CatID,
+			&carSql.CatCreatedAt,
+			&carSql.CatUpdatedAt,
+			&carSql.Make,
+			&carSql.Model,
+			&carSql.Cylinders,
+			&carSql.Drive,
+			&carSql.EngineDescriptor,
+			&carSql.Fuel1,
+			&carSql.Fuel2,
+			&carSql.LuggageVolume,
+			&carSql.PassengerVolume,
+			&carSql.Transmission,
+			&carSql.SizeClass,
+			&carSql.Year,
+			&carSql.ElectricMotor,
+			&carSql.BaseModel,
+			&carSql.CatVersion,
 		)
 
 		if err != nil {
 			return nil, err
 		}
+
+		car.CarCatalog = carSql.ToCarCatalog()
 
 		// adding the car to the CarProduct slice in the transaction
 		transaction.Cars = append(transaction.Cars, car)
@@ -443,7 +445,7 @@ func (m TransactionModel) GetBy(id int, searchColumn col, filters *Filters) ([]*
 	query := fmt.Sprintf(`
 		SELECT COUNT(*) OVER,
 		       t.id, t.created_at, t.updated_at, t.status, t.lease_amount, t.version,
-		       u.id, u.created_at, u.updated_at, u.name, u.email, u.status, u.version,
+		       u.id, u.created_at, u.updated_at, u.username, u.email, u.status, u.version,
 		       c.id, c.created_at, c.updated_at,
 		       c.first_name, c.last_name,
 		       c.email, c.phone,
@@ -456,7 +458,7 @@ func (m TransactionModel) GetBy(id int, searchColumn col, filters *Filters) ([]*
 		       cp.status, cp.kilometers, cp.owner_nb, cp.color, cp.price, cp.shop,
 		       cp.version,
 		       cp.cat_id,
-		       cc.id, cc.created_at, cc.updated_at,
+		       cc.created_at, cc.updated_at,
 		       cc.make, cc.model,
 		       cc.cylinders, cc.drive, cc.engine_descriptor,
 		       cc.fuel1, cc.fuel2,
@@ -506,8 +508,11 @@ func (m TransactionModel) GetBy(id int, searchColumn col, filters *Filters) ([]*
 	for rows.Next() {
 		var transaction Transaction
 		var car CarProduct
+		var carSql CarCatalogSql
 
 		err := rows.Scan(
+			&totalRecords,
+
 			// transaction
 			&transaction.ID,
 			&transaction.CreatedAt,
@@ -522,7 +527,6 @@ func (m TransactionModel) GetBy(id int, searchColumn col, filters *Filters) ([]*
 			&transaction.User.UpdatedAt,
 			&transaction.User.Name,
 			&transaction.User.Email,
-			&transaction.User.Password.hash,
 			&transaction.User.Status,
 			&transaction.User.Version,
 
@@ -554,24 +558,24 @@ func (m TransactionModel) GetBy(id int, searchColumn col, filters *Filters) ([]*
 			&car.Price,
 			&car.Shop,
 			&car.Version,
-			&car.CatID,
-			&car.CatCreatedAt,
-			&car.CatUpdatedAt,
-			&car.Make,
-			&car.Model,
-			&car.Cylinders,
-			&car.Drive,
-			&car.EngineDescriptor,
-			&car.Fuel1,
-			&car.Fuel2,
-			&car.LuggageVolume,
-			&car.PassengerVolume,
-			&car.Transmission,
-			&car.SizeClass,
-			&car.Year,
-			&car.ElectricMotor,
-			&car.BaseModel,
-			&car.CatVersion,
+			&carSql.CatID,
+			&carSql.CatCreatedAt,
+			&carSql.CatUpdatedAt,
+			&carSql.Make,
+			&carSql.Model,
+			&carSql.Cylinders,
+			&carSql.Drive,
+			&carSql.EngineDescriptor,
+			&carSql.Fuel1,
+			&carSql.Fuel2,
+			&carSql.LuggageVolume,
+			&carSql.PassengerVolume,
+			&carSql.Transmission,
+			&carSql.SizeClass,
+			&carSql.Year,
+			&carSql.ElectricMotor,
+			&carSql.BaseModel,
+			&carSql.CatVersion,
 		)
 
 		if err != nil {
@@ -580,6 +584,8 @@ func (m TransactionModel) GetBy(id int, searchColumn col, filters *Filters) ([]*
 
 		// adding the transaction to the transactions map
 		transactionsMap[transaction.ID] = &transaction
+
+		car.CarCatalog = carSql.ToCarCatalog()
 
 		// adding the car to the transaction
 		transactionsMap[transaction.ID].Cars = append(transactionsMap[transaction.ID].Cars, car)

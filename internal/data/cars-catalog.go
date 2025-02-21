@@ -32,6 +32,79 @@ type CarCatalog struct {
 	CatVersion       int // version
 }
 
+type CarCatalogSql struct {
+	CatID            int       // id
+	CatCreatedAt     time.Time // created_at
+	CatUpdatedAt     time.Time // updated_at
+	Make             *string
+	Model            *string
+	Cylinders        *int
+	Drive            *string
+	EngineDescriptor *string
+	Fuel1            *string
+	Fuel2            *string
+	LuggageVolume    *float32
+	PassengerVolume  *float32
+	Transmission     *string
+	SizeClass        *string
+	Year             *int // model_year
+	ElectricMotor    *float32
+	BaseModel        *string
+	CatVersion       int // version
+}
+
+func (carSql CarCatalogSql) ToCarCatalog() CarCatalog {
+	car := CarCatalog{
+		CatID:        carSql.CatID,
+		CatCreatedAt: carSql.CatCreatedAt,
+		CatUpdatedAt: carSql.CatUpdatedAt,
+		CatVersion:   carSql.CatVersion,
+	}
+	if carSql.Make != nil {
+		car.Make = *carSql.Make
+	}
+	if carSql.Model != nil {
+		car.Model = *carSql.Model
+	}
+	if carSql.Cylinders != nil {
+		car.Cylinders = *carSql.Cylinders
+	}
+	if carSql.Drive != nil {
+		car.Drive = *carSql.Drive
+	}
+	if carSql.EngineDescriptor != nil {
+		car.EngineDescriptor = *carSql.EngineDescriptor
+	}
+	if carSql.Fuel1 != nil {
+		car.Fuel1 = *carSql.Fuel1
+	}
+	if carSql.Fuel2 != nil {
+		car.Fuel2 = *carSql.Fuel2
+	}
+	if carSql.LuggageVolume != nil {
+		car.LuggageVolume = *carSql.LuggageVolume
+	}
+	if carSql.PassengerVolume != nil {
+		car.PassengerVolume = *carSql.PassengerVolume
+	}
+	if carSql.Transmission != nil {
+		car.Transmission = *carSql.Transmission
+	}
+	if carSql.SizeClass != nil {
+		car.SizeClass = *carSql.SizeClass
+	}
+	if carSql.Year != nil {
+		car.Year = *carSql.Year
+	}
+	if carSql.ElectricMotor != nil {
+		car.ElectricMotor = *carSql.ElectricMotor
+	}
+	if carSql.BaseModel != nil {
+		car.BaseModel = *carSql.BaseModel
+	}
+	return car
+}
+
 func EmptyCarCatalog() *CarCatalog {
 	return &CarCatalog{}
 }
@@ -240,7 +313,7 @@ func (m CarCatalogModel) GetByID(id int) (*CarCatalog, error) {
 		WHERE id = $1;`
 
 	// setting the car variable
-	var car CarCatalog
+	var carSql CarCatalogSql
 
 	// setting the timeout context for the query execution
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
@@ -255,24 +328,24 @@ func (m CarCatalogModel) GetByID(id int) (*CarCatalog, error) {
 
 	// executing the query
 	err = stmt.QueryRowContext(ctx, id).Scan(
-		&car.CatID,
-		&car.CatCreatedAt,
-		&car.CatUpdatedAt,
-		&car.Make,
-		&car.Model,
-		&car.Cylinders,
-		&car.Drive,
-		&car.EngineDescriptor,
-		&car.Fuel1,
-		&car.Fuel2,
-		&car.LuggageVolume,
-		&car.PassengerVolume,
-		&car.Transmission,
-		&car.SizeClass,
-		&car.Year,
-		&car.ElectricMotor,
-		&car.BaseModel,
-		&car.CatVersion,
+		&carSql.CatID,
+		&carSql.CatCreatedAt,
+		&carSql.CatUpdatedAt,
+		&carSql.Make,
+		&carSql.Model,
+		&carSql.Cylinders,
+		&carSql.Drive,
+		&carSql.EngineDescriptor,
+		&carSql.Fuel1,
+		&carSql.Fuel2,
+		&carSql.LuggageVolume,
+		&carSql.PassengerVolume,
+		&carSql.Transmission,
+		&carSql.SizeClass,
+		&carSql.Year,
+		&carSql.ElectricMotor,
+		&carSql.BaseModel,
+		&carSql.CatVersion,
 	)
 
 	if err != nil {
@@ -283,6 +356,8 @@ func (m CarCatalogModel) GetByID(id int) (*CarCatalog, error) {
 			return nil, err
 		}
 	}
+
+	car := carSql.ToCarCatalog()
 
 	return &car, nil
 }
@@ -340,35 +415,37 @@ func (m CarCatalogModel) Search(search string, filters *Filters) ([]*CarCatalog,
 
 	// scanning for values
 	for rows.Next() {
-		var car CarCatalog
+		var carSql CarCatalogSql
 
 		err := rows.Scan(
 			&totalRecords,
-			&car.CatID,
-			&car.CatCreatedAt,
-			&car.CatUpdatedAt,
-			&car.Make,
-			&car.Model,
-			&car.Cylinders,
-			&car.Drive,
-			&car.EngineDescriptor,
-			&car.Fuel1,
-			&car.Fuel2,
-			&car.LuggageVolume,
-			&car.PassengerVolume,
-			&car.Transmission,
-			&car.SizeClass,
-			&car.Year,
-			&car.ElectricMotor,
-			&car.BaseModel,
-			&car.CatVersion,
+			&carSql.CatID,
+			&carSql.CatCreatedAt,
+			&carSql.CatUpdatedAt,
+			&carSql.Make,
+			&carSql.Model,
+			&carSql.Cylinders,
+			&carSql.Drive,
+			&carSql.EngineDescriptor,
+			&carSql.Fuel1,
+			&carSql.Fuel2,
+			&carSql.LuggageVolume,
+			&carSql.PassengerVolume,
+			&carSql.Transmission,
+			&carSql.SizeClass,
+			&carSql.Year,
+			&carSql.ElectricMotor,
+			&carSql.BaseModel,
+			&carSql.CatVersion,
 		)
 
 		if err != nil {
 			return nil, Metadata{}, err
 		}
 
-		// adding the car to the list of matching CarsCatalog
+		car := carSql.ToCarCatalog()
+
+		// adding the carSql to the list of matching CarsCatalog
 		cars = append(cars, &car)
 	}
 	if err = rows.Err(); err != nil {

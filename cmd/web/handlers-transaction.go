@@ -19,13 +19,13 @@ func (app *application) transactionGet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	transactions, err := app.models.TransactionModel.GetByID(id)
+	transaction, err := app.models.TransactionModel.GetByID(id)
 	if err != nil {
 		app.serverError(w, r, err)
 		return
 	}
 
-	tmplData.Transaction = *transactions
+	tmplData.Transaction = *transaction
 
 	app.render(w, r, http.StatusOK, "transaction.tmpl", tmplData)
 
@@ -69,7 +69,7 @@ func (app *application) createTransaction(w http.ResponseWriter, r *http.Request
 
 	tmplData.Form = newTransactionCreateForm()
 
-	app.render(w, r, http.StatusOK, "create-transaction.tmpl", tmplData)
+	app.render(w, r, http.StatusOK, "transaction-create.tmpl", tmplData)
 }
 
 func (app *application) createTransactionPost(w http.ResponseWriter, r *http.Request) { // retrieving the form data
@@ -87,7 +87,7 @@ func (app *application) createTransactionPost(w http.ResponseWriter, r *http.Req
 
 	// checking the form data
 	if data.ValidateTransaction(&form.Validator, *transaction); !form.Valid() {
-		app.failedValidationError(w, r, form, &form.Validator, "create-car-catalog.tmpl")
+		app.failedValidationError(w, r, form, &form.Validator, "transaction-create.tmpl")
 		return
 	}
 
@@ -142,7 +142,7 @@ func (app *application) updateTransaction(w http.ResponseWriter, r *http.Request
 	tmplData.Form = newTransactionUpdateForm(transaction)
 
 	// rendering the template
-	app.render(w, r, http.StatusOK, "car-update.tmpl", tmplData)
+	app.render(w, r, http.StatusOK, "transaction-update.tmpl", tmplData)
 }
 
 func (app *application) updateTransactionPost(w http.ResponseWriter, r *http.Request) {
@@ -182,7 +182,7 @@ func (app *application) updateTransactionPost(w http.ResponseWriter, r *http.Req
 
 	// checking the form data
 	if data.ValidateTransaction(&form.Validator, *transaction); !form.Valid() {
-		app.failedValidationError(w, r, form, &form.Validator, "update-transaction.tmpl")
+		app.failedValidationError(w, r, form, &form.Validator, "transaction-update.tmpl")
 		return
 	}
 

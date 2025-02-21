@@ -34,16 +34,15 @@
 
             <div class="section">
                 <h2>Détails Financiers</h2>
-                <div>Mensualités: {{ range .Form.Leases }}{{ . }} €, {{ end }}</div>
+                <div>Mensualités: {{ range .Transaction.Leases }}{{ . }} €, {{ end }}</div>
                 <div class="price-total">Total: {{ .Transaction.TotalPrice }} €</div>
             </div>
 
             <div class="section">
                 <h2>Informations Système</h2>
                 <div>ID: {{ .Transaction.ID }}</div>
-                <div>Version: {{ .Transaction.Version }}</div>
-                <div>Créée le: {{ .Transaction.CreatedAt }}</div>
-                <div>Mise à jour: {{ .Transaction.UpdatedAt }}</div>
+                <div>Créée le: {{ humanDate .Transaction.CreatedAt }}</div>
+                <div>Mise à jour: {{ humanDate .Transaction.UpdatedAt }}</div>
             </div>
 
             <div class="action-buttons">
