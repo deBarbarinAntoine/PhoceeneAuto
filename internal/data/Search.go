@@ -136,22 +136,101 @@ func (m SearchModel) searchCars(ctx context.Context, searchTerm string) ([]*CarC
 }
 
 func (m SearchModel) searchCarProducts(ctx context.Context, searchTerm string) ([]*CarProduct, error) {
-	query := `SELECT id,created_at, updated_at, status, kilometers, owner_nb, color, price, shop, version, cat_id FROM car_products WHERE status ILIKE $1 OR color ILIKE $1`
-	rows, err := m.db.QueryContext(ctx, query, searchTerm)
+	// creating the query
+	query := `
+		SELECT cp.id, cp.created_at, cp.updated_at,
+		       cp.status, cp.kilometers, cp.owner_nb, cp.color, cp.price, cp.shop,
+		       cp.version,
+		       cp.cat_id,
+		       cc.created_at, cc.updated_at,
+		       cc.make, cc.model,
+		       cc.cylinders, cc.drive, cc.engine_descriptor,
+		       cc.fuel1, cc.fuel2,
+		       cc.luggage_volume, cc.passenger_volume,
+		       cc.transmission,
+		       cc.size_class,
+		       cc.model_year,
+		       cc.electric_motor,
+		       cc.base_model,
+		       cc.version
+		FROM car_products cp
+		INNER JOIN cars_catalog cc ON cp.cat_id = cc.id
+		WHERE cc.make ILIKE $1 OR cc.model ILIKE $1 OR cc.transmission ILIKE $1`
+
+	// setting the variables
+	totalRecords := 0
+	var cars []*CarProduct
+
+	// setting the timeout context for the query execution
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	// preparing the query
+	stmt, err := m.db.PrepareContext(ctx, query)
 	if err != nil {
-		return nil, fmt.Errorf("failed to search car products: %w", err)
+		return nil, err
+	}
+	defer stmt.Close()
+
+	// executing the query
+	rows, err := stmt.QueryContext(ctx, searchTerm)
+	if err != nil {
+		return nil, err
 	}
 	defer rows.Close()
 
-	var carProducts []*CarProduct
+	// scanning for values
 	for rows.Next() {
-		var carProduct CarProduct
-		if err := rows.Scan(&carProduct.ID, &carProduct.CreatedAt, &carProduct.UpdatedAt, &carProduct.Status, &carProduct.Kilometers, &carProduct.OwnerNb, &carProduct.Color, &carProduct.Price, &carProduct.Shop, &carProduct.Version, &carProduct.CatID); err != nil {
+		var car CarProduct
+		var carCatalogSql CarCatalogSql
+
+		err := rows.Scan(
+			&totalRecords,
+			&car.ID,
+			&car.CreatedAt,
+			&car.UpdatedAt,
+			&car.Status,
+			&car.Kilometers,
+			&car.OwnerNb,
+			&car.Color,
+			&car.Price,
+			&car.Shop,
+			&car.ID,
+			&car.Version,
+			&carCatalogSql.CatID,
+			&carCatalogSql.CatCreatedAt,
+			&carCatalogSql.CatUpdatedAt,
+			&carCatalogSql.Make,
+			&carCatalogSql.Model,
+			&carCatalogSql.Cylinders,
+			&carCatalogSql.Drive,
+			&carCatalogSql.EngineDescriptor,
+			&carCatalogSql.Fuel1,
+			&carCatalogSql.Fuel2,
+			&carCatalogSql.LuggageVolume,
+			&carCatalogSql.PassengerVolume,
+			&carCatalogSql.Transmission,
+			&carCatalogSql.SizeClass,
+			&carCatalogSql.Year,
+			&carCatalogSql.ElectricMotor,
+			&carCatalogSql.BaseModel,
+			&carCatalogSql.CatVersion,
+		)
+
+		if err != nil {
 			return nil, err
 		}
-		carProducts = append(carProducts, &carProduct)
+
+		car.CarCatalog = carCatalogSql.ToCarCatalog()
+
+		// adding the car to the list of matching CarsCatalog
+		cars = append(cars, &car)
 	}
-	return carProducts, nil
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return cars, nil
 }
 
 func (m SearchModel) searchTransactions(ctx context.Context, searchTerm string) ([]*Transaction, error) {
