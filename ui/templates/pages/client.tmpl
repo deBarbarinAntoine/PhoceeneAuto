@@ -5,23 +5,23 @@
             <div class="info-section">
                 <div class="client-header">
                     <h1 class="client-title">
-                        <span class="first-name">Martin</span>
-                        <span class="last-name">Dupont</span>
+                        <span class="first-name">{{ .Client.FirstName }}</span>
+                        <span class="last-name">{{ .Client.LastName }}</span>
                     </h1>
-                    <span class="client-type">ACTIVE</span>
+                    <span class="client-type">{{ .Client.Status }}</span>
                 </div>
                 <div class="info-grid">
                     <div class="info-item">
                         <div class="info-label">Email</div>
-                        <div class="info-value">martin.dupont@email.com</div>
+                        <div class="info-value">{{ .Client.Email }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Téléphone</div>
-                        <div class="info-value">06 12 34 56 78</div>
+                        <div class="info-value">{{ .Client.Phone }}</div>
                     </div>
                     <div class="info-item">
-                        <div class="info-label">Concession</div>
-                        <div class="info-value">HEADQUARTERS</div>
+                        <div class="info-label">Boutique</div>
+                        <div class="info-value">{{ .Client.Shop }}</div>
                     </div>
                 </div>
             </div>
@@ -31,23 +31,23 @@
                 <div class="info-grid">
                     <div class="info-item">
                         <div class="info-label">Rue</div>
-                        <div class="info-value">123 rue de la Paix</div>
+                        <div class="info-value">{{ .Client.Street }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Complément</div>
-                        <div class="info-value">Bâtiment B</div>
+                        <div class="info-value">{{ .Client.Complement }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Ville</div>
-                        <div class="info-value">Marseille</div>
+                        <div class="info-value">{{ .Client.City }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Code Postal</div>
-                        <div class="info-value">13001</div>
+                        <div class="info-value">{{ .Client.ZIP }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Pays</div>
-                        <div class="info-value">France</div>
+                        <div class="info-value">{{ .Client.Country }}</div>
                     </div>
                 </div>
             </div>
@@ -57,51 +57,51 @@
                 <div class="info-grid">
                     <div class="info-item">
                         <div class="info-label">Créé le</div>
-                        <div class="info-value">15/04/2024 14:30</div>
+                        <div class="info-value">{{ humanDate .Client.CreatedAt }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Dernière mise à jour</div>
-                        <div class="info-value">15/04/2024 16:45</div>
+                        <div class="info-value">{{ humanDate .Client.UpdatedAt }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Version</div>
-                        <div class="info-value">2</div>
+                        <div class="info-value">{{ .Client.Version }}</div>
                     </div>
                 </div>
             </div>
 
             <div class="action-buttons">
-                <a href="/clients" class="button back-button">Retour</a>
-                <a href="/client/edit/42" class="button edit-button">Modifier</a>
+                <a href="/search" class="button back-button">Retour</a>
+                <a href="/client/{{ .Client.ID }}/update" class="button edit-button">Modifier</a>
             </div>
         </div>
 
-        <div class="client-main">
-            <div class="tab-navigation">
-                <div class="tab active">Transactions</div>
-                <div class="tab">Véhicules</div>
-            </div>
+{{/*         <div class="client-main"> */}}
+{{/*             <div class="tab-navigation"> */}}
+{{/*                 <div class="tab active">Transactions</div> */}}
+{{/*                 <div class="tab">Véhicules</div> */}}
+{{/*             </div> */}}
 
-            <div class="transaction-list">
-                <div class="list-item">
-                    <div class="list-item-info">
-                        <div class="list-item-title">Achat Peugeot 208</div>
-                        <div class="list-item-subtitle">Transaction #T123 - 15/04/2024</div>
-                    </div>
-                    <div class="list-item-status">25 000 €</div>
-                </div>
-            </div>
+{{/*             <div class="transaction-list"> */}}
+{{/*                 <div class="list-item"> */}}
+{{/*                     <div class="list-item-info"> */}}
+{{/*                         <div class="list-item-title">Achat Peugeot 208</div> */}}
+{{/*                         <div class="list-item-subtitle">Transaction #T123 - 15/04/2024</div> */}}
+{{/*                     </div> */}}
+{{/*                     <div class="list-item-status">25 000 €</div> */}}
+{{/*                 </div> */}}
+{{/*             </div> */}}
 
-            <div class="vehicle-list" style="display: none;">
-                <div class="list-item">
-                    <div class="list-item-info">
-                        <div class="list-item-title">Peugeot 208</div>
-                        <div class="list-item-subtitle">AA-123-BB - 2023</div>
-                    </div>
-                    <div class="list-item-status">En cours</div>
-                </div>
-            </div>
-        </div>
+{{/*             <div class="vehicle-list" style="display: none;"> */}}
+{{/*                 <div class="list-item"> */}}
+{{/*                     <div class="list-item-info"> */}}
+{{/*                         <div class="list-item-title">Peugeot 208</div> */}}
+{{/*                         <div class="list-item-subtitle">AA-123-BB - 2023</div> */}}
+{{/*                     </div> */}}
+{{/*                     <div class="list-item-status">En cours</div> */}}
+{{/*                 </div> */}}
+{{/*             </div> */}}
+{{/*         </div> */}}
     </div>
 
 {{ end }}

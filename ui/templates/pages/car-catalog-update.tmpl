@@ -3,77 +3,17 @@
     <div class="vehicle-form-container">
         <div class="header">
             <h1>Modifier le Véhicule</h1>
-            <span class="vehicle-id">#{{ .Form.ID }}</span>
+            <span class="vehicle-id">#{{ .Form.CatID }}</span>
         </div>
 
-        <form method="post" action="/car-product/{{ .Form.ID }}/update" class="data-form">
+        <form method="post" action="/car-catalog/{{ .Form.CatID }}/update" class="data-form">
 
             <input type="hidden" name="csrf_token" value="{{ .CSRFToken }}">
 
             {{ range .Form.NonFieldErrors }}
                 <div class="error-message">{{ . }}</div>
             {{ end }}
-            <input type="hidden" name="id" value="{{ .Form.ID }}">
             <input type="hidden" name="cat_id" value="{{ .Form.CatID }}">
-
-            <div class="form-section">
-                <h2>Informations Produit</h2>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="status">Statut</label>
-                        <select name="status" id="status" required>
-                            <option value="COMING" {{ with .CarProduct.Status }}{{ if eq . "COMING" }}selected{{ end }}{{ end }}>À venir</option>
-                            <option value="ONSALE" {{ with .CarProduct.Status }}{{ if eq . "ONSALE" }}selected{{ end }}{{ end }}>En Vente</option>
-                            <option value="PROCESSING" {{ with .CarProduct.Status }}{{ if eq . "PROCESSING" }}selected{{ end }}{{ end }}>En Traitement</option>
-                            <option value="SOLD" {{ with .CarProduct.Status }}{{ if eq . "SOLD" }}selected{{ end }}{{ end }}>Vendu</option>
-                        </select>
-                        {{ with .Form.FieldErrors.status }}
-                            <div class="error-message">{{ . }}</div>
-                        {{ end }}
-
-                    </div>
-                    <div class="form-group">
-                        <label for="kilometers" class="required">Kilométrage</label>
-                        <input type="number" id="kilometers" name="kilometers" value="{{ with .Form.Kilometers }}{{ . }}{{ end }}" step="0.1" min="0" required>
-                        {{ with .Form.FieldErrors.kilometers }}
-                            <div class="error-message">{{ . }}</div>
-                        {{ end }}
-
-                    </div>
-                    <div class="form-group">
-                        <label for="owner_nb" class="required">Nombre de propriétaires</label>
-                        <input type="number" id="owner_nb" name="owner_nb" value="{{ with .Form.OwnerNb }}{{ . }}{{ end }}" min="0" required>
-                        {{ with .Form.FieldErrors.owner_nb }}
-                            <div class="error-message">{{ . }}</div>
-                        {{ end }}
-
-                    </div>
-                    <div class="form-group">
-                        <label for="color" class="required">Couleur</label>
-                        <input type="text" id="color" name="color" value="{{ with .Form.Color }}{{ . }}{{ end }}" required>
-                        {{ with .Form.FieldErrors.color }}
-                            <div class="error-message">{{ . }}</div>
-                        {{ end }}
-
-                    </div>
-                    <div class="form-group">
-                        <label for="price" class="required">Prix (€)</label>
-                        <input type="number" id="price" name="price" value="{{ with .Form.Price }}{{ . }}{{ end }}" step="0.01" min="0" required>
-                        {{ with .Form.FieldErrors.price }}
-                            <div class="error-message">{{ . }}</div>
-                        {{ end }}
-
-                    </div>
-                    <div class="form-group">
-                        <label for="shop">Concession</label>
-                        <input type="text" id="shop" name="shop" value="{{ with .Form.Shop }}{{ . }}{{ end }}" readonly>
-                        {{ with .Form.FieldErrors.shop }}
-                            <div class="error-message">{{ . }}</div>
-                        {{ end }}
-
-                    </div>
-                </div>
-            </div>
 
             <div class="form-section">
                 <h2>Informations Catalogue</h2>
@@ -195,7 +135,7 @@
 
             <div class="action-buttons">
                 <div class="left-buttons">
-                    <button type="button" class="button delete-button" onclick="if(confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?')) window.location.href='/car-product/{{ .Form.ID }}/delete'">Supprimer</button>
+                    <button type="button" class="button delete-button" onclick="if(confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?')) window.location.href='/car-catalog/{{ .Form.CatID }}/delete'">Supprimer</button>
                 </div>
                 <div class="right-buttons">
                     <a href="/search" class="button cancel-button">Annuler</a>

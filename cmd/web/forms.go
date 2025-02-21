@@ -610,28 +610,36 @@ func (form transactionCreateForm) toTransaction() *data.Transaction {
 	return transaction
 }
 
-func (form transactionUpdateForm) toTransaction(transaction *data.Transaction) {
-
+func (form transactionUpdateForm) toTransaction(transaction *data.Transaction) bool {
+	isEmpty := true
 	if form.CarsID != nil {
 		for i, id := range form.CarsID {
 			transaction.Cars[i].ID = id
+			isEmpty = false
 		}
 	}
 	if form.ClientID != nil {
 		transaction.Client.ID = *form.ClientID
+		isEmpty = false
 	}
 	if form.UserID != nil {
 		transaction.User.ID = *form.UserID
+		isEmpty = false
 	}
 	if form.Status != nil {
 		transaction.Status = *form.Status
+		isEmpty = false
 	}
 	if form.Leases != nil {
 		transaction.Leases = form.Leases
+		isEmpty = false
 	}
 	if form.TotalPrice != nil {
 		transaction.TotalPrice = *form.TotalPrice
+		isEmpty = false
 	}
+
+	return isEmpty
 }
 
 func (form searchForm) toSearch(search *data.Search) {
