@@ -3,46 +3,74 @@
     <div class="vehicle-form-container">
         <div class="header">
             <h1>Modifier le Véhicule</h1>
-            <span class="vehicle-id">#42</span>
+            <span class="vehicle-id">#{{ .Form.ID }}</span>
         </div>
 
-        <form method="post" action="/car/42" class="data-form">
-            <input type="hidden" name="id" value="42">
-            <input type="hidden" name="version" value="1">
-            <input type="hidden" name="cat_id" value="208">
-            <input type="hidden" name="cat_version" value="1">
+        <form method="post" action="/car/{{ .Form.ID }}" class="data-form">
+
+            <input type="hidden" name="csrf_token" value="{{ .CSRFToken }}">
+
+            {{ range .Form.NonFieldErrors }}
+                <div class="error-message">{{ . }}</div>
+            {{ end }}
+            <input type="hidden" name="id" value="{{ .Form.ID }}">
+            <input type="hidden" name="cat_id" value="{{ .Form.CatID }}">
 
             <div class="form-section">
                 <h2>Informations Produit</h2>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="status" class="required">Statut</label>
+                        <label for="status">Statut</label>
                         <select name="status" id="status" required>
-                            <option value="COMING">À venir</option>
-                            <option value="ONSALE" selected>En Vente</option>
-                            <option value="PROCESSING">En Traitement</option>
-                            <option value="SOLD">Vendu</option>
+                            <option value="COMING" {{ with .CarProduct.Status }}{{ if eq . "COMING" }}selected{{ end }}{{ end }}>À venir</option>
+                            <option value="ONSALE" {{ with .CarProduct.Status }}{{ if eq . "ONSALE" }}selected{{ end }}{{ end }}>En Vente</option>
+                            <option value="PROCESSING" {{ with .CarProduct.Status }}{{ if eq . "PROCESSING" }}selected{{ end }}{{ end }}>En Traitement</option>
+                            <option value="SOLD" {{ with .CarProduct.Status }}{{ if eq . "SOLD" }}selected{{ end }}{{ end }}>Vendu</option>
                         </select>
+                        {{ with .Form.FieldErrors.status }}
+                            <div class="error-message">{{ . }}</div>
+                        {{ end }}
+
                     </div>
                     <div class="form-group">
                         <label for="kilometers" class="required">Kilométrage</label>
-                        <input type="number" id="kilometers" name="kilometers" value="15000" step="0.1" min="0" required>
+                        <input type="number" id="kilometers" name="kilometers" value="{{ with .Form.Kilometers }}{{ . }}{{ end }}" step="0.1" min="0" required>
+                        {{ with .Form.FieldErrors.kilometers }}
+                            <div class="error-message">{{ . }}</div>
+                        {{ end }}
+
                     </div>
                     <div class="form-group">
-                        <label for="owner-nb" class="required">Nombre de propriétaires</label>
-                        <input type="number" id="owner-nb" name="owner-nb" value="1" min="0" required>
+                        <label for="owner_nb" class="required">Nombre de propriétaires</label>
+                        <input type="number" id="owner_nb" name="owner_nb" value="{{ with .Form.OwnerNb }}{{ . }}{{ end }}" min="0" required>
+                        {{ with .Form.FieldErrors.owner_nb }}
+                            <div class="error-message">{{ . }}</div>
+                        {{ end }}
+
                     </div>
                     <div class="form-group">
                         <label for="color" class="required">Couleur</label>
-                        <input type="text" id="color" name="color" value="Blanc" required>
+                        <input type="text" id="color" name="color" value="{{ with .Form.Color }}{{ . }}{{ end }}" required>
+                        {{ with .Form.FieldErrors.color }}
+                            <div class="error-message">{{ . }}</div>
+                        {{ end }}
+
                     </div>
                     <div class="form-group">
                         <label for="price" class="required">Prix (€)</label>
-                        <input type="number" id="price" name="price" value="25000" step="0.01" min="0" required>
+                        <input type="number" id="price" name="price" value="{{ with .Form.Price }}{{ . }}{{ end }}" step="0.01" min="0" required>
+                        {{ with .Form.FieldErrors.price }}
+                            <div class="error-message">{{ . }}</div>
+                        {{ end }}
+
                     </div>
                     <div class="form-group">
                         <label for="shop">Concession</label>
-                        <input type="text" id="shop" name="shop" value="HEADQUARTERS" readonly>
+                        <input type="text" id="shop" name="shop" value="{{ with .Form.Shop }}{{ . }}{{ end }}" readonly>
+                        {{ with .Form.FieldErrors.shop }}
+                            <div class="error-message">{{ . }}</div>
+                        {{ end }}
+
                     </div>
                 </div>
             </div>
@@ -52,112 +80,125 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="make" class="required">Marque</label>
-                        <input type="text" id="make" name="make" value="Peugeot" required>
+                        <input type="text" id="make" name="make" value="{{ with .Form.Make }}{{ . }}{{ end }}" required>
+                        {{ with .Form.FieldErrors.make }}
+                            <div class="error-message">{{ . }}</div>
+                        {{ end }}
+
                     </div>
                     <div class="form-group">
                         <label for="model" class="required">Modèle</label>
-                        <input type="text" id="model" name="model" value="208" required>
+                        <input type="text" id="model" name="model" value="{{ with .Form.Model }}{{ . }}{{ end }}" required>
+                        {{ with .Form.FieldErrors.model }}
+                            <div class="error-message">{{ . }}</div>
+                        {{ end }}
+
                     </div>
                     <div class="form-group">
                         <label for="cylinders">Cylindres</label>
-                        <input type="number" id="cylinders" name="cylinders" value="4" min="0">
+                        <input type="number" id="cylinders" name="cylinders" value="{{ with .Form.Cylinders }}{{ . }}{{ end }}" min="0">
+                        {{ with .Form.FieldErrors.cylinders }}
+                            <div class="error-message">{{ . }}</div>
+                        {{ end }}
+
                     </div>
                     <div class="form-group">
                         <label for="drive" class="required">Transmission</label>
-                        <input type="text" id="drive" name="drive" value="Avant" required>
+                        <input type="text" id="drive" name="drive" value="{{ with .Form.Transmission }}{{ . }}{{ end }}" required>
+                        {{ with .Form.FieldErrors.drive }}
+                            <div class="error-message">{{ . }}</div>
+                        {{ end }}
+
                     </div>
                     <div class="form-group">
-                        <label for="engine-descriptor">Description Moteur</label>
-                        <input type="text" id="engine-descriptor" name="engine-descriptor" value="1.2L PureTech">
+                        <label for="engine_descriptor">Description Moteur</label>
+                        <input type="text" id="engine_descriptor" name="engine_descriptor" value="{{ with .Form.EngineDescriptor }}{{ . }}{{ end }}">
+                        {{ with .Form.FieldErrors.engine_descriptor }}
+                            <div class="error-message">{{ . }}</div>
+                        {{ end }}
+
                     </div>
                     <div class="form-group">
-                        <label for="fuel1" class="required">Carburant Principal</label>
-                        <input type="text" id="fuel1" name="fuel1" value="Essence" required>
+                        <label for="fuel_1" class="required">Carburant Principal</label>
+                        <input type="text" id="fuel_1" name="fuel_1" value="{{ with .Form.Fuel1 }}{{ . }}{{ end }}" required>
+                        {{ with .Form.FieldErrors.fuel_1 }}
+                            <div class="error-message">{{ . }}</div>
+                        {{ end }}
+
                     </div>
                     <div class="form-group">
-                        <label for="fuel2">Carburant Secondaire</label>
-                        <input type="text" id="fuel2" name="fuel2" value="">
+                        <label for="fuel_2">Carburant Secondaire</label>
+                        <input type="text" id="fuel_2" name="fuel_2" value="{{ with .Form.Fuel2 }}{{ . }}{{ end }}">
+                        {{ with .Form.FieldErrors.fuel_2 }}
+                            <div class="error-message">{{ . }}</div>
+                        {{ end }}
+
                     </div>
                     <div class="form-group">
-                        <label for="luggage-volume">Volume Coffre (L)</label>
-                        <input type="number" id="luggage-volume" name="luggage-volume" value="311" step="0.1" min="0">
+                        <label for="luggage_volume">Volume Coffre (L)</label>
+                        <input type="number" id="luggage_volume" name="luggage_volume" value="{{ with .Form.LuggageVolume }}{{ . }}{{ end }}" step="0.1" min="0">
+                        {{ with .Form.FieldErrors.luggage_volume }}
+                            <div class="error-message">{{ . }}</div>
+                        {{ end }}
+
                     </div>
                     <div class="form-group">
-                        <label for="passenger-volume">Volume Passagers (L)</label>
-                        <input type="number" id="passenger-volume" name="passenger-volume" value="1400" step="0.1" min="0">
+                        <label for="passenger_volume">Volume Passagers (L)</label>
+                        <input type="number" id="passenger_volume" name="passenger_volume" value="{{ with .Form.PassengerVolume }}{{ . }}{{ end }}" step="0.1" min="0">
+                        {{ with .Form.FieldErrors.passenger_volume }}
+                            <div class="error-message">{{ . }}</div>
+                        {{ end }}
+
                     </div>
                     <div class="form-group">
                         <label for="transmission" class="required">Type Transmission</label>
-                        <input type="text" id="transmission" name="transmission" value="Manuelle" required>
+                        <input type="text" id="transmission" name="transmission" value="{{ with .Form.Transmission }}{{ . }}{{ end }}" required>
+                        {{ with .Form.FieldErrors.transmission }}
+                            <div class="error-message">{{ . }}</div>
+                        {{ end }}
+
                     </div>
                     <div class="form-group">
-                        <label for="size-class">Catégorie</label>
-                        <input type="text" id="size-class" name="size-class" value="Citadine">
+                        <label for="size_class">Catégorie</label>
+                        <input type="text" id="size_class" name="size_class" value="{{ with .Form.SizeClass }}{{ . }}{{ end }}">
+                        {{ with .Form.FieldErrors.size_class }}
+                            <div class="error-message">{{ . }}</div>
+                        {{ end }}
+
                     </div>
                     <div class="form-group">
                         <label for="year" class="required">Année</label>
-                        <input type="number" id="year" name="year" value="2023" min="1980" required>
+                        <input type="number" id="year" name="year" value="{{ with .Form.Year }}{{ . }}{{ end }}" min="1980" required>
+                        {{ with .Form.FieldErrors.year }}
+                            <div class="error-message">{{ . }}</div>
+                        {{ end }}
+
                     </div>
                     <div class="form-group">
-                        <label for="electric-motor">Puissance Électrique (kW)</label>
-                        <input type="number" id="electric-motor" name="electric-motor" value="0" step="0.1" min="0">
+                        <label for="electric_motor">Puissance Électrique (kW)</label>
+                        <input type="number" id="electric_motor" name="electric_motor" value="{{ with .Form.ElectricMotor }}{{ . }}{{ end }}" step="0.1" min="0">
+                        {{ with .Form.FieldErrors.electric_motor }}
+                            <div class="error-message">{{ . }}</div>
+                        {{ end }}
+
                     </div>
                     <div class="form-group">
-                        <label for="base-model">Modèle de Base</label>
-                        <input type="text" id="base-model" name="base-model" value="208 Active">
+                        <label for="base_model">Modèle de Base</label>
+                        <input type="text" id="base_model" name="base_model" value="{{ with .Form.BaseModel }}{{ . }}{{ end }}">
+                        {{ with .Form.FieldErrors.base_model }}
+                            <div class="error-message">{{ . }}</div>
+                        {{ end }}
+
                     </div>
                 </div>
-            </div>
-
-            <div class="form-section">
-                <h2>Photos</h2>
-                <div class="form-group">
-                    <label>Photos actuelles</label>
-                    <div class="current-images">
-                        <div class="image-item">
-                            <div class="image-preview" style="background-image: url('/static/images/vehicles/peugeot-308-1.jpg')"></div>
-                            <button type="button" class="delete-image">×</button>
-                        </div>
-                        <div class="image-item">
-                            <div class="image-preview" style="background-image: url('/static/images/vehicles/peugeot-308-2.jpg')"></div>
-                            <button type="button" class="delete-image">×</button>
-                        </div>
-                    </div>
-                    <div class="image-upload" onclick="document.getElementById('new_images').click()">
-                        <div class="upload-icon">📁</div>
-                        <div class="upload-text">Ajouter de nouvelles photos</div>
-                        <input type="file" id="new_images" name="new_images[]" multiple accept="image/*" style="display: none;">
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-section">
-                <h2>Description</h2>
-                <div class="form-group full-width">
-                    <label for="description">Description détaillée</label>
-                    <textarea id="description" name="description" rows="4">Superbe Peugeot 308 GT Line en excellent état.
-Première main, carnet d'entretien complet.
-Équipements :
-- GPS
-- Caméra de recul
-- Sièges chauffants
-- Toit panoramique
-- Jantes alliage 18"</textarea>
-                </div>
-            </div>
-
-            <div class="history-section">
-                <h2>Historique des modifications</h2>
-                <div class="history-item">Créé le 12/04/2024 à 14:30 par Jean Dupont</div>
-                <div class="history-item">Modifié le 13/04/2024 à 09:15 par Marie Martin</div>
             </div>
 
             <div class="action-buttons">
                 <div class="left-buttons">
-                    <button type="button" class="button delete-button" onclick="if(confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?')) window.location.href='/car/delete/42'">Supprimer</button>
+                    <button type="button" class="button delete-button" onclick="if(confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?')) window.location.href='/car/{{ .Form.ID }}/delete'">Supprimer</button>
                 </div>
                 <div class="right-buttons">
-                    <a href="/cars" class="button cancel-button">Annuler</a>
+                    <a href="/search" class="button cancel-button">Annuler</a>
                     <button type="submit" class="button save-button">Enregistrer</button>
                 </div>
             </div>

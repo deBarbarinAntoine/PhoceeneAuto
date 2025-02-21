@@ -3,12 +3,13 @@
     <div class="car-view-container">
         <div class="info-block full-width">
             <div class="car-header">
-                <h1 class="car-title">Peugeot 208</h1>
+                <h1 class="car-title">{{ .CarProduct.Make }} {{ .CarProduct.Model }}</h1>
                 <span class="car-status status-onsale">EN VENTE</span>
             </div>
             <div class="action-buttons">
-                <a href="/cars" class="button back-button">Retour</a>
-                <a href="/car/edit/42" class="button edit-button">Modifier</a>
+                <a href="/search" class="button back-button">Retour</a>
+                <a href="/car/{{ .CarProduct.ID }}/update" class="button edit-button">Modifier</a>
+                <a href="/car/{{ .CarProduct.ID }}/delete" class="button delete-button">Supprimer</a>
             </div>
         </div>
 
@@ -18,23 +19,23 @@
                 <div class="info-grid">
                     <div class="info-item">
                         <div class="info-label">Kilométrage</div>
-                        <div class="info-value">15000 km</div>
+                        <div class="info-value">{{ .CarProduct.Kilometers }} km</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Propriétaires</div>
-                        <div class="info-value">1</div>
+                        <div class="info-value">{{ .CarProduct.OwnerNb }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Couleur</div>
-                        <div class="info-value">Blanc</div>
+                        <div class="info-value">{{ .CarProduct.Color }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Prix</div>
-                        <div class="info-value">25000 €</div>
+                        <div class="info-value">{{ .CarProduct.Price }} €</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Concession</div>
-                        <div class="info-value">HEADQUARTERS</div>
+                        <div class="info-value">{{ .CarProduct.Shop }}</div>
                     </div>
                 </div>
             </div>
@@ -46,23 +47,23 @@
                 <div class="info-grid">
                     <div class="info-item">
                         <div class="info-label">ID Produit</div>
-                        <div class="info-value">42</div>
+                        <div class="info-value">{{ .CarProduct.ID }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">ID Catalogue</div>
-                        <div class="info-value">208</div>
+                        <div class="info-value">{{ .CarProduct.CatID }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Créé le</div>
-                        <div class="info-value">15/04/2024 14:30</div>
+                        <div class="info-value">{{ humanDate .CarProduct.CreatedAt }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Dernière mise à jour</div>
-                        <div class="info-value">15/04/2024 16:45</div>
+                        <div class="info-value">{{ humanDate .CarProduct.UpdatedAt }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Version</div>
-                        <div class="info-value">2</div>
+                        <div class="info-value">{{ .CarProduct.Version }}</div>
                     </div>
                 </div>
             </div>
@@ -74,27 +75,27 @@
                 <div class="info-grid">
                     <div class="info-item">
                         <div class="info-label">Marque</div>
-                        <div class="info-value">Peugeot</div>
+                        <div class="info-value">{{ with .CarProduct.Make }}{{ . }}{{ end }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Modèle</div>
-                        <div class="info-value">208</div>
+                        <div class="info-value">{{ with .CarProduct.Model }}{{ . }}{{ end }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Cylindres</div>
-                        <div class="info-value">4</div>
+                        <div class="info-value">{{ with .CarProduct.Cylinders }}{{ . }}{{ end }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Transmission</div>
-                        <div class="info-value">Manuelle</div>
+                        <div class="info-value">{{ with .CarProduct.Transmission }}{{ . }}{{ end }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Description Moteur</div>
-                        <div class="info-value">1.2L PureTech</div>
+                        <div class="info-value">{{ with .CarProduct.EngineDescription }}{{ . }}{{ end }}</div>
                     </div>
                     <div class="info-item">
-                        <div class="info-label">Type Transmission</div>
-                        <div class="info-value">Manuelle 6 vitesses</div>
+                        <div class="info-label">Type Motorisation</div>
+                        <div class="info-value">{{ with .CarProduct.Drive }}{{ . }}{{ end }}</div>
                     </div>
                 </div>
             </div>
@@ -106,27 +107,27 @@
                 <div class="info-grid">
                     <div class="info-item">
                         <div class="info-label">Carburant Principal</div>
-                        <div class="info-value">Essence</div>
+                        <div class="info-value">{{ with .CarProduct.Fuel1 }}{{ . }}{{ end }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Carburant Secondaire</div>
-                        <div class="info-value">-</div>
+                        <div class="info-value">{{ with .CarProduct.Fuel2 }}{{ . }}{{ end }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Volume Coffre</div>
-                        <div class="info-value">311 L</div>
+                        <div class="info-value">{{ with .CarProduct.LuggageVolume }}{{ . }}{{ end }} L</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Volume Passagers</div>
-                        <div class="info-value">1400 L</div>
+                        <div class="info-value">{{ with .CarProduct.PassengerVolume }}{{ . }}{{ end }} L</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Catégorie</div>
-                        <div class="info-value">Citadine</div>
+                        <div class="info-value">{{ with .CarProduct.SizeClass }}{{ . }}{{ end }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Puissance Électrique</div>
-                        <div class="info-value">0 kW</div>
+                        <div class="info-value">{{ with .CarProduct.ElectricMotor }}{{ . }}{{ end }} kW</div>
                     </div>
                 </div>
             </div>
