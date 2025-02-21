@@ -108,7 +108,7 @@ func (m SearchModel) searchClients(ctx context.Context, searchTerm string) ([]*C
 	var clients []*Client
 	for rows.Next() {
 		var client Client
-		if err := rows.Scan(&client.ID, &client.FirstName, &client.LastName, &client.Email, &client.Phone, &client.Status, &client.Shop, &client.Address.Street, &client.Address.Complement, &client.Address.City, &client.Address.ZIP, &client.Address.Country, &client.Version); err != nil {
+		if err := rows.Scan(&client.ID, &client.CreatedAt, &client.UpdatedAt, &client.FirstName, &client.LastName, &client.Email, &client.Phone, &client.Status, &client.Shop, &client.Address.Street, &client.Address.Complement, &client.Address.City, &client.Address.ZIP, &client.Address.Country, &client.Version); err != nil {
 			return nil, err
 		}
 		clients = append(clients, &client)
