@@ -7,25 +7,26 @@
 
             <div class="client-card">
                 <div class="client-header">
-                    <div class="client-name">{{ .FirstName }} {{ .LastName }}</div>
-                    <div class="client-status active">{{ .Status }}</div>
+                    <div class="client-name">{{ with .FirstName }}{{ . }}{{ end }} {{ with .LastName }}{{ . }}{{ end }}</div>
+                    <div class="client-status active">{{ with .Status }}{{ . }}{{ end }}</div>
                 </div>
                 <div class="client-info">
-                    <div>📧{{ .Email }}</div>
-                    <div>📱 {{ .Phone }}</div>
+                    <div>📧{{ with .Email }}{{ . }}{{ end }}</div>
+                    <div>📱 {{ with .Phone }}{{ . }}{{ end }}</div>
                 </div>
                 <div class="client-address">
-                    <div class="client-info">{{ .Address.Street }}</div>
-                    <div class="client-info">{{ .Address.Complement }}</div>
-                    <div class="client-info">{{ .Address.ZIP }} {{ .Address.City }}</div>
-                    <div class="client-info">{{ .Address.Country }}</div>
+                    <div class="client-info">{{ with .Address.Street }}{{ . }}{{ end }}</div>
+                    <div class="client-info">{{ with .Address.Complement }}{{ . }}{{ end }}</div>
+                    <div class="client-info">{{ with .Address.ZIP }}{{ . }}{{ end }} {{ with .Address.City }}{{ . }}{{ end }}</div>
+                    <div class="client-info">{{ with .Address.Country }}{{ . }}{{ end }}</div>
                 </div>
                 <div class="client-meta">
-                    <div>Concession: {{ .Shop }}</div>
+                    <div>Concession: {{ with .Shop }}{{ . }}{{ end }}</div>
+                    <div>Créé le: {{ .CreatedAt }}</div>
                     <div>Créé le: {{ humanDate .CreatedAt }}</div>
                 </div>
                 <div class="client-actions">
-                    <a href="/client/view/{{ .ID }}" class="action-button view-button">Voir</a>
+                    <a href="/client/{{ .ID }}" class="action-button view-button">Voir</a>
                     <a href="/client/update/{{ .ID }}" class="action-button edit-button">Modifier</a>
                     <a href="/client/delete/{{ .ID }}" class="action-button delete-button">Supprimer</a>
                 </div>

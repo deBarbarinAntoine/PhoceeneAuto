@@ -29,7 +29,7 @@
                     <div>Ajoutée le: {{ humanDate .CreatedAt }}</div>
                 </div>
                 <div class="car-actions">
-                    <a href="/car/view/{{ .ID }}" class="action-button view-button">Voir</a>
+                    <a href="/car/{{ .ID }}" class="action-button view-button">Voir</a>
                     <a href="/car/update/{{ .ID }}" class="action-button edit-button">Modifier</a>
                     <a href="/car/delete/{{ .ID }}" class="action-button delete-button">Supprimer</a>
                 </div>
