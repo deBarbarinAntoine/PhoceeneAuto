@@ -88,10 +88,13 @@ func (app *application) search(w http.ResponseWriter, r *http.Request) {
 	// Prepare template data
 	tmplData := app.newTemplateData(r)
 	tmplData.Title = "Phoceene Auto - Search Results"
-	tmplData.
+	tmplData.Transactions = result.Transactions
+	tmplData.Clients = result.Clients
+	tmplData.CarsCatalog = result.CarCatalogs
+	tmplData.CarProducts = result.CarProducts
 
-		// Render the template with results
-		app.render(w, r, http.StatusOK, "search.tmpl", tmplData)
+	// Render the template with results
+	app.render(w, r, http.StatusOK, "search.tmpl", tmplData)
 }
 
 // Helper functions to parse different types
