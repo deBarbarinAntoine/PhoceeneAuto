@@ -6,7 +6,7 @@
         </div>
 
         <form class="search-form" method="get" action="/search">
-            <input type="search" name="q" placeholder="Rechercher..." class="search-input">
+            <input type="search" name="search" placeholder="Rechercher..." class="search-input">
             <button type="submit" class="search-button">Rechercher</button>
         </form>
 
@@ -24,53 +24,18 @@
             </select>
         </div>
 
-        <div class="results-info">
-            {{ .Metadata.TotalRecords }} résultats trouvés
-        </div>
-
         <div class="results-grid">
-            {{ range .Results }}
-                {{ if eq .Type "car" }}
-                    <div class="result-card">
-                        <div class="result-type">Véhicule</div>
-                        <h2 class="result-title">{{ .Make }} {{ .Model }}</h2>
-                        <div class="result-details">
-                            <div>Statut: {{ .Status }}</div>
-                            <div>Kilométrage: {{ .Kilometers }} km</div>
-                            <div>Prix: {{ .Price }} €</div>
-                            <div>Concession: {{ .Shop }}</div>
-                        </div>
-                        <a href="/car/{{ .ID }}" class="result-link">Voir les détails →</a>
-                    </div>
-                {{ else if eq .Type "client" }}
-                    <div class="result-card">
-                        <div class="result-type">Client</div>
-                        <h2 class="result-title">{{ .FirstName }} {{ .LastName }}</h2>
-                        <div class="result-details">
-                            <div>Email: {{ .Email }}</div>
-                            <div>Téléphone: {{ .Phone }}</div>
-                            <div>Statut: {{ .Status }}</div>
-                            <div>Concession: {{ .Shop }}</div>
-                        </div>
-                        <a href="/client/{{ .ID }}" class="result-link">Voir le profil →</a>
-                    </div>
-                {{ else if eq .Type "transaction" }}
-                    <div class="result-card">
-                        <div class="result-type">Transaction</div>
-                        <h2 class="result-title">Transaction #{{ .ID }}</h2>
-                        <div class="result-details">
-                            <div>Statut: {{ .Status }}</div>
-                            <div>Client: {{ .Client.FirstName }} {{ .Client.LastName }}</div>
-                            <div>Montant total: {{ .TotalPrice }} €</div>
-                            <div>Date: {{ .CreatedAt.Format "02/01/2006" }}</div>
-                        </div>
-                        <a href="/transaction/{{ .ID }}" class="result-link">Voir les détails →</a>
-                    </div>
-                {{ end }}
-            {{ end }}
-        </div>
+            {{/*             Car Results              */}}
+            {{ template "car-product-list" .CarProducts }}
 
-        {{ template "pagination" .Metadata }}
+
+            {{/*       Client Results        */}}
+            {{ template "client-list" .Clients }}
+
+
+            {{/*         Transaction Results          */}}
+            {{ template "transaction-list" .Transactions }}
+        </div>
     </div>
 
 {{ end }}

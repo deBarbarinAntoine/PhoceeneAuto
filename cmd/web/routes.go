@@ -47,7 +47,7 @@ func (app *application) routes() http.Handler {
 		group.HandleFunc("/dashboard", app.dashboard, http.MethodGet) // dashboard page
 		group.HandleFunc("/logout", app.logoutPost, http.MethodPost)  // logout route
 
-		router.HandleFunc("/search", app.search, http.MethodGet) // search page
+		router.HandleFunc("/search", app.searchClassic, http.MethodGet) // search page
 
 		// CLIENT
 		router.HandleFunc("/client/:id", app.clientGet, http.MethodGet)       // get client
