@@ -37,10 +37,10 @@ func newUserLoginForm() *userLoginForm {
 //
 //	*userUpdateForm - The created form
 func newUserUpdateForm(user *data.User) *userUpdateForm {
-
+	
 	// creating the form
 	var form = new(userUpdateForm)
-
+	
 	// filling the form with the data if any
 	if user != nil {
 		form.ID = &user.ID
@@ -56,10 +56,10 @@ func newUserUpdateForm(user *data.User) *userUpdateForm {
 		form.Status = &user.Status
 		form.Role = &user.Role
 	}
-
+	
 	// setting the validator
 	form.Validator = *validator.New()
-
+	
 	return form
 }
 
@@ -84,10 +84,10 @@ func newClientCreateForm() *clientCreateForm {
 //
 //	*clientUpdateForm - The created form
 func newClientUpdateForm(client *data.Client) *clientUpdateForm {
-
+	
 	// creating the form
 	var form = new(clientUpdateForm)
-
+	
 	// filling the form with the data if any
 	if client != nil {
 		form.ID = &client.ID
@@ -103,10 +103,10 @@ func newClientUpdateForm(client *data.Client) *clientUpdateForm {
 		form.Status = &client.Status
 		form.Shop = &client.Shop
 	}
-
+	
 	// setting the validator
 	form.Validator = *validator.New()
-
+	
 	return form
 }
 
@@ -131,10 +131,10 @@ func newCarCatalogCreateForm() *carCatalogCreateForm {
 //
 //	*carCatalogUpdateForm - The created form
 func newCarCatalogUpdateForm(car *data.CarCatalog) *carCatalogUpdateForm {
-
+	
 	// creating the form
 	var form = new(carCatalogUpdateForm)
-
+	
 	// filling the form with the data if any
 	if car != nil {
 		form.ID = &car.CatID
@@ -153,10 +153,10 @@ func newCarCatalogUpdateForm(car *data.CarCatalog) *carCatalogUpdateForm {
 		form.SizeClass = &car.SizeClass
 		form.BaseModel = &car.BaseModel
 	}
-
+	
 	// setting the validator
 	form.Validator = *validator.New()
-
+	
 	return form
 }
 
@@ -181,10 +181,10 @@ func newCarProductCreateForm() *carProductCreateForm {
 //
 //	*carProductUpdateForm - The created form
 func newCarProductUpdateForm(car *data.CarProduct) *carProductUpdateForm {
-
+	
 	// creating the form
 	var form = new(carProductUpdateForm)
-
+	
 	// filling the form with the data if any
 	if car != nil {
 		form.ID = &car.ID
@@ -195,10 +195,10 @@ func newCarProductUpdateForm(car *data.CarProduct) *carProductUpdateForm {
 		form.Color = &car.Color
 		form.Kilometers = &car.Kilometers
 	}
-
+	
 	// setting the validator
 	form.Validator = *validator.New()
-
+	
 	return form
 }
 
@@ -223,12 +223,13 @@ func newTransactionCreateForm() *transactionCreateForm {
 //
 //	*transactionUpdateForm - The created form
 func newTransactionUpdateForm(transaction *data.Transaction) *transactionUpdateForm {
-
+	
 	// creating the form
 	var form = new(transactionUpdateForm)
-
+	
 	// filling the form with the data if any
 	if transaction != nil {
+		form.ID = &transaction.ID
 		for _, car := range transaction.Cars {
 			form.CarsID = append(form.CarsID, car.ID)
 		}
@@ -238,10 +239,10 @@ func newTransactionUpdateForm(transaction *data.Transaction) *transactionUpdateF
 		form.Leases = transaction.Leases
 		form.TotalPrice = &transaction.TotalPrice
 	}
-
+	
 	// setting the validator
 	form.Validator = *validator.New()
-
+	
 	return form
 }
 
@@ -258,7 +259,7 @@ func newSearchForm() *searchForm {
 
 func (form userUpdateForm) toUser(user *data.User) bool {
 	isEmpty := true
-
+	
 	if form.Username != nil {
 		isEmpty = false
 		user.Name = *form.Username
@@ -303,13 +304,13 @@ func (form userUpdateForm) toUser(user *data.User) bool {
 		isEmpty = false
 		user.Role = *form.Role
 	}
-
+	
 	return isEmpty
 }
 
 func (form userCreateForm) toUser() *data.User {
 	user := data.EmptyUser()
-
+	
 	if form.Username != nil {
 		user.Name = *form.Username
 	}
@@ -343,13 +344,13 @@ func (form userCreateForm) toUser() *data.User {
 	if form.Role != nil {
 		user.Role = *form.Role
 	}
-
+	
 	return user
 }
 
 func (form clientCreateForm) toClient() *data.Client {
 	client := data.EmptyClient()
-
+	
 	if form.FirstName != nil {
 		client.FirstName = *form.FirstName
 	}
@@ -383,12 +384,12 @@ func (form clientCreateForm) toClient() *data.Client {
 	if form.Shop != nil {
 		client.Shop = *form.Shop
 	}
-
+	
 	return client
 }
 
 func (form clientUpdateForm) toClient(client *data.Client) {
-
+	
 	if form.FirstName != nil {
 		client.FirstName = *form.FirstName
 	}
@@ -426,7 +427,7 @@ func (form clientUpdateForm) toClient(client *data.Client) {
 
 func (form carCatalogCreateForm) toCarCatalog() *data.CarCatalog {
 	car := data.EmptyCarCatalog()
-
+	
 	if form.Make != nil {
 		car.Make = *form.Make
 	}
@@ -469,13 +470,13 @@ func (form carCatalogCreateForm) toCarCatalog() *data.CarCatalog {
 	if form.BaseModel != nil {
 		car.BaseModel = *form.BaseModel
 	}
-
+	
 	return car
 }
 
 func (form carCatalogUpdateForm) toCarCatalog(car *data.CarCatalog) bool {
 	isEmpty := true
-
+	
 	if form.Make != nil {
 		isEmpty = false
 		car.Make = *form.Make
@@ -537,7 +538,7 @@ func (form carCatalogUpdateForm) toCarCatalog(car *data.CarCatalog) bool {
 
 func (form carProductCreateForm) toCarProduct() *data.CarProduct {
 	car := data.EmptyCarProduct()
-
+	
 	if form.OwnerNb != nil {
 		car.OwnerNb = *form.OwnerNb
 	}
@@ -553,13 +554,13 @@ func (form carProductCreateForm) toCarProduct() *data.CarProduct {
 	if form.CatID != nil {
 		car.CatID = *form.CatID
 	}
-
+	
 	return car
 }
 
 func (form carProductUpdateForm) toCarProduct(car *data.CarProduct) bool {
 	isEmpty := true
-
+	
 	if form.OwnerNb != nil {
 		isEmpty = false
 		car.OwnerNb = *form.OwnerNb
@@ -585,7 +586,7 @@ func (form carProductUpdateForm) toCarProduct(car *data.CarProduct) bool {
 
 func (form transactionCreateForm) toTransaction() *data.Transaction {
 	transaction := data.EmptyTransaction()
-
+	
 	if form.CarsID != nil {
 		for _, id := range form.CarsID {
 			transaction.Cars = append(transaction.Cars, data.CarProduct{ID: id})
@@ -606,7 +607,7 @@ func (form transactionCreateForm) toTransaction() *data.Transaction {
 	if form.TotalPrice != nil {
 		transaction.TotalPrice = *form.TotalPrice
 	}
-
+	
 	return transaction
 }
 
@@ -638,13 +639,13 @@ func (form transactionUpdateForm) toTransaction(transaction *data.Transaction) b
 		transaction.TotalPrice = *form.TotalPrice
 		isEmpty = false
 	}
-
+	
 	return isEmpty
 }
 
 func (form searchForm) toSearch(search *data.Search) {
 	filled := false
-
+	
 	if form.Search != nil {
 		search.Search = form.Search
 		filled = true
@@ -753,7 +754,7 @@ func (form searchForm) toSearch(search *data.Search) {
 		search.LeaseAmountMax = form.LeaseAmountMax
 		filled = true
 	}
-
+	
 	if !filled {
 		// panic("At least one search parameter must be provided")
 	}
