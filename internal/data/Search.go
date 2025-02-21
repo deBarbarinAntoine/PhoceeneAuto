@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"github.com/lib/pq"
 	"strings"
 	"time"
 )
@@ -13,26 +12,11 @@ type SearchModel struct {
 	db *sql.DB
 }
 
-// SearchResult represents a combined result from multiple tables
 type SearchResult struct {
-	TransactionID int64     `json:"transaction_id,omitempty"`
-	ClientID      int64     `json:"client_id,omitempty"`
-	ClientName    string    `json:"client_name,omitempty"`
-	Email         string    `json:"email,omitempty"`
-	Phone         string    `json:"phone,omitempty"`
-	Status        string    `json:"status,omitempty"`
-	CarID         int64     `json:"car_id,omitempty"`
-	Make          string    `json:"make,omitempty"`
-	Model         string    `json:"model,omitempty"`
-	ModelYear     int       `json:"model_year,omitempty"`
-	Price         float64   `json:"price,omitempty"`
-	Color         string    `json:"color,omitempty"`
-	Shop          string    `json:"shop,omitempty"`
-	Kilometers    float64   `json:"kilometers,omitempty"`
-	OwnerNb       int       `json:"owner_nb,omitempty"`
-	LeaseAmount   []float64 `json:"lease_amount,omitempty"`
-	CreatedAt     time.Time `json:"created_at,omitempty"`
-	UpdatedAt     time.Time `json:"updated_at,omitempty"`
+	Transactions []*Transaction
+	Clients      []*Client
+	CarCatalogs  []*CarCatalog
+	CarProducts  []*CarProduct
 }
 
 type Search struct {
@@ -69,160 +53,321 @@ type Search struct {
 	LeaseAmountMax    *float64 `form:"lease_max"`          // Maximum lease amount
 }
 
-func (m SearchModel) SearchAll(form Search) ([]SearchResult, error) {
-	// Base query joining transactions, clients, cars, and car_products
-	query := `
-		SELECT 
-    t.id AS transaction_id, 
-    cl.id AS client_id, 
-    (cl.first_name || ' ' || cl.last_name) AS client_name, 
-    cl.email, cl.phone, t.status, 
-    cp.id AS car_id, c.make, c.model, c.model_year, 
-    cp.price, cp.color, cp.shop, 
-    cp.kilometers, cp.owner_nb, 
-    t.lease_amount, t.created_at, t.updated_at
-FROM transactions t
-JOIN clients cl ON t.client_id = cl.id
-JOIN car_products_transactions cpt ON t.id = cpt.transaction_id
-JOIN car_products cp ON cpt.car_product_id = cp.id
-JOIN cars_catalog c ON cp.cat_id = c.id
-WHERE 1=1
-`
+func (m SearchModel) SearchAll(form Search) (SearchResult, error) {
+	var result SearchResult
+	query := form.Search
 
-	// Store conditions and parameters
-	var conditions []string
-	var args []interface{}
-	argIndex := 1
-
-	// Client filters
-	if form.ClientName != nil {
-		conditions = append(conditions, fmt.Sprintf("(cl.first_name ILIKE $%d OR cl.last_name ILIKE $%d)", argIndex, argIndex+1))
-		args = append(args, "%"+*form.ClientName+"%", "%"+*form.ClientName+"%")
-		argIndex += 2
-	}
-	if form.Email != nil {
-		conditions = append(conditions, fmt.Sprintf("cl.email ILIKE $%d", argIndex))
-		args = append(args, "%"+*form.Email+"%")
-		argIndex++
-	}
-	if form.Phone != nil {
-		conditions = append(conditions, fmt.Sprintf("cl.phone ILIKE $%d", argIndex))
-		args = append(args, "%"+*form.Phone+"%")
-		argIndex++
-	}
-	if form.ClientStatus != nil {
-		conditions = append(conditions, fmt.Sprintf("cl.status ILIKE $%d", argIndex))
-		args = append(args, "%"+*form.ClientStatus+"%")
-		argIndex++
+	if query == nil || *query == "" {
+		return result, fmt.Errorf("search query cannot be empty")
 	}
 
-	// Transaction filters
-	if form.TransactionID != nil {
-		conditions = append(conditions, fmt.Sprintf("t.id = $%d", argIndex))
-		args = append(args, *form.TransactionID)
-		argIndex++
-	}
-	if form.UserID != nil {
-		conditions = append(conditions, fmt.Sprintf("t.user_id = $%d", argIndex))
-		args = append(args, *form.UserID)
-		argIndex++
-	}
-	if form.TransactionStatus != nil {
-		conditions = append(conditions, fmt.Sprintf("t.status ILIKE $%d", argIndex))
-		args = append(args, "%"+*form.TransactionStatus+"%")
-		argIndex++
-	}
-	if form.DateStart != nil {
-		conditions = append(conditions, fmt.Sprintf("t.created_at >= $%d", argIndex))
-		args = append(args, *form.DateStart)
-		argIndex++
-	}
-	if form.DateEnd != nil {
-		conditions = append(conditions, fmt.Sprintf("t.created_at <= $%d", argIndex))
-		args = append(args, *form.DateEnd)
-		argIndex++
-	}
-
-	// Car filters
-	if form.Make != nil {
-		conditions = append(conditions, fmt.Sprintf("c.make ILIKE $%d", argIndex))
-		args = append(args, "%"+*form.Make+"%")
-		argIndex++
-	}
-	if form.Model != nil {
-		conditions = append(conditions, fmt.Sprintf("c.model ILIKE $%d", argIndex))
-		args = append(args, "%"+*form.Model+"%")
-		argIndex++
-	}
-	if form.Year != nil {
-		conditions = append(conditions, fmt.Sprintf("c.model_year = $%d", argIndex))
-		args = append(args, *form.Year)
-		argIndex++
-	}
-	if form.PriceMin != nil {
-		conditions = append(conditions, fmt.Sprintf("cp.price >= $%d", argIndex))
-		args = append(args, *form.PriceMin)
-		argIndex++
-	}
-	if form.PriceMax != nil {
-		conditions = append(conditions, fmt.Sprintf("cp.price <= $%d", argIndex))
-		args = append(args, *form.PriceMax)
-		argIndex++
-	}
-	if form.Color != nil {
-		conditions = append(conditions, fmt.Sprintf("cp.color ILIKE $%d", argIndex))
-		args = append(args, "%"+*form.Color+"%")
-		argIndex++
-	}
-
-	// Apply conditions
-	if len(conditions) > 0 {
-		query += " AND " + strings.Join(conditions, " AND ")
-	}
-
-	// Order by latest transactions
-	query += " ORDER BY t.created_at DESC"
-
-	// Set timeout
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	stmt, err := m.db.PrepareContext(ctx, query)
-	if err != nil {
-		return nil, fmt.Errorf("failed to prepare query: %w", err)
-	}
-	defer stmt.Close()
+	searchTerm := "%%" + *query + "%%"
 
-	results, err := stmt.QueryContext(ctx, args...)
+	// Search clients
+	clients, err := m.searchClients(ctx, searchTerm)
 	if err != nil {
-		return nil, fmt.Errorf("failed to execute query: %w", err)
+		return result, err
 	}
-	defer results.Close()
-	var data []SearchResult
-	for results.Next() {
-		var result SearchResult
-		var leaseAmount pq.Float64Array
+	result.Clients = clients
 
-		err := results.Scan(
-			&result.TransactionID, &result.ClientID, &result.ClientName,
-			&result.Email, &result.Phone, &result.Status,
-			&result.CarID, &result.Make, &result.Model, &result.ModelYear,
-			&result.Price, &result.Color, &result.Shop,
-			&result.Kilometers, &result.OwnerNb,
-			&leaseAmount, &result.CreatedAt, &result.UpdatedAt,
-		)
-		if err != nil {
-			return nil, fmt.Errorf("failed to scan row: %w", err)
+	// Search cars
+	cars, err := m.searchCars(ctx, searchTerm)
+	if err != nil {
+		return result, err
+	}
+	result.CarCatalogs = cars
+
+	// Search car products
+	carProducts, err := m.searchCarProducts(ctx, searchTerm)
+	if err != nil {
+		return result, err
+	}
+	result.CarProducts = carProducts
+
+	// Search transactions
+	transactions, err := m.searchTransactions(ctx, searchTerm)
+	if err != nil {
+		return result, err
+	}
+	result.Transactions = transactions
+
+	return result, nil
+}
+
+func (m SearchModel) searchClients(ctx context.Context, searchTerm string) ([]*Client, error) {
+	query := `SELECT id, first_name, last_name, email FROM clients WHERE first_name ILIKE $1 OR last_name ILIKE $1 OR email ILIKE $1`
+	rows, err := m.db.QueryContext(ctx, query, searchTerm)
+	if err != nil {
+		return nil, fmt.Errorf("failed to search clients: %w", err)
+	}
+	defer rows.Close()
+
+	var clients []*Client
+	for rows.Next() {
+		var client Client
+		if err := rows.Scan(&client.ID, &client.FirstName, &client.LastName, &client.Email); err != nil {
+			return nil, err
 		}
+		clients = append(clients, &client)
+	}
+	return clients, nil
+}
 
-		result.LeaseAmount = leaseAmount
-		data = append(data, result)
+func (m SearchModel) searchCars(ctx context.Context, searchTerm string) ([]*CarCatalog, error) {
+	query := `SELECT id, make, model, transmission FROM cars_catalog WHERE make ILIKE $1 OR model ILIKE $1 OR transmission ILIKE $1`
+	rows, err := m.db.QueryContext(ctx, query, searchTerm)
+	if err != nil {
+		return nil, fmt.Errorf("failed to search cars: %w", err)
+	}
+	defer rows.Close()
+
+	var cars []*CarCatalog
+	for rows.Next() {
+		var car CarCatalog
+		if err := rows.Scan(&car.CatID, &car.Make, &car.Model, &car.Transmission); err != nil {
+			return nil, err
+		}
+		cars = append(cars, &car)
+	}
+	return cars, nil
+}
+
+func (m SearchModel) searchCarProducts(ctx context.Context, searchTerm string) ([]*CarProduct, error) {
+	query := `SELECT id, status, color FROM car_products WHERE status ILIKE $1 OR color ILIKE $1`
+	rows, err := m.db.QueryContext(ctx, query, searchTerm)
+	if err != nil {
+		return nil, fmt.Errorf("failed to search car products: %w", err)
+	}
+	defer rows.Close()
+
+	var carProducts []*CarProduct
+	for rows.Next() {
+		var carProduct CarProduct
+		if err := rows.Scan(&carProduct.ID, &carProduct.Status, &carProduct.Color); err != nil {
+			return nil, err
+		}
+		carProducts = append(carProducts, &carProduct)
+	}
+	return carProducts, nil
+}
+
+func (m SearchModel) searchTransactions(ctx context.Context, searchTerm string) ([]*Transaction, error) {
+	query := `SELECT id, status FROM transactions WHERE status ILIKE $1`
+	rows, err := m.db.QueryContext(ctx, query, searchTerm)
+	if err != nil {
+		return nil, fmt.Errorf("failed to search transactions: %w", err)
+	}
+	defer rows.Close()
+
+	var transactions []*Transaction
+	for rows.Next() {
+		var transaction Transaction
+		if err := rows.Scan(&transaction.ID, &transaction.Status); err != nil {
+			return nil, err
+		}
+		transactions = append(transactions, &transaction)
+	}
+	return transactions, nil
+}
+
+func (m SearchModel) AdvancedSearch(form Search) (SearchResult, error) {
+	var result SearchResult
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	// Search clients
+	clients, err := m.advancedSearchClients(ctx, form)
+	if err != nil {
+		return result, err
+	}
+	result.Clients = clients
+
+	// Search cars
+	cars, err := m.advancedSearchCars(ctx, form)
+	if err != nil {
+		return result, err
+	}
+	result.CarCatalogs = cars
+
+	// Search car products
+	carProducts, err := m.advancedSearchCarProducts(ctx, form)
+	if err != nil {
+		return result, err
+	}
+	result.CarProducts = carProducts
+
+	// Search transactions
+	transactions, err := m.advancedSearchTransactions(ctx, form)
+	if err != nil {
+		return result, err
+	}
+	result.Transactions = transactions
+
+	return result, nil
+}
+
+func buildFilterQuery(baseQuery string, filters []string) string {
+	if len(filters) > 0 {
+		baseQuery += " WHERE " + strings.Join(filters, " AND ")
+	}
+	return baseQuery
+}
+
+func (m SearchModel) advancedSearchClients(ctx context.Context, form Search) ([]*Client, error) {
+	query := "SELECT id, first_name, last_name, email FROM clients"
+	var filters []string
+	var args []interface{}
+
+	if form.ClientName != nil {
+		filters = append(filters, "(first_name ILIKE $1 OR last_name ILIKE $1)")
+		args = append(args, "%"+*form.ClientName+"%")
+	}
+	if form.Email != nil {
+		filters = append(filters, "email ILIKE $2")
+		args = append(args, "%"+*form.Email+"%")
+	}
+	if form.Phone != nil {
+		filters = append(filters, "phone ILIKE $3")
+		args = append(args, "%"+*form.Phone+"%")
+	}
+	if form.ClientStatus != nil {
+		filters = append(filters, "status = $4")
+		args = append(args, *form.ClientStatus)
 	}
 
-	// Check for errors after iterating
-	if err = results.Err(); err != nil {
-		return nil, fmt.Errorf("error iterating over rows: %w", err)
+	query = buildFilterQuery(query, filters)
+	rows, err := m.db.QueryContext(ctx, query, args...)
+	if err != nil {
+		return nil, fmt.Errorf("failed to search clients: %w", err)
+	}
+	defer rows.Close()
+
+	var clients []*Client
+	for rows.Next() {
+		var client Client
+		if err := rows.Scan(&client.ID, &client.FirstName, &client.LastName, &client.Email); err != nil {
+			return nil, err
+		}
+		clients = append(clients, &client)
+	}
+	return clients, nil
+}
+
+func (m SearchModel) advancedSearchCars(ctx context.Context, form Search) ([]*CarCatalog, error) {
+	query := "SELECT id, make, model, transmission FROM cars_catalog"
+	var filters []string
+	var args []interface{}
+
+	if form.Make != nil {
+		filters = append(filters, "make ILIKE $1")
+		args = append(args, "%"+*form.Make+"%")
+	}
+	if form.Model != nil {
+		filters = append(filters, "model ILIKE $2")
+		args = append(args, "%"+*form.Model+"%")
+	}
+	if form.Year != nil {
+		filters = append(filters, "year = $3")
+		args = append(args, *form.Year)
+	}
+	if form.Color != nil {
+		filters = append(filters, "color ILIKE $4")
+		args = append(args, "%"+*form.Color+"%")
+	}
+	if form.Transmission != nil {
+		filters = append(filters, "transmission = $5")
+		args = append(args, *form.Transmission)
 	}
 
-	return data, nil
+	query = buildFilterQuery(query, filters)
+	rows, err := m.db.QueryContext(ctx, query, args...)
+	if err != nil {
+		return nil, fmt.Errorf("failed to search cars: %w", err)
+	}
+	defer rows.Close()
+
+	var cars []*CarCatalog
+	for rows.Next() {
+		var car CarCatalog
+		if err := rows.Scan(&car.CatID, &car.Make, &car.Model, &car.Transmission); err != nil {
+			return nil, err
+		}
+		cars = append(cars, &car)
+	}
+	return cars, nil
+}
+
+func (m SearchModel) advancedSearchTransactions(ctx context.Context, form Search) ([]*Transaction, error) {
+	query := "SELECT id, status FROM transactions"
+	var filters []string
+	var args []interface{}
+
+	if form.TransactionID != nil {
+		filters = append(filters, "id = $1")
+		args = append(args, *form.TransactionID)
+	}
+	if form.TransactionStatus != nil {
+		filters = append(filters, "status = $2")
+		args = append(args, *form.TransactionStatus)
+	}
+	if form.DateStart != nil {
+		filters = append(filters, "date >= $3")
+		args = append(args, *form.DateStart)
+	}
+	if form.DateEnd != nil {
+		filters = append(filters, "date <= $4")
+		args = append(args, *form.DateEnd)
+	}
+
+	query = buildFilterQuery(query, filters)
+	rows, err := m.db.QueryContext(ctx, query, args...)
+	if err != nil {
+		return nil, fmt.Errorf("failed to search transactions: %w", err)
+	}
+	defer rows.Close()
+
+	var transactions []*Transaction
+	for rows.Next() {
+		var transaction Transaction
+		if err := rows.Scan(&transaction.ID, &transaction.Status); err != nil {
+			return nil, err
+		}
+		transactions = append(transactions, &transaction)
+	}
+	return transactions, nil
+}
+
+func (m SearchModel) advancedSearchCarProducts(ctx context.Context, form Search) ([]*CarProduct, error) {
+	query := "SELECT id, status, color FROM car_products"
+	var filters []string
+	var args []interface{}
+
+	if form.Status != nil {
+		filters = append(filters, "status = $1")
+		args = append(args, *form.Status)
+	}
+	if form.Color != nil {
+		filters = append(filters, "color ILIKE $2")
+		args = append(args, "%"+*form.Color+"%")
+	}
+
+	query = buildFilterQuery(query, filters)
+	rows, err := m.db.QueryContext(ctx, query, args...)
+	if err != nil {
+		return nil, fmt.Errorf("failed to search car products: %w", err)
+	}
+	defer rows.Close()
+
+	var carProducts []*CarProduct
+	for rows.Next() {
+		var carProduct CarProduct
+		if err := rows.Scan(&carProduct.ID, &carProduct.Status, &carProduct.Color); err != nil {
+			return nil, err
+		}
+		carProducts = append(carProducts, &carProduct)
+	}
+	return carProducts, nil
 }
