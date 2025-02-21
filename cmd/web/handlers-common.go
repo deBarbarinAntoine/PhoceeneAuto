@@ -1,6 +1,7 @@
 package main
 
 import (
+	"PhoceeneAuto/internal/data"
 	"net/http"
 	"strconv"
 )
@@ -46,7 +47,7 @@ func (app *application) search(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var form searchForm
+	var form data.Search
 
 	form.Search = getString(r, "search")
 	form.Make = getString(r, "make")
