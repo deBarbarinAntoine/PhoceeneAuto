@@ -193,7 +193,6 @@ func (m SearchModel) searchCarProducts(ctx context.Context, searchTerm string) (
 			&car.Color,
 			&car.Price,
 			&car.Shop,
-			&car.ID,
 			&car.Version,
 			&carCatalogSql.CatID,
 			&carCatalogSql.CatCreatedAt,
