@@ -34,7 +34,7 @@
                     {{ range .Cars }}
                         <div class="car-item">
                             <input type="checkbox" id="car_{{ .ID }}" name="cars[]" value="{{ .ID }}"
-                                   {{ if has .ID $.Form.Cars }}checked{{ end }}>
+                                   {{ with .ID }}checked{{ end }}>
                             <label for="car_{{ .ID }}">
                                 {{ .Make }} {{ .Model }} ({{ .Status }}) - {{ .Price }}€ - {{ .Kilometers }}km
                             </label>
@@ -51,11 +51,9 @@
                 <div class="form-group">
                     <label for="status">Statut</label>
                     <select name="status" id="status" required>
-                        {{ range $status := .TransactionStatus }}
-                            <option value="{{ $status }}" {{ if eq $status $.Form.Status }}selected{{ end }}>
-                                {{ $status }}
-                            </option>
-                        {{ end }}
+                            <option value="PROCESSING" {{ if eq .Form.Status "PROCESSING" }}selected{{ end }}>PROCESSING</option>
+                        <option value="ONGOING" {{ if eq .Form.Status "ONGOING" }}selected{{ end }}>ONGOING</option>
+                        <option value="DONE" {{ if eq .Form.Status "DONE" }}selected{{ end }}>DONE</option>
                     </select>
                     {{ with .Form.FieldErrors.status }}
                         <div class="error-message">{{ . }}</div>
@@ -64,7 +62,7 @@
 
                 <div class="form-group">
                     <label for="leases">Mensualités (séparées par des virgules)</label>
-                    <input type="text" name="leases" id="leases" value="{{ joinFloats .Form.Leases "," }}"
+                    <input type="text" name="leases" id="leases" value="{{ range .Form.Leases }}{{ . }}, {{ end }}"
                            placeholder="300.50, 300.50, 300.50">
                     {{ with .Form.FieldErrors.leases }}
                         <div class="error-message">{{ . }}</div>

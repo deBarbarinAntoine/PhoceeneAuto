@@ -35,7 +35,7 @@ func (app *application) loginPost(w http.ResponseWriter, r *http.Request) {
 	// checking the data from the user
 	form.Check(validator.NotBlank(form.Email), "email", "This field cannot be blank")
 	form.Check(validator.Matches(form.Email, validator.EmailRX), "email", "This field must be a valid email address")
-	if form.ValidatePassword(form.Password); !form.Valid() {
+	if !form.Valid() {
 		app.failedValidationError(w, r, form, &form.Validator, "login.tmpl")
 		return
 	}

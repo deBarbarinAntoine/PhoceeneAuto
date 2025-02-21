@@ -4,7 +4,7 @@
         <div class="transaction-details">
             <div class="header">
                 <h1>Transaction #{{ .Transaction.ID }}</h1>
-                <span class="status-tag status-{{ lower .Transaction.Status }}">{{ .Transaction.Status }}</span>
+                <span class="status-tag status-{{ .Transaction.Status }}">{{ .Transaction.Status }}</span>
             </div>
 
             <div class="section">
@@ -34,8 +34,8 @@
 
             <div class="section">
                 <h2>Détails Financiers</h2>
-                <div>Mensualités: {{ joinFloats .Transaction.Leases ", " }}€</div>
-                <div class="price-total">Total: {{ .Transaction.TotalPrice }}€</div>
+                <div>Mensualités: {{ range .Form.Leases }}{{ . }} €, {{ end }}</div>
+                <div class="price-total">Total: {{ .Transaction.TotalPrice }} €</div>
             </div>
 
             <div class="section">

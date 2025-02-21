@@ -45,6 +45,51 @@ type User struct {
 	Version   int       `json:"-"`
 }
 
+type UserSql struct {
+	ID        int            `json:"id"`
+	CreatedAt time.Time      `json:"created_at"`
+	UpdatedAt time.Time      `json:"updated_at"`
+	Name      sql.NullString `json:"name"`
+	Email     sql.NullString `json:"email"`
+	Phone     sql.NullString `json:"phone"`
+	Address   AddressSql     `json:"address"`
+	Password  password       `json:"-"`
+	Role      sql.NullString `json:"role"`
+	Status    sql.NullString `json:"status"`
+	Shop      sql.NullString `json:"shop"`
+	Version   int            `json:"-"`
+}
+
+func (userSql UserSql) toUser() User {
+	user := User{
+		ID:        userSql.ID,
+		CreatedAt: userSql.CreatedAt,
+		UpdatedAt: userSql.UpdatedAt,
+		Address:   userSql.Address.toAddress(),
+		Password:  userSql.Password,
+		Version:   userSql.Version,
+	}
+	if userSql.Name.Valid {
+		user.Name = userSql.Name.String
+	}
+	if userSql.Email.Valid {
+		user.Email = userSql.Email.String
+	}
+	if userSql.Phone.Valid {
+		user.Phone = userSql.Phone.String
+	}
+	if userSql.Role.Valid {
+		user.Role = userSql.Role.String
+	}
+	if userSql.Status.Valid {
+		user.Status = userSql.Status.String
+	}
+	if userSql.Shop.Valid {
+		user.Shop = userSql.Shop.String
+	}
+	return user
+}
+
 func EmptyUser() *User {
 	return &User{
 		Shop:   Shop.HEADQUARTERS,
@@ -280,8 +325,8 @@ func (m UserModel) GetByID(id int) (*User, error) {
 		FROM users
 		WHERE id = $1;`
 
-	// setting the user variable
-	var user User
+	// setting the userSql variable
+	var userSql UserSql
 
 	// setting the timeout context for the query execution
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
@@ -296,21 +341,21 @@ func (m UserModel) GetByID(id int) (*User, error) {
 
 	// executing the query
 	err = stmt.QueryRowContext(ctx, id).Scan(
-		&user.ID,
-		&user.CreatedAt,
-		&user.UpdatedAt,
-		&user.Name,
-		&user.Email,
-		&user.Password.hash,
-		&user.Phone,
-		&user.Status,
-		&user.Shop,
-		&user.Address.Street,
-		&user.Address.Complement,
-		&user.Address.City,
-		&user.Address.ZIP,
-		&user.Address.Country,
-		&user.Version,
+		&userSql.ID,
+		&userSql.CreatedAt,
+		&userSql.UpdatedAt,
+		&userSql.Name,
+		&userSql.Email,
+		&userSql.Password.hash,
+		&userSql.Phone,
+		&userSql.Status,
+		&userSql.Shop,
+		&userSql.Address.Street,
+		&userSql.Address.Complement,
+		&userSql.Address.City,
+		&userSql.Address.ZIP,
+		&userSql.Address.Country,
+		&userSql.Version,
 	)
 
 	if err != nil {
@@ -321,6 +366,8 @@ func (m UserModel) GetByID(id int) (*User, error) {
 			return nil, err
 		}
 	}
+
+	user := userSql.toUser()
 
 	return &user, nil
 }
@@ -333,8 +380,8 @@ func (m UserModel) GetByEmail(email string) (*User, error) {
 		FROM users
 		WHERE email = $1;`
 
-	// setting the user variable
-	var user User
+	// setting the userSql variable
+	var userSql UserSql
 
 	// setting the timeout context for the query execution
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
@@ -349,21 +396,21 @@ func (m UserModel) GetByEmail(email string) (*User, error) {
 
 	// executing the query
 	err = stmt.QueryRowContext(ctx, email).Scan(
-		&user.ID,
-		&user.CreatedAt,
-		&user.UpdatedAt,
-		&user.Name,
-		&user.Email,
-		&user.Password.hash,
-		&user.Phone,
-		&user.Status,
-		&user.Shop,
-		&user.Address.Street,
-		&user.Address.Complement,
-		&user.Address.City,
-		&user.Address.ZIP,
-		&user.Address.Country,
-		&user.Version,
+		&userSql.ID,
+		&userSql.CreatedAt,
+		&userSql.UpdatedAt,
+		&userSql.Name,
+		&userSql.Email,
+		&userSql.Password.hash,
+		&userSql.Phone,
+		&userSql.Status,
+		&userSql.Shop,
+		&userSql.Address.Street,
+		&userSql.Address.Complement,
+		&userSql.Address.City,
+		&userSql.Address.ZIP,
+		&userSql.Address.Country,
+		&userSql.Version,
 	)
 
 	if err != nil {
@@ -374,6 +421,8 @@ func (m UserModel) GetByEmail(email string) (*User, error) {
 			return nil, err
 		}
 	}
+
+	user := userSql.toUser()
 
 	return &user, nil
 }

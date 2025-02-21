@@ -1,9 +1,10 @@
 package main
 
 import (
-	"PhoceeneAuto/internal/data"
 	"net/http"
 	"strconv"
+
+	"PhoceeneAuto/internal/data"
 )
 
 func (app *application) notFound(w http.ResponseWriter, r *http.Request) {
@@ -87,6 +88,9 @@ func (app *application) search(w http.ResponseWriter, r *http.Request) {
 	// Prepare template data
 	tmplData := app.newTemplateData(r)
 	tmplData.Title = "Phoceene Auto - Search Results"
+
+	// Debug
+	tmplData.Form = result
 
 	// Render the template with results
 	app.render(w, r, http.StatusOK, "search.tmpl", tmplData)
