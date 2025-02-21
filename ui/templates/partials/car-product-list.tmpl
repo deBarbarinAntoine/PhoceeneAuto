@@ -7,21 +7,21 @@
 
             <div class="car-card">
                 <div class="car-header">
-                    <div class="car-title">{{ .Make }}{{ .Model }}</div>
-                    <div class="car-status processing">{{ .Status }}</div>
+                    <div class="car-title">{{ with .Make }}{{ . }}{{ end }}{{ with .Model }}{{ . }}{{ end }}</div>
+                    <div class="car-status processing">{{ with .Status }}{{ . }}{{ end }}</div>
                 </div>
                 <div class="car-info">
-                    <div>🏢 Make: {{ .Make }}</div>
-                    <div>📝 Model: {{ .Model }}</div>
-                    <div>🛢️ Fuel: {{ .Fuel1 }}</div>
-                    <div>⚙️ Transmission: {{ .Transmission }}</div>
-                    <div>📏 Taille: {{ .ClassSize }}</div>
-                    <div>📅 Année: {{ .Year }}</div>
+            {{ with .Make }}<div>🏢 Make: {{ . }}</div>{{ end }}
+            {{ with .Model }}<div>📝 Model: {{ . }}</div>{{ end }}
+            {{ with .Fuel1 }}<div>🛢️ Fuel: {{ . }}</div>{{ end }}
+            {{ with .Transmission }}<div>⚙️ Transmission: {{ . }}</div>{{ end }}
+            {{ with .SizeClass }}<div>📏 Taille: {{ . }}</div>{{ end }}
+            {{ with .Year }}<div>📅 Année: {{ . }}</div>{{ end }}
                 </div>
                 <div class="car-info">
-                    <div>🚗 Kilométrage: {{ .Kilometers }}</div>
-                    <div>👥 Propriétaires: {{ .OwnerNb }}</div>
-                    <div>🎨 Couleur: {{ .Color }}</div>
+                    <div>🚗 Kilométrage: {{ with .Kilometers }}{{ . }}{{ end }} km</div>
+                    <div>👥 Propriétaires: {{ with .OwnerNb }}{{ . }}{{ end }}</div>
+                    <div>🎨 Couleur: {{ with .Color }}{{ . }}{{ end }}</div>
                     <div>💰 Prix: {{ .Price }} €</div>
                 </div>
                 <div class="car-meta">
