@@ -19,12 +19,18 @@ Task repartition:
 
 ---
 
-## Getting Started
+## Deployment (Linux)
 
-To run the development server:
+- Create a PostgreSQL database (and a dedicated user).
+- Copy the `.envrc.example` and name it `.envrc`, then modify the environment variables.
+- Run the migrations using [`golang-migrate`](https://github.com/golang-migrate/migrate):
+    ```bash
+    make db/up
+    ```
 
-```bash
-make run
-```
+- Run the development server:
+    ```bash
+    make run
+    ```
 
-Open [http://localhost:8080](http://localhost:8080) with your browser to see the result.
+Open [http://localhost:8080](http://localhost:8080) (or whatever you configured) with your browser to see the result.
