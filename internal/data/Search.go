@@ -146,7 +146,7 @@ func (m SearchModel) searchCarProducts(ctx context.Context, searchTerm string) (
 	var carProducts []*CarProduct
 	for rows.Next() {
 		var carProduct CarProduct
-		if err := rows.Scan(&carProduct.ID, &carProduct.Status, &carProduct.Color); err != nil {
+		if err := rows.Scan(&carProduct.ID, &carProduct.Status, &carProduct.Color, &carProduct.CreatedAt, &carProduct.UpdatedAt, &carProduct.Kilometers, &carProduct.OwnerNb, &carProduct.Price, &carProduct.Shop, &carProduct.Version, &carProduct.CatID); err != nil {
 			return nil, err
 		}
 		carProducts = append(carProducts, &carProduct)
