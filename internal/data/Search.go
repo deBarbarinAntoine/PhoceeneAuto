@@ -98,7 +98,7 @@ func (m SearchModel) SearchAll(form Search) (SearchResult, error) {
 }
 
 func (m SearchModel) searchClients(ctx context.Context, searchTerm string) ([]*Client, error) {
-	query := `SELECT id, first_name, last_name, email FROM clients WHERE first_name ILIKE $1 OR last_name ILIKE $1 OR email ILIKE $1`
+	query := `SELECT id, created_at, updated_at,first_name, last_name,email, phone,status, shop,street, complement,city, zip_code,state,version FROM clients WHERE first_name ILIKE $1 OR last_name ILIKE $1 OR email ILIKE $1`
 	rows, err := m.db.QueryContext(ctx, query, searchTerm)
 	if err != nil {
 		return nil, fmt.Errorf("failed to search clients: %w", err)
@@ -136,7 +136,7 @@ func (m SearchModel) searchCars(ctx context.Context, searchTerm string) ([]*CarC
 }
 
 func (m SearchModel) searchCarProducts(ctx context.Context, searchTerm string) ([]*CarProduct, error) {
-	query := `SELECT id, status, color FROM car_products WHERE status ILIKE $1 OR color ILIKE $1`
+	query := `SELECT id,created_at, updated_at, status, kilometers, owner_nb, color, price, shop, version, cat_id FROM car_products WHERE status ILIKE $1 OR color ILIKE $1`
 	rows, err := m.db.QueryContext(ctx, query, searchTerm)
 	if err != nil {
 		return nil, fmt.Errorf("failed to search car products: %w", err)
@@ -155,7 +155,7 @@ func (m SearchModel) searchCarProducts(ctx context.Context, searchTerm string) (
 }
 
 func (m SearchModel) searchTransactions(ctx context.Context, searchTerm string) ([]*Transaction, error) {
-	query := `SELECT id, status FROM transactions WHERE status ILIKE $1`
+	query := `SELECT id, created_at, updated_at, status, lease_amount, version FROM transactions WHERE status ILIKE $1`
 	rows, err := m.db.QueryContext(ctx, query, searchTerm)
 	if err != nil {
 		return nil, fmt.Errorf("failed to search transactions: %w", err)
