@@ -2,31 +2,48 @@
 
     <div class="transaction-form-container">
         <h1>Nouvelle Transaction</h1>
-        <form method="post" action="/transaction/create">
+        <form method="post" action="/transaction/create" class="data-form">
+
+            <input type="hidden" name="csrf_token" value="{{ .CSRFToken }}">
+
+            {{ range .Form.NonFieldErrors }}
+                <div class="error-message">{{ . }}</div>
+            {{ end }}
+
             <div class="form-section">
                 <h2>Client</h2>
                 <div class="form-group">
                     <label for="client_id">Sélectionner un client</label>
                     <select name="client_id" id="client_id" required>
                         <option value="">Choisir...</option>
-                        <option value="1">Jean Martin (ACTIVE)</option>
-                        <option value="2">Marie Dubois (ACTIVE)</option>
+                        {{ range .Clients }}
+                            <option value="{{ .ID }}" {{ if eq .ID $.Form.Client.ID }}selected{{ end }}>
+                                {{ .FirstName }} {{ .LastName }} ({{ .Status }})
+                            </option>
+                        {{ end }}
                     </select>
+                    {{ with .Form.FieldErrors.client_id }}
+                        <div class="error-message">{{ . }}</div>
+                    {{ end }}
                 </div>
             </div>
 
             <div class="form-section">
                 <h2>Véhicules</h2>
                 <div class="car-selection">
-                    <div class="car-item">
-                        <input type="checkbox" id="car_1" name="cars[]" value="1">
-                        <label for="car_1">Peugeot 308 (ONSALE) - 25000€ - 50000km</label>
-                    </div>
-                    <div class="car-item">
-                        <input type="checkbox" id="car_2" name="cars[]" value="2">
-                        <label for="car_2">Renault Clio (ONSALE) - 18000€ - 30000km</label>
-                    </div>
+                    {{ range .Cars }}
+                        <div class="car-item">
+                            <input type="checkbox" id="car_{{ .ID }}" name="cars[]" value="{{ .ID }}"
+                                   {{ if has .ID $.Form.Cars }}checked{{ end }}>
+                            <label for="car_{{ .ID }}">
+                                {{ .Make }} {{ .Model }} ({{ .Status }}) - {{ .Price }}€ - {{ .Kilometers }}km
+                            </label>
+                        </div>
+                    {{ end }}
                 </div>
+                {{ with .Form.FieldErrors.cars }}
+                    <div class="error-message">{{ . }}</div>
+                {{ end }}
             </div>
 
             <div class="form-section">
@@ -34,15 +51,24 @@
                 <div class="form-group">
                     <label for="status">Statut</label>
                     <select name="status" id="status" required>
-                        <option value="PROCESSING">PROCESSING</option>
-                        <option value="ONGOING">ONGOING</option>
-                        <option value="DONE">DONE</option>
+                        {{ range $status := .TransactionStatus }}
+                            <option value="{{ $status }}" {{ if eq $status $.Form.Status }}selected{{ end }}>
+                                {{ $status }}
+                            </option>
+                        {{ end }}
                     </select>
+                    {{ with .Form.FieldErrors.status }}
+                        <div class="error-message">{{ . }}</div>
+                    {{ end }}
                 </div>
 
                 <div class="form-group">
                     <label for="leases">Mensualités (séparées par des virgules)</label>
-                    <input type="text" name="leases" id="leases" placeholder="300.50, 300.50, 300.50">
+                    <input type="text" name="leases" id="leases" value="{{ joinFloats .Form.Leases "," }}"
+                           placeholder="300.50, 300.50, 300.50">
+                    {{ with .Form.FieldErrors.leases }}
+                        <div class="error-message">{{ . }}</div>
+                    {{ end }}
                 </div>
             </div>
 

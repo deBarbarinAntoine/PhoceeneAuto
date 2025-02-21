@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"github.com/lib/pq"
 	"strings"
 	"time"
 )
@@ -14,19 +15,24 @@ type SearchModel struct {
 
 // SearchResult represents a combined result from multiple tables
 type SearchResult struct {
-	TransactionID int64   `json:"transaction_id,omitempty"`
-	ClientID      int64   `json:"client_id,omitempty"`
-	ClientName    string  `json:"client_name,omitempty"`
-	Email         string  `json:"email,omitempty"`
-	Phone         string  `json:"phone,omitempty"`
-	Status        string  `json:"status,omitempty"`
-	CarID         int64   `json:"car_id,omitempty"`
-	Make          string  `json:"make,omitempty"`
-	Model         string  `json:"model,omitempty"`
-	ModelYear     int     `json:"model_year,omitempty"`
-	Price         float64 `json:"price,omitempty"`
-	Color         string  `json:"color,omitempty"`
-	Shop          string  `json:"shop,omitempty"`
+	TransactionID int64     `json:"transaction_id,omitempty"`
+	ClientID      int64     `json:"client_id,omitempty"`
+	ClientName    string    `json:"client_name,omitempty"`
+	Email         string    `json:"email,omitempty"`
+	Phone         string    `json:"phone,omitempty"`
+	Status        string    `json:"status,omitempty"`
+	CarID         int64     `json:"car_id,omitempty"`
+	Make          string    `json:"make,omitempty"`
+	Model         string    `json:"model,omitempty"`
+	ModelYear     int       `json:"model_year,omitempty"`
+	Price         float64   `json:"price,omitempty"`
+	Color         string    `json:"color,omitempty"`
+	Shop          string    `json:"shop,omitempty"`
+	Kilometers    float64   `json:"kilometers,omitempty"`
+	OwnerNb       int       `json:"owner_nb,omitempty"`
+	LeaseAmount   []float64 `json:"lease_amount,omitempty"`
+	CreatedAt     time.Time `json:"created_at,omitempty"`
+	UpdatedAt     time.Time `json:"updated_at,omitempty"`
 }
 
 type Search struct {
@@ -67,15 +73,21 @@ func (m SearchModel) SearchAll(form Search) ([]SearchResult, error) {
 	// Base query joining transactions, clients, cars, and car_products
 	query := `
 		SELECT 
-			t.id AS transaction_id, cl.id AS client_id, 
-			(cl.first_name || ' ' || cl.last_name) AS client_name, cl.email, cl.phone, t.status, 
-			cp.id AS car_id, c.make, c.model, c.model_year, cp.price, cp.color, cp.shop
-		FROM transactions t
-		JOIN clients cl ON t.client_id = cl.id
-		JOIN car_products_transactions cpt ON t.id = cpt.transaction_id
-		JOIN car_products cp ON cpt.car_product_id = cp.id
-		JOIN cars_catalog c ON cp.cat_id = c.id
-		WHERE 1=1`
+    t.id AS transaction_id, 
+    cl.id AS client_id, 
+    (cl.first_name || ' ' || cl.last_name) AS client_name, 
+    cl.email, cl.phone, t.status, 
+    cp.id AS car_id, c.make, c.model, c.model_year, 
+    cp.price, cp.color, cp.shop, 
+    cp.kilometers, cp.owner_nb, 
+    t.lease_amount, t.created_at, t.updated_at
+FROM transactions t
+JOIN clients cl ON t.client_id = cl.id
+JOIN car_products_transactions cpt ON t.id = cpt.transaction_id
+JOIN car_products cp ON cpt.car_product_id = cp.id
+JOIN cars_catalog c ON cp.cat_id = c.id
+WHERE 1=1
+`
 
 	// Store conditions and parameters
 	var conditions []string
@@ -175,29 +187,42 @@ func (m SearchModel) SearchAll(form Search) ([]SearchResult, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	// Execute query
-	rows, err := db.QueryContext(ctx, query, args...)
+	stmt, err := m.db.PrepareContext(ctx, query)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to prepare query: %w", err)
 	}
-	defer rows.Close()
+	defer stmt.Close()
 
-	// Process results
-	var results []SearchResult
-	for rows.Next() {
+	results, err := stmt.QueryContext(ctx, args...)
+	if err != nil {
+		return nil, fmt.Errorf("failed to execute query: %w", err)
+	}
+	defer results.Close()
+	var data []SearchResult
+	for results.Next() {
 		var result SearchResult
-		err := rows.Scan(&result.TransactionID, &result.ClientID, &result.ClientName, &result.Email, &result.Phone,
-			&result.Status, &result.CarID, &result.Make, &result.Model, &result.ModelYear, &result.Price, &result.Color, &result.Shop)
+		var leaseAmount pq.Float64Array
+
+		err := results.Scan(
+			&result.TransactionID, &result.ClientID, &result.ClientName,
+			&result.Email, &result.Phone, &result.Status,
+			&result.CarID, &result.Make, &result.Model, &result.ModelYear,
+			&result.Price, &result.Color, &result.Shop,
+			&result.Kilometers, &result.OwnerNb,
+			&leaseAmount, &result.CreatedAt, &result.UpdatedAt,
+		)
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("failed to scan row: %w", err)
 		}
-		results = append(results, result)
+
+		result.LeaseAmount = leaseAmount
+		data = append(data, result)
 	}
 
-	// Check for iteration errors
-	if err = rows.Err(); err != nil {
-		return nil, err
+	// Check for errors after iterating
+	if err = results.Err(); err != nil {
+		return nil, fmt.Errorf("error iterating over rows: %w", err)
 	}
 
-	return results, nil
+	return data, nil
 }
