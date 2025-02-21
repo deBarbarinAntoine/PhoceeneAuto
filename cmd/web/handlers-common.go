@@ -41,7 +41,7 @@ func (app *application) dashboard(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, http.StatusOK, "dashboard.tmpl", tmplData)
 }
 
-func (app *application) search(w http.ResponseWriter, r *http.Request) {
+func (app *application) searchClassic(w http.ResponseWriter, r *http.Request) {
 	// Parse the form data
 	if err := r.ParseForm(); err != nil {
 		app.clientError(w, r, http.StatusBadRequest)
@@ -51,6 +51,35 @@ func (app *application) search(w http.ResponseWriter, r *http.Request) {
 	var form data.Search
 
 	form.Search = getString(r, "search")
+
+	// retrieving the Client
+	result, err := app.models.SearchModel.SearchAll(form)
+	if err != nil {
+		app.serverError(w, r, err)
+		return
+	}
+
+	// Prepare template data
+	tmplData := app.newTemplateData(r)
+	tmplData.Title = "Phoceene Auto - Search Results"
+	tmplData.Transactions = result.Transactions
+	tmplData.Clients = result.Clients
+	tmplData.CarsCatalog = result.CarCatalogs
+	tmplData.CarProducts = result.CarProducts
+
+	// Render the template with results
+	app.render(w, r, http.StatusOK, "search.tmpl", tmplData)
+}
+
+func (app *application) searchAdvanced(w http.ResponseWriter, r *http.Request) {
+	// Parse the form data
+	if err := r.ParseForm(); err != nil {
+		app.clientError(w, r, http.StatusBadRequest)
+		return
+	}
+
+	var form data.Search
+
 	form.Make = getString(r, "make")
 	form.Model = getString(r, "model")
 	form.Year = getInt(r, "year")
@@ -79,7 +108,7 @@ func (app *application) search(w http.ResponseWriter, r *http.Request) {
 	form.LeaseAmountMax = getFloat64(r, "lease_max")
 
 	// retrieving the Client
-	result, err := app.models.SearchModel.SearchAll(form)
+	result, err := app.models.SearchModel.AdvancedSearch(form)
 	if err != nil {
 		app.serverError(w, r, err)
 		return
