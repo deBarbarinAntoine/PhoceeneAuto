@@ -893,7 +893,7 @@ input:focus, select:focus, textarea:focus {
     max-width: 1000px;
     margin: 2rem auto;
     display: grid;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 600px 1fr;
     gap: 2rem;
 }
 

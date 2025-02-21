@@ -209,7 +209,7 @@ func (app *application) userGet(w http.ResponseWriter, r *http.Request) {
 	tmplData.User = *user
 
 	// rendering the template
-	app.render(w, r, http.StatusOK, "create-user.tmpl", tmplData)
+	app.render(w, r, http.StatusOK, "user.tmpl", tmplData)
 }
 
 func (app *application) deleteUser(w http.ResponseWriter, r *http.Request) {

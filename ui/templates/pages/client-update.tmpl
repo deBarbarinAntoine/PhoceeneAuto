@@ -6,7 +6,6 @@
 
         <input type="hidden" name="csrf_token" value="{{ .CSRFToken }}">
         <input type="hidden" name="id" value="{{ .Form.ID }}">
-        <input type="hidden" name="version" value="{{ .Form.Version }}">
 
         {{ range .Form.NonFieldErrors }}
             <div class="error-message">{{ . }}</div>
@@ -51,35 +50,35 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label for="street" class="required">Rue</label>
-                    <input type="text" id="street" name="street" value="{{ .Form.Address.Street }}" required>
+                    <input type="text" id="street" name="street" value="{{ .Form.Street }}" required>
                     {{ with .Form.FieldErrors.street }}
                         <div class="error-message">{{ . }}</div>
                     {{ end }}
                 </div>
                 <div class="form-group">
                     <label for="complement">Complément</label>
-                    <input type="text" id="complement" name="complement" value="{{ .Form.Address.Complement }}">
+                    <input type="text" id="complement" name="complement" value="{{ .Form.Complement }}">
                     {{ with .Form.FieldErrors.complement }}
                         <div class="error-message">{{ . }}</div>
                     {{ end }}
                 </div>
                 <div class="form-group">
                     <label for="zip" class="required">Code Postal</label>
-                    <input type="text" id="zip" name="zip" value="{{ .Form.Address.ZipCode }}" required>
+                    <input type="text" id="zip" name="zip" value="{{ .Form.ZIP }}" required>
                     {{ with .Form.FieldErrors.zip }}
                         <div class="error-message">{{ . }}</div>
                     {{ end }}
                 </div>
                 <div class="form-group">
                     <label for="city" class="required">Ville</label>
-                    <input type="text" id="city" name="city" value="{{ .Form.Address.City }}" required>
+                    <input type="text" id="city" name="city" value="{{ .Form.City }}" required>
                     {{ with .Form.FieldErrors.city }}
                         <div class="error-message">{{ . }}</div>
                     {{ end }}
                 </div>
                 <div class="form-group">
-                    <label for="state" class="required">Département</label>
-                    <input type="text" id="state" name="state" value="{{ .Form.Address.State }}" required>
+                    <label for="country" class="required">Pays</label>
+                    <input type="text" id="country" name="country" value="{{ .Form.Country }}" required>
                     {{ with .Form.FieldErrors.state }}
                         <div class="error-message">{{ . }}</div>
                     {{ end }}
@@ -92,10 +91,9 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label for="status">Statut</label>
-                    <select name="status" id="status">
-                        {{ range $status := .ClientStatus }}
-                            <option value="{{ $status }}" {{ if eq $status $.Form.Status }}selected{{ end }}>{{ $status }}</option>
-                        {{ end }}
+                    <select name="status" id="status" required>
+                        <option value="ACTIVE" {{ with .CarProduct.Status }}{{ if eq . "ACTIVE" }}selected{{ end }}{{ end }}>Actif</option>
+                        <option value="INACTIVE" {{ with .CarProduct.Status }}{{ if eq . "INACTIVE" }}selected{{ end }}{{ end }}>Inactif</option>
                     </select>
                     {{ with .Form.FieldErrors.status }}
                         <div class="error-message">{{ . }}</div>
@@ -103,11 +101,7 @@
                 </div>
                 <div class="form-group">
                     <label for="shop">Magasin</label>
-                    <select name="shop" id="shop">
-                        {{ range $shop := .Shops }}
-                            <option value="{{ $shop }}" {{ if eq $shop $.Form.Shop }}selected{{ end }}>{{ $shop }}</option>
-                        {{ end }}
-                    </select>
+                    <input name="shop" id="shop" value="{{ with .Form.Shop }}{{ . }}{{ end }}">
                     {{ with .Form.FieldErrors.shop }}
                         <div class="error-message">{{ . }}</div>
                     {{ end }}

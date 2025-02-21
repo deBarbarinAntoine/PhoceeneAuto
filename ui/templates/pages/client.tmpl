@@ -5,23 +5,23 @@
             <div class="info-section">
                 <div class="client-header">
                     <h1 class="client-title">
-                        <span class="first-name">{{ .Client.FirstName }}</span>
-                        <span class="last-name">{{ .Client.LastName }}</span>
+                        <span class="first-name">{{ with .Client.FirstName }}{{ . }}{{ end }}</span>
+                        <span class="last-name">{{ with .Client.LastName }}{{ . }}{{ end }}</span>
                     </h1>
-                    <span class="client-type">{{ .Client.Status }}</span>
+                    <span class="client-type">{{ with .Client.Status }}{{ . }}{{ end }}</span>
                 </div>
                 <div class="info-grid">
                     <div class="info-item">
                         <div class="info-label">Email</div>
-                        <div class="info-value">{{ .Client.Email }}</div>
+                        <div class="info-value">{{ with .Client.Email }}{{ . }}{{ end }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Téléphone</div>
-                        <div class="info-value">{{ .Client.Phone }}</div>
+                        <div class="info-value">{{ with .Client.Phone }}{{ . }}{{ end }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Boutique</div>
-                        <div class="info-value">{{ .Client.Shop }}</div>
+                        <div class="info-value">{{ with .Client.Shop }}{{ . }}{{ end }}</div>
                     </div>
                 </div>
             </div>
@@ -31,23 +31,23 @@
                 <div class="info-grid">
                     <div class="info-item">
                         <div class="info-label">Rue</div>
-                        <div class="info-value">{{ .Client.Street }}</div>
+                        <div class="info-value">{{ with .Client.Address.Street }}{{ . }}{{ end }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Complément</div>
-                        <div class="info-value">{{ .Client.Complement }}</div>
+                        <div class="info-value">{{ with .Client.Address.Complement }}{{ . }}{{ end }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Ville</div>
-                        <div class="info-value">{{ .Client.City }}</div>
+                        <div class="info-value">{{ with .Client.Address.City }}{{ . }}{{ end }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Code Postal</div>
-                        <div class="info-value">{{ .Client.ZIP }}</div>
+                        <div class="info-value">{{ with .Client.Address.ZIP }}{{ . }}{{ end }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Pays</div>
-                        <div class="info-value">{{ .Client.Country }}</div>
+                        <div class="info-value">{{ with .Client.Address.Country }}{{ . }}{{ end }}</div>
                     </div>
                 </div>
             </div>
