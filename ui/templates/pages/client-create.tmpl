@@ -2,41 +2,44 @@
 
 <div class="client-form-container">
     <h1>Nouveau Client</h1>
-    <form method="post" action="/client/create">
+    <form method="post" action="/client/create" class="data-form">
+
+        <input type="hidden" name="csrf_token" value="{{ .CSRFToken }}">
+
+        {{ range .Form.NonFieldErrors }}
+            <div class="error-message">{{ . }}</div>
+        {{ end }}
+
         <div class="form-section">
             <h2>Informations Personnelles</h2>
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="civility" class="required">Civilité</label>
-                    <select name="civility" id="civility" required>
-                        <option value="">Sélectionner</option>
-                        <option value="mr">Monsieur</option>
-                        <option value="mme">Madame</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="type" class="required">Type</label>
-                    <select name="type" id="type" required>
-                        <option value="">Sélectionner</option>
-                        <option value="particular">Particulier</option>
-                        <option value="professional">Professionnel</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label for="first-name" class="required">Prénom</label>
-                    <input type="text" id="first-name" name="first-name" required>
+                    <input type="text" id="first-name" name="first-name" value="{{ .Form.FirstName }}" required>
+                    {{ with .Form.FieldErrors.first_name }}
+                        <div class="error-message">{{ . }}</div>
+                    {{ end }}
                 </div>
                 <div class="form-group">
                     <label for="last-name" class="required">Nom</label>
-                    <input type="text" id="last-name" name="last-name" required>
+                    <input type="text" id="last-name" name="last-name" value="{{ .Form.LastName }}" required>
+                    {{ with .Form.FieldErrors.last_name }}
+                        <div class="error-message">{{ . }}</div>
+                    {{ end }}
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email">
+                    <input type="email" id="email" name="email" value="{{ .Form.Email }}">
+                    {{ with .Form.FieldErrors.email }}
+                        <div class="error-message">{{ . }}</div>
+                    {{ end }}
                 </div>
                 <div class="form-group">
                     <label for="phone">Téléphone</label>
-                    <input type="tel" id="phone" name="phone">
+                    <input type="tel" id="phone" name="phone" value="{{ .Form.Phone }}">
+                    {{ with .Form.FieldErrors.phone }}
+                        <div class="error-message">{{ . }}</div>
+                    {{ end }}
                 </div>
             </div>
         </div>
@@ -46,23 +49,38 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label for="street" class="required">Rue</label>
-                    <input type="text" id="street" name="street" required>
+                    <input type="text" id="street" name="street" value="{{ .Form.Address.Street }}" required>
+                    {{ with .Form.FieldErrors.street }}
+                        <div class="error-message">{{ . }}</div>
+                    {{ end }}
                 </div>
                 <div class="form-group">
                     <label for="complement">Complément</label>
-                    <input type="text" id="complement" name="complement">
+                    <input type="text" id="complement" name="complement" value="{{ .Form.Address.Complement }}">
+                    {{ with .Form.FieldErrors.complement }}
+                        <div class="error-message">{{ . }}</div>
+                    {{ end }}
                 </div>
                 <div class="form-group">
                     <label for="zip" class="required">Code Postal</label>
-                    <input type="text" id="zip" name="zip" required>
+                    <input type="text" id="zip" name="zip" value="{{ .Form.Address.ZipCode }}" required>
+                    {{ with .Form.FieldErrors.zip }}
+                        <div class="error-message">{{ . }}</div>
+                    {{ end }}
                 </div>
                 <div class="form-group">
                     <label for="city" class="required">Ville</label>
-                    <input type="text" id="city" name="city" required>
+                    <input type="text" id="city" name="city" value="{{ .Form.Address.City }}" required>
+                    {{ with .Form.FieldErrors.city }}
+                        <div class="error-message">{{ . }}</div>
+                    {{ end }}
                 </div>
                 <div class="form-group">
-                    <label for="country" class="required">Pays</label>
-                    <input type="text" id="country" name="country" required value="France">
+                    <label for="state" class="required">Département</label>
+                    <input type="text" id="state" name="state" value="{{ .Form.Address.State }}" required>
+                    {{ with .Form.FieldErrors.state }}
+                        <div class="error-message">{{ . }}</div>
+                    {{ end }}
                 </div>
             </div>
         </div>
@@ -73,19 +91,24 @@
                 <div class="form-group">
                     <label for="status">Statut</label>
                     <select name="status" id="status">
-                        <option value="active">Actif</option>
-                        <option value="inactive">Inactif</option>
+                        {{ range $status := .ClientStatus }}
+                            <option value="{{ $status }}" {{ if eq $status $.Form.Status }}selected{{ end }}>{{ $status }}</option>
+                        {{ end }}
                     </select>
+                    {{ with .Form.FieldErrors.status }}
+                        <div class="error-message">{{ . }}</div>
+                    {{ end }}
                 </div>
                 <div class="form-group">
                     <label for="shop">Magasin</label>
                     <select name="shop" id="shop">
-                        <option value="HEADQUARTERS">Siège</option>
+                        {{ range $shop := .Shops }}
+                            <option value="{{ $shop }}" {{ if eq $shop $.Form.Shop }}selected{{ end }}>{{ $shop }}</option>
+                        {{ end }}
                     </select>
-                </div>
-                <div class="form-group full-width">
-                    <label for="notes">Notes</label>
-                    <textarea id="notes" name="notes" rows="4"></textarea>
+                    {{ with .Form.FieldErrors.shop }}
+                        <div class="error-message">{{ . }}</div>
+                    {{ end }}
                 </div>
             </div>
         </div>
