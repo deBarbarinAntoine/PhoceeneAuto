@@ -237,6 +237,7 @@ type transactionUpdateForm struct {
 	Leases              []float32 `form:"leases,omitempty"`
 	TotalPrice          *float32  `form:"total_price,omitempty"`
 	validator.Validator `form:"-"`
+	ID                  *int
 }
 
 // searchForm represents the form used for searching.
