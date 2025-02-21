@@ -443,7 +443,7 @@ func (m TransactionModel) GetBy(id int, searchColumn col, filters *Filters) ([]*
 
 	// creating the query
 	query := fmt.Sprintf(`
-		SELECT COUNT(*) OVER,
+		SELECT COUNT(*) OVER(),
 		       t.id, t.created_at, t.updated_at, t.status, t.lease_amount, t.version,
 		       u.id, u.created_at, u.updated_at, u.username, u.email, u.status, u.version,
 		       c.id, c.created_at, c.updated_at,
