@@ -15,6 +15,7 @@
                     <div>📱 {{ with .Phone }}{{ . }}{{ end }}</div>
                 </div>
                 <div class="client-address">
+                    <div class="client-info">Adresse :</div>
                     <div class="client-info">{{ with .Address.Street }}{{ . }}{{ end }}</div>
                     <div class="client-info">{{ with .Address.Complement }}{{ . }}{{ end }}</div>
                     <div class="client-info">{{ with .Address.ZIP }}{{ . }}{{ end }} {{ with .Address.City }}{{ . }}{{ end }}</div>
@@ -22,7 +23,6 @@
                 </div>
                 <div class="client-meta">
                     <div>Concession: {{ with .Shop }}{{ . }}{{ end }}</div>
-                    <div>Créé le: {{ .CreatedAt }}</div>
                     <div>Créé le: {{ humanDate .CreatedAt }}</div>
                 </div>
                 <div class="client-actions">
