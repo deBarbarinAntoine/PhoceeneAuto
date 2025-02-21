@@ -98,7 +98,7 @@ func (m SearchModel) SearchAll(form Search) (SearchResult, error) {
 }
 
 func (m SearchModel) searchClients(ctx context.Context, searchTerm string) ([]*Client, error) {
-	query := `SELECT id, created_at, updated_at,first_name, last_name,email, phone,status, shop,street, complement,city, zip_code,state,version FROM clients WHERE first_name ILIKE $1 OR last_name ILIKE $1 OR email ILIKE $1`
+	query := `SELECT id, created_at, updated_at,first_name, last_name,email, phone,status, shop, street, complement,city, zip_code,state,version FROM clients WHERE first_name ILIKE $1 OR last_name ILIKE $1 OR email ILIKE $1`
 	rows, err := m.db.QueryContext(ctx, query, searchTerm)
 	if err != nil {
 		return nil, fmt.Errorf("failed to search clients: %w", err)
@@ -108,7 +108,7 @@ func (m SearchModel) searchClients(ctx context.Context, searchTerm string) ([]*C
 	var clients []*Client
 	for rows.Next() {
 		var client Client
-		if err := rows.Scan(&client.ID, &client.FirstName, &client.LastName, &client.Email); err != nil {
+		if err := rows.Scan(&client.ID, &client.FirstName, &client.LastName, &client.Email, &client.Phone, &client.Status, &client.Shop, &client.Address.Street, &client.Address.Complement, &client.Address.City, &client.Address.ZIP, &client.Address.Country, &client.Version); err != nil {
 			return nil, err
 		}
 		clients = append(clients, &client)
@@ -165,7 +165,7 @@ func (m SearchModel) searchTransactions(ctx context.Context, searchTerm string) 
 	var transactions []*Transaction
 	for rows.Next() {
 		var transaction Transaction
-		if err := rows.Scan(&transaction.ID, &transaction.Status); err != nil {
+		if err := rows.Scan(&transaction.ID, &transaction.Status, &transaction.CreatedAt, &transaction.UpdatedAt, &transaction.Leases, &transaction.Version); err != nil {
 			return nil, err
 		}
 		transactions = append(transactions, &transaction)
