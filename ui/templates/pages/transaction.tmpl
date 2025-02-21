@@ -3,58 +3,53 @@
     <div class="container">
         <div class="transaction-details">
             <div class="header">
-                <h1>Transaction #42</h1>
-                <span class="status-tag status-ongoing">ONGOING</span>
+                <h1>Transaction #{{ .Transaction.ID }}</h1>
+                <span class="status-tag status-{{ lower .Transaction.Status }}">{{ .Transaction.Status }}</span>
             </div>
 
             <div class="section">
                 <h2>Client</h2>
-                <div>Nom: Jean Martin</div>
-                <div>Email: jean.martin@example.com</div>
-                <div>Téléphone: 0612345678</div>
+                <div>Nom: {{ .Transaction.Client.FirstName }} {{ .Transaction.Client.LastName }}</div>
+                <div>Email: {{ .Transaction.Client.Email }}</div>
+                <div>Téléphone: {{ .Transaction.Client.Phone }}</div>
             </div>
 
             <div class="section">
                 <h2>Agent</h2>
-                <div>Nom: Marie Dubois</div>
-                <div>Email: marie.dubois@phoceene-auto.fr</div>
+                <div>Nom: {{ .Transaction.User.Name }}</div>
+                <div>Email: {{ .Transaction.User.Email }}</div>
             </div>
 
             <div class="section">
                 <h2>Véhicules</h2>
-                <div class="car-item">
-                    <h3>Peugeot 308</h3>
-                    <div>Status: ONSALE</div>
-                    <div>Prix: 25000€</div>
-                    <div>Kilométrage: 50000km</div>
-                    <div>Concession: HEADQUARTERS</div>
-                </div>
-                <div class="car-item">
-                    <h3>Renault Clio</h3>
-                    <div>Status: ONSALE</div>
-                    <div>Prix: 18000€</div>
-                    <div>Kilométrage: 30000km</div>
-                    <div>Concession: HEADQUARTERS</div>
-                </div>
+                {{ range .Transaction.Cars }}
+                    <div class="car-item">
+                        <h3>{{ .Make }} {{ .Model }}</h3>
+                        <div>Status: {{ .Status }}</div>
+                        <div>Prix: {{ .Price }}€</div>
+                        <div>Kilométrage: {{ .Kilometers }}km</div>
+                        <div>Concession: {{ .Shop }}</div>
+                    </div>
+                {{ end }}
             </div>
 
             <div class="section">
                 <h2>Détails Financiers</h2>
-                <div>Mensualités: 300.50€, 300.50€, 300.50€</div>
-                <div class="price-total">Total: 43000€</div>
+                <div>Mensualités: {{ joinFloats .Transaction.Leases ", " }}€</div>
+                <div class="price-total">Total: {{ .Transaction.TotalPrice }}€</div>
             </div>
 
             <div class="section">
                 <h2>Informations Système</h2>
-                <div>ID: 42</div>
-                <div>Version: 1</div>
-                <div>Créée le: 15/04/2024</div>
-                <div>Mise à jour: 16/04/2024</div>
+                <div>ID: {{ .Transaction.ID }}</div>
+                <div>Version: {{ .Transaction.Version }}</div>
+                <div>Créée le: {{ .Transaction.CreatedAt }}</div>
+                <div>Mise à jour: {{ .Transaction.UpdatedAt }}</div>
             </div>
 
             <div class="action-buttons">
                 <a href="/transaction/list" class="button back-button">Retour</a>
-                <a href="/transaction/edit/42" class="button edit-button">Modifier</a>
+                <a href="/transaction/{{ .Transaction.ID }}/edit" class="button edit-button">Modifier</a>
             </div>
         </div>
     </div>
