@@ -158,7 +158,6 @@ func (m SearchModel) searchCarProducts(ctx context.Context, searchTerm string) (
 		WHERE cc.make ILIKE $1 OR cc.model ILIKE $1 OR cc.transmission ILIKE $1`
 
 	// setting the variables
-	totalRecords := 0
 	var cars []*CarProduct
 
 	// setting the timeout context for the query execution
@@ -185,7 +184,6 @@ func (m SearchModel) searchCarProducts(ctx context.Context, searchTerm string) (
 		var carCatalogSql CarCatalogSql
 
 		err := rows.Scan(
-			&totalRecords,
 			&car.ID,
 			&car.CreatedAt,
 			&car.UpdatedAt,
