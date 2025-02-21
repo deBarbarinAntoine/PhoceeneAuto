@@ -4,12 +4,12 @@
         <div class="info-block full-width">
             <div class="car-header">
                 <h1 class="car-title">{{ .CarProduct.Make }} {{ .CarProduct.Model }}</h1>
-                <span class="car-status status-onsale">EN VENTE</span>
+                <span class="car-status status-onsale">{{ .CarProduct.Status }}</span>
             </div>
             <div class="action-buttons">
                 <a href="/search" class="button back-button">Retour</a>
-                <a href="/car/{{ .CarProduct.ID }}/update" class="button edit-button">Modifier</a>
-                <a href="/car/{{ .CarProduct.ID }}/delete" class="button delete-button">Supprimer</a>
+                <a href="/car-product/{{ .CarProduct.ID }}/update" class="button edit-button">Modifier</a>
+                <a href="/car-product/{{ .CarProduct.ID }}/delete" class="button delete-button">Supprimer</a>
             </div>
         </div>
 

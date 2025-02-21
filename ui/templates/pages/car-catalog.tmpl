@@ -1,0 +1,104 @@
+{{ define "page" }}
+
+    <div class="car-view-container">
+        <div class="info-block full-width">
+            <div class="car-header">
+                <h1 class="car-title">{{ .CarCatalog.Make }} {{ .CarCatalog.Model }}</h1>
+            </div>
+            <div class="action-buttons">
+                <a href="/search" class="button back-button">Retour</a>
+                <a href="/car-catalog/{{ .CarCatalog.CatID }}/update" class="button edit-button">Modifier</a>
+                <a href="/car-catalog/{{ .CarCatalog.CatID }}/delete" class="button delete-button">Supprimer</a>
+            </div>
+        </div>
+
+        <div class="info-block">
+            <div class="info-section">
+                <h2>Informations Système</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">ID Catalogue</div>
+                        <div class="info-value">{{ .CarCatalog.CatID }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Créé le</div>
+                        <div class="info-value">{{ humanDate .CarCatalog.CreatedAt }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Dernière mise à jour</div>
+                        <div class="info-value">{{ humanDate .CarCatalog.UpdatedAt }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Version</div>
+                        <div class="info-value">{{ .CarCatalog.Version }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-block">
+            <div class="info-section">
+                <h2>Caractéristiques Techniques</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Marque</div>
+                        <div class="info-value">{{ with .CarCatalog.Make }}{{ . }}{{ end }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Modèle</div>
+                        <div class="info-value">{{ with .CarCatalog.Model }}{{ . }}{{ end }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Cylindres</div>
+                        <div class="info-value">{{ with .CarCatalog.Cylinders }}{{ . }}{{ end }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Transmission</div>
+                        <div class="info-value">{{ with .CarCatalog.Transmission }}{{ . }}{{ end }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Description Moteur</div>
+                        <div class="info-value">{{ with .CarCatalog.EngineDescription }}{{ . }}{{ end }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Type Motorisation</div>
+                        <div class="info-value">{{ with .CarCatalog.Drive }}{{ . }}{{ end }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-block">
+            <div class="info-section">
+                <h2>Spécifications</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Carburant Principal</div>
+                        <div class="info-value">{{ with .CarCatalog.Fuel1 }}{{ . }}{{ end }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Carburant Secondaire</div>
+                        <div class="info-value">{{ with .CarCatalog.Fuel2 }}{{ . }}{{ end }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Volume Coffre</div>
+                        <div class="info-value">{{ with .CarCatalog.LuggageVolume }}{{ . }}{{ end }} L</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Volume Passagers</div>
+                        <div class="info-value">{{ with .CarCatalog.PassengerVolume }}{{ . }}{{ end }} L</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Catégorie</div>
+                        <div class="info-value">{{ with .CarCatalog.SizeClass }}{{ . }}{{ end }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Puissance Électrique</div>
+                        <div class="info-value">{{ with .CarCatalog.ElectricMotor }}{{ . }}{{ end }} kW</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{{ end }}

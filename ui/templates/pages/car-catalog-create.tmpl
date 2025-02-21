@@ -1,0 +1,149 @@
+{{ define "page" }}
+
+<div class="vehicle-form-container">
+    <h1>Nouvelle Voiture</h1>
+    <form method="post" action="/car-catalog" class="data-form">
+
+            <input type="hidden" name="csrf_token" value="{{ .CSRFToken }}">
+
+            {{ range .Form.NonFieldErrors }}
+                <div class="error-message">{{ . }}</div>
+            {{ end }}
+
+        <div class="form-section">
+            <h2>Informations Catalogue</h2>
+            <div class="form-group">
+                <label for="make">Marque</label>
+                <input type="text" name="make" id="make" required>
+                {{ with .Form.FieldErrors.make }}
+                    <div class="error-message">{{ . }}</div>
+                {{ end }}
+
+            </div>
+
+            <div class="form-group">
+                <label for="model">Modèle</label>
+                <input type="text" name="model" id="model" required>
+                {{ with .Form.FieldErrors.model }}
+                    <div class="error-message">{{ . }}</div>
+                {{ end }}
+
+            </div>
+
+            <div class="form-group">
+                <label for="cylinders">Cylindres</label>
+                <input type="number" name="cylinders" id="cylinders" min="0">
+                {{ with .Form.FieldErrors.cylinders }}
+                    <div class="error-message">{{ . }}</div>
+                {{ end }}
+
+            </div>
+
+            <div class="form-group">
+                <label for="drive">Transmission</label>
+                <input type="text" name="drive" id="drive" required>
+                {{ with .Form.FieldErrors.drive }}
+                    <div class="error-message">{{ . }}</div>
+                {{ end }}
+
+            </div>
+
+            <div class="form-group">
+                <label for="engine_descriptor">Description Moteur</label>
+                <input type="text" name="engine_descriptor" id="engine_descriptor">
+                {{ with .Form.FieldErrors.engine_descriptor }}
+                    <div class="error-message">{{ . }}</div>
+                {{ end }}
+
+            </div>
+
+            <div class="form-group">
+                <label for="fuel_1">Carburant Principal</label>
+                <input type="text" name="fuel_1" id="fuel_1" required>
+                {{ with .Form.FieldErrors.fuel_1 }}
+                    <div class="error-message">{{ . }}</div>
+                {{ end }}
+
+            </div>
+
+            <div class="form-group">
+                <label for="fuel_2">Carburant Secondaire</label>
+                <input type="text" name="fuel_2" id="fuel_2">
+                {{ with .Form.FieldErrors.fuel_2 }}
+                    <div class="error-message">{{ . }}</div>
+                {{ end }}
+
+            </div>
+
+            <div class="form-group">
+                <label for="luggage_volume">Volume Coffre (L)</label>
+                <input type="number" name="luggage_volume" id="luggage_volume" step="0.1" min="0">
+                {{ with .Form.FieldErrors.luggage_volume }}
+                    <div class="error-message">{{ . }}</div>
+                {{ end }}
+
+            </div>
+
+            <div class="form-group">
+                <label for="passenger_volume">Volume Passagers (L)</label>
+                <input type="number" name="passenger_volume" id="passenger_volume" step="0.1" min="0">
+                {{ with .Form.FieldErrors.passenger_volume }}
+                    <div class="error-message">{{ . }}</div>
+                {{ end }}
+
+            </div>
+
+            <div class="form-group">
+                <label for="transmission">Type de Transmission</label>
+                <input type="text" name="transmission" id="transmission" required>
+                {{ with .Form.FieldErrors.transmission }}
+                    <div class="error-message">{{ . }}</div>
+                {{ end }}
+
+            </div>
+
+            <div class="form-group">
+                <label for="size_class">Catégorie de Taille</label>
+                <input type="text" name="size_class" id="size_class">
+                {{ with .Form.FieldErrors.size_class }}
+                    <div class="error-message">{{ . }}</div>
+                {{ end }}
+
+            </div>
+
+            <div class="form-group">
+                <label for="year">Année Modèle</label>
+                <input type="number" name="year" id="year" min="1980" required>
+                {{ with .Form.FieldErrors.year }}
+                    <div class="error-message">{{ . }}</div>
+                {{ end }}
+
+            </div>
+
+            <div class="form-group">
+                <label for="electric_motor">Puissance Moteur Électrique (kW)</label>
+                <input type="number" name="electric_motor" id="electric_motor" step="0.1" min="0">
+                {{ with .Form.FieldErrors.electric_motor }}
+                    <div class="error-message">{{ . }}</div>
+                {{ end }}
+
+            </div>
+
+            <div class="form-group">
+                <label for="base_model">Modèle de Base</label>
+                <input type="text" name="base_model" id="base_model">
+                {{ with .Form.FieldErrors.base_model }}
+                    <div class="error-message">{{ . }}</div>
+                {{ end }}
+
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a href="/search" class="button cancel-button">Annuler</a>
+            <button type="submit" class="button create-button">Créer</button>
+        </div>
+    </form>
+</div>
+
+{{ end }}
