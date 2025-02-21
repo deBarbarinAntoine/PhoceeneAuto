@@ -2,7 +2,7 @@
 
 <div class="client-form-container">
     <h1>Modifier Client</h1>
-    <form method="post" action="/client/{{ .Form.ID }}" class="data-form">
+    <form method="post" action="/client/{{ .Form.ID }}/update" class="data-form">
 
         <input type="hidden" name="csrf_token" value="{{ .CSRFToken }}">
         <input type="hidden" name="id" value="{{ .Form.ID }}">

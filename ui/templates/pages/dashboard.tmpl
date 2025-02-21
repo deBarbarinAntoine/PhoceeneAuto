@@ -3,58 +3,64 @@
     <div class="dashboard-container">
         <div class="header">
             <h1>Tableau de Bord</h1>
-            <div class="user-info">Bonjour, Jean Dupont</div>
+
+            <div class="user-info">Bonjour, {{ .User.Name }} !</div>
+
+            <form class="search-form" method="get" action="/search">
+                <input type="search" name="search" placeholder="Rechercher..." class="search-input">
+                <button type="submit" class="search-button">Rechercher</button>
+            </form>
         </div>
 
-        <div class="recent-items">
-            <div class="recent-section">
-                <h2>Véhicules Récents</h2>
-                <div class="item-list">
-                    <div class="item">
-                        <div class="item-header">
-                            <strong>Peugeot 208</strong>
-                            <span class="status-tag status-onsale">EN VENTE</span>
-                        </div>
-                        <div>Prix: 25000 €</div>
-                        <div>Kilométrage: 15000 km</div>
-                        <div>Shop: HEADQUARTERS</div>
-                    </div>
-                    <div class="item">
-                        <div class="item-header">
-                            <strong>Renault Clio</strong>
-                            <span class="status-tag status-processing">EN TRAITEMENT</span>
-                        </div>
-                        <div>Prix: 22000 €</div>
-                        <div>Kilométrage: 25000 km</div>
-                        <div>Shop: HEADQUARTERS</div>
-                    </div>
-                </div>
-            </div>
+{{/*         <div class="recent-items"> */}}
+{{/*             <div class="recent-section"> */}}
+{{/*                 <h2>Véhicules Récents</h2> */}}
+{{/*                 <div class="item-list"> */}}
+{{/*                     <div class="item"> */}}
+{{/*                         <div class="item-header"> */}}
+{{/*                             <strong>Peugeot 208</strong> */}}
+{{/*                             <span class="status-tag status-onsale">EN VENTE</span> */}}
+{{/*                         </div> */}}
+{{/*                         <div>Prix: 25000 €</div> */}}
+{{/*                         <div>Kilométrage: 15000 km</div> */}}
+{{/*                         <div>Shop: HEADQUARTERS</div> */}}
+{{/*                     </div> */}}
+{{/*                     <div class="item"> */}}
+{{/*                         <div class="item-header"> */}}
+{{/*                             <strong>Renault Clio</strong> */}}
+{{/*                             <span class="status-tag status-processing">EN TRAITEMENT</span> */}}
+{{/*                         </div> */}}
+{{/*                         <div>Prix: 22000 €</div> */}}
+{{/*                         <div>Kilométrage: 25000 km</div> */}}
+{{/*                         <div>Shop: HEADQUARTERS</div> */}}
+{{/*                     </div> */}}
+{{/*                 </div> */}}
+{{/*             </div> */}}
 
-            <div class="recent-section">
-                <h2>Clients Récents</h2>
-                <div class="item-list">
-                    <div class="item">
-                        <div class="item-header">
-                            <strong>Jean Martin</strong>
-                            <span class="status-tag">ACTIVE</span>
-                        </div>
-                        <div>Email: jean.martin@example.com</div>
-                        <div>Téléphone: 0612345678</div>
-                        <div>Shop: HEADQUARTERS</div>
-                    </div>
-                    <div class="item">
-                        <div class="item-header">
-                            <strong>Marie Dubois</strong>
-                            <span class="status-tag">ACTIVE</span>
-                        </div>
-                        <div>Email: marie.dubois@example.com</div>
-                        <div>Téléphone: 0687654321</div>
-                        <div>Shop: HEADQUARTERS</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+{{/*             <div class="recent-section"> */}}
+{{/*                 <h2>Clients Récents</h2> */}}
+{{/*                 <div class="item-list"> */}}
+{{/*                     <div class="item"> */}}
+{{/*                         <div class="item-header"> */}}
+{{/*                             <strong>Jean Martin</strong> */}}
+{{/*                             <span class="status-tag">ACTIVE</span> */}}
+{{/*                         </div> */}}
+{{/*                         <div>Email: jean.martin@example.com</div> */}}
+{{/*                         <div>Téléphone: 0612345678</div> */}}
+{{/*                         <div>Shop: HEADQUARTERS</div> */}}
+{{/*                     </div> */}}
+{{/*                     <div class="item"> */}}
+{{/*                         <div class="item-header"> */}}
+{{/*                             <strong>Marie Dubois</strong> */}}
+{{/*                             <span class="status-tag">ACTIVE</span> */}}
+{{/*                         </div> */}}
+{{/*                         <div>Email: marie.dubois@example.com</div> */}}
+{{/*                         <div>Téléphone: 0687654321</div> */}}
+{{/*                         <div>Shop: HEADQUARTERS</div> */}}
+{{/*                     </div> */}}
+{{/*                 </div> */}}
+{{/*             </div> */}}
+{{/*         </div> */}}
 
         <div class="stats-grid">
             <div class="stat-card">

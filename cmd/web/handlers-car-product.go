@@ -106,7 +106,7 @@ func (app *application) updateCarProduct(w http.ResponseWriter, r *http.Request)
 	}
 
 	tmplData.Form = newCarProductUpdateForm(carProduct)
-	app.render(w, r, http.StatusOK, "car-update.tmpl", tmplData)
+	app.render(w, r, http.StatusOK, "car-product-update.tmpl", tmplData)
 }
 
 func (app *application) updateCarProductPost(w http.ResponseWriter, r *http.Request) {
@@ -140,7 +140,7 @@ func (app *application) updateCarProductPost(w http.ResponseWriter, r *http.Requ
 	}
 
 	if data.ValidateCarProduct(&form.Validator, *carProduct); !form.Valid() {
-		app.failedValidationError(w, r, form, &form.Validator, "car-update.tmpl")
+		app.failedValidationError(w, r, form, &form.Validator, "car-product-update.tmpl")
 		return
 	}
 

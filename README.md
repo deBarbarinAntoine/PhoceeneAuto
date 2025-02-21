@@ -13,7 +13,7 @@ Task repartition:
 - Database design: `Antoine`
 - Database migrations: `Nicolas`
 - Backend: `Antoine` & `Nicolas`
-- Backend integration: `Nicolas`
+- Backend integration: `Antoine`
 - Frontend: `Sabrina`
 - README: `Antoine`
 

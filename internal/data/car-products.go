@@ -113,7 +113,7 @@ func (m CarProductModel) Update(car *CarProduct) error {
 		    shop = $6,
 		    cat_id = $7,
 		    updated_at = CURRENT_TIMESTAMP,
-		    version = version + 1,
+		    version = version + 1
 		WHERE id = $8 AND version = $9
 		RETURNING version;`
 

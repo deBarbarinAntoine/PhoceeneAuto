@@ -194,6 +194,7 @@ func newCarProductUpdateForm(car *data.CarProduct) *carProductUpdateForm {
 		form.OwnerNb = &car.OwnerNb
 		form.Color = &car.Color
 		form.Kilometers = &car.Kilometers
+		form.Price = &car.Price
 	}
 
 	// setting the validator
